@@ -10,18 +10,32 @@ class DashboardPlayer extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(
-              width: double.infinity,
-              child: Padding(
-                  padding: EdgeInsets.fromLTRB(10, 90, 0, 0),
-                  child: Text(
-                    'New Single',
-                    textAlign: TextAlign.left,
-                  )),
-            ),
-            // Card New Single Music
+            // Title Carousel
+            _TitleCarousel(left: 10, top: 90, title: 'New Single',),
+            // Carousel Card New Single Music
             SizedBox(height: 10,),
-            CarouselCardNewMusic()
+            CarouselCardNewMusic(height: 200.0, viewportFraction: 1.0, isEnLargeCenterPage: true, marginHorizontal: 10.0, borderRadio: 10.0,),
+
+            SizedBox(height: 20,),
+            // Title Carousel
+            _TitleCarousel(left: 10, top: 0, title: 'Most Played',),
+            // Carousel Card Most Played
+            SizedBox(height: 10,),
+            CarouselCardNewMusic(height: 110.0, viewportFraction: 0.325, isEnLargeCenterPage: false, marginHorizontal: 5.0, borderRadio: 10.0,),
+
+            SizedBox(height: 20,),
+            // Title Carousel
+            _TitleCarousel(left: 10, top: 0, title: 'Playlist',),
+            // Carousel Card Playlist
+            SizedBox(height: 10,),
+            CarouselCardNewMusic(height: 110.0, viewportFraction: 0.325, isEnLargeCenterPage: false, marginHorizontal: 5.0, borderRadio: 10.0,),
+
+            SizedBox(height: 20,),
+            // Title Carousel
+            _TitleCarousel(left: 10, top: 0, title: 'Artist',),
+            // Carousel Card Playlist
+            SizedBox(height: 10,),
+            CarouselCardNewMusic(height: 120.0, viewportFraction: 0.325, isEnLargeCenterPage: false, marginHorizontal: 5.0, borderRadio: 60.0,)
           ],
         ),
       ),
@@ -29,26 +43,64 @@ class DashboardPlayer extends StatelessWidget {
   }
 }
 
+class _TitleCarousel extends StatelessWidget {
+
+  final double left;
+  final double top;
+  final String title;
+
+  const _TitleCarousel({ 
+    required this.left, 
+    required this.top, 
+    required this.title,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: Padding(
+          padding: EdgeInsets.fromLTRB(left, top, 0, 0),
+          child: Text(
+            title,
+            textAlign: TextAlign.left,
+          )),
+    );
+  }
+}
+
 class CarouselCardNewMusic extends StatelessWidget {
+
+  final double height;
+  final double viewportFraction;
+  final bool isEnLargeCenterPage;
+  final double marginHorizontal;
+  final double borderRadio;
+
   const CarouselCardNewMusic({
-    super.key,
+    super.key, 
+    required this.height,
+    required this.viewportFraction, 
+    required this.isEnLargeCenterPage,
+    required this.marginHorizontal, 
+    required this.borderRadio
   });
 
   @override
   Widget build(BuildContext context) {
     return CarouselSlider(
       options: CarouselOptions(
-        height: 200.0,
-        enlargeCenterPage: true,
-        viewportFraction: 1.0
+        height: height,
+        enlargeCenterPage: isEnLargeCenterPage,
+        viewportFraction: viewportFraction
       ),
       items: [1, 2, 3, 4, 5].map((i) {
         return Builder(
           builder: (BuildContext context) {
             return Container(
                 width: MediaQuery.of(context).size.width,
-                margin: const EdgeInsets.symmetric(horizontal: 10.0),
-                decoration: BoxDecoration(color: Colors.amber,borderRadius: BorderRadius.circular(10)),
+                margin: EdgeInsets.symmetric(horizontal: marginHorizontal),
+                decoration: BoxDecoration(color: Colors.amber,borderRadius: BorderRadius.circular(borderRadio)),
                 child: Text(
                   'text $i',
                   style: const TextStyle(fontSize: 16.0),
