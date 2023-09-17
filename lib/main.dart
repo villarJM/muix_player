@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:muix_player/presentation/screen/dashboard/dashboard_player.dart';
+import 'package:muix_player/config/router/app_router.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,13 +10,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig: appRouter,
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const DashboardPlayer(),
     );
   }
 }

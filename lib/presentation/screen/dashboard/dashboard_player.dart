@@ -3,10 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:muix_player/presentation/screen/widgets/side_menu.dart';
 
 class DashboardPlayer extends StatelessWidget {
+
+
+  static const String name = '/';
+
   const DashboardPlayer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
+    final scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -45,7 +51,7 @@ class DashboardPlayer extends StatelessWidget {
           ],
         ),
       ),
-      drawer: const SideMenu(),
+      drawer: SideMenu(scaffoldKey: scaffoldKey,),
     );
   }
 }
