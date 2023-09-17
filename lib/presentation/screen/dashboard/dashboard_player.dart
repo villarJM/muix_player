@@ -1,17 +1,23 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:muix_player/presentation/screen/widgets/side_menu.dart';
 
 class DashboardPlayer extends StatelessWidget {
   const DashboardPlayer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: SingleChildScrollView(
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text('Muix Player'),
+      ),
+      body: const SingleChildScrollView(
         child: Column(
           children: [
+            
             // Title Carousel
-            _TitleCarousel(left: 10, top: 90, title: 'New Single',),
+            _TitleCarousel(left: 10, top: 10, title: 'New Single',),
             // Carousel Card New Single Music
             SizedBox(height: 10,),
             CarouselCardNewMusic(height: 200.0, viewportFraction: 1.0, isEnLargeCenterPage: true, marginHorizontal: 10.0, borderRadio: 10.0,),
@@ -39,6 +45,7 @@ class DashboardPlayer extends StatelessWidget {
           ],
         ),
       ),
+      drawer: const SideMenu(),
     );
   }
 }
