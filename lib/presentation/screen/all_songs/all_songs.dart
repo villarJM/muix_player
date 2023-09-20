@@ -1,13 +1,9 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:muix_player/domain/entities/song_post.dart';
 import 'package:muix_player/infractructure/datasources/local_songs_datasource_impl.dart';
 import 'package:muix_player/infractructure/repositories/song_post_repositories_impl.dart';
-import 'package:muix_player/presentation/provider/list_provider.dart';
 import 'package:muix_player/presentation/screen/widgets/side_menu.dart';
 import 'package:on_audio_query/on_audio_query.dart';
-import 'package:provider/provider.dart';
+import 'package:blur/blur.dart';
 
 
 
@@ -23,10 +19,6 @@ class AllSongs extends StatelessWidget {
     final scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
       key: scaffoldKey,
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text('All the songs')
-      ),
       body: const _ListSong(),
       drawer: SideMenu(scaffoldKey: scaffoldKey),
     );
@@ -67,38 +59,45 @@ class _GetAllSongState extends State<_ListSong> {
   @override
   Widget build(BuildContext context) {
 
-    return Column(
-      children: <Widget> [
-        Expanded(
-          flex: 1,
-          child: SizedBox(
-            width: double.infinity,
-            child: Card(
-              semanticContainer: true,
-              clipBehavior: Clip.antiAliasWithSaveLayer,
-              elevation: 5.0, // Ajusta la elevación del Card según tu preferencia
-              child: Column(
-                children: [
-                  QueryArtworkWidget(controller: _audioQuery, id: idSong, type: artworkType, artworkFit: BoxFit.contain,)
-                ],
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+      CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            title: const Text('All of the song'),
+            floating: false,
+            flexibleSpace:
+            Padding(
+              
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+              child: QueryArtworkWidget(
+                controller: _audioQuery, 
+                id: idSong, 
+                type: artworkType, 
+                artworkQuality: FilterQuality.high,
+                artworkFit: BoxFit.cover,
+                format: ArtworkFormat.JPEG,
+                quality: 100,
+                artworkBorder: const BorderRadius.all(Radius.circular(0)),
+                artworkHeight: 500,
+                artworkWidth: 100,
+                size: 1500,
               ),
-            ),
+            )
+            ,
+            expandedHeight: 400,
+            centerTitle: true,
           ),
-        ),
-        Expanded(
-          flex: 2,
-          child: ListView.builder(
-            itemCount: _songList.length,
-            itemBuilder: (context, index) {
-              final audio = _songList[index];
-              idSong = audio.id;
-
+          SliverList(
+            delegate: SliverChildBuilderDelegate((context, index) {
+                final audio = _songList[index];
                 return Container(
-                  margin: const EdgeInsets.fromLTRB(10, 1, 10, 1),
-                  decoration: BoxDecoration(
-                    color: const Color.fromRGBO(25, 25, 78, 1),
-                    borderRadius: BorderRadius.circular(5)
-                  ),
+                  margin: const EdgeInsets.fromLTRB(5, 1, 5, 1),
+                    decoration: BoxDecoration(
+                      color: const Color.fromRGBO(25, 25, 78, 1),
+                      borderRadius: BorderRadius.circular(5)
+                    ),
                   child: ListTile(
                     title: Text(audio.title, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Colors.white)),
                     subtitle: Text(audio.artist!, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Colors.white)),
@@ -108,16 +107,61 @@ class _GetAllSongState extends State<_ListSong> {
                       type: ArtworkType.AUDIO,
                       artworkBorder: BorderRadius.circular(10),
                     ),
+                    onTap: () {
+                      idSong = audio.id;
+                      setState(() {
+                        
+                      });
+                    },
                   ),
                 );
-            },
+              },
+              childCount: _songList.length,
+            )
+          ),
+        ],
+      ),
+      Padding(
+        padding: const EdgeInsets.all(0),
+        child: Container(
+          margin: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+          
+          decoration: BoxDecoration(
+            // border: Border.all(
+            //   color: Colors.white
+            // ),
+            borderRadius: BorderRadius.circular(6)
+          ),
+          child: const TextField(
+            obscureText: true,
+            textAlign: TextAlign.center,
+            decoration: InputDecoration(
+              hintStyle: TextStyle(color: Colors.white, fontSize: 18),
+              border: InputBorder.none,
+              hintText: 'Search...',
+              contentPadding: EdgeInsets.fromLTRB(0, 15, 50, 0),
+              prefixIcon: Padding(
+                padding: EdgeInsetsDirectional.only(start: 5),
+                child: Icon(Icons.search_outlined, color: Colors.white, size: 30,),
+              )
+        )
+          ).frosted(
+            height: 50,
+            width: MediaQuery.of(context).size.width,
+            borderRadius: BorderRadius.circular(5),
+            blur: 2.5,
           ),
         ),
-
-      ],
+      )
+    ],
     );
   }
-
+// Text('Search...', style: TextStyle(color: Colors.white, fontSize: 18,),).frosted(
+//             height: 50,
+//             width: MediaQuery.of(context).size.width,
+//             borderRadius: BorderRadius.circular(5),
+//             blur: 2.5,
+//           ),
 
 
 // Widget noAccessToLibraryWidget() {
