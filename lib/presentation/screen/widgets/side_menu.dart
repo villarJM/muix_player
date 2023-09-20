@@ -7,8 +7,8 @@ class SideMenu extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
 
   const SideMenu({
-    super.key,
-    required this.scaffoldKey,
+    super.key, 
+    required this.scaffoldKey
   });
 
   @override
@@ -16,11 +16,10 @@ class SideMenu extends StatefulWidget {
 }
 
 class _SideMenuState extends State<SideMenu> {
-  
-  int navDrawerIndex = 0;
 
+  int navDrawerIndex = 0;
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     final hasNotch = MediaQuery.of(context).viewPadding.top > 35;
     return NavigationDrawer(
       selectedIndex: navDrawerIndex,
@@ -29,9 +28,10 @@ class _SideMenuState extends State<SideMenu> {
           navDrawerIndex = value;
         });
 
-        final menuItem = appMenuItems[value];
-        context.push(menuItem.link);
-        widget.scaffoldKey.currentState?.closeDrawer();
+      final menuItem = appMenuItems[value];
+      context.push(menuItem.link);
+      widget.scaffoldKey.currentState?.closeDrawer();
+
       },
       children: [
         Padding(
@@ -40,7 +40,7 @@ class _SideMenuState extends State<SideMenu> {
         ),
         
         ...appMenuItems
-          .sublist(0,1)
+          .sublist(0)
           .map((item) => NavigationDrawerDestination(
             icon: Icon(item.icon), 
             label: Text(item.title)
@@ -52,19 +52,17 @@ class _SideMenuState extends State<SideMenu> {
             child: Divider(),
           ),
 
-          const Padding(
-            padding: EdgeInsets.fromLTRB(28, 10, 16, 10),
-            child: Text('More  option'),
-          ),
-          ...appMenuItems
-          .sublist(0)
-          .map((item) => NavigationDrawerDestination(
-            icon: Icon(item.icon), 
-            label: Text(item.title)
-            ),
-          ),
-      ],
-      
-    );
+          // const Padding(
+          //   padding: EdgeInsets.fromLTRB(28, 10, 16, 10),
+          //   child: Text('More  option'),
+          // ),
+          // ...appMenuItems
+          // .sublist(0)
+          // .map((item) => NavigationDrawerDestination(
+          //   icon: Icon(item.icon), 
+          //   label: Text(item.title)
+          //   ),
+          // ),
+      ]);
   }
 }
