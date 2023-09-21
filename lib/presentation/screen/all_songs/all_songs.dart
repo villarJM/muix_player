@@ -43,10 +43,25 @@ class _GetAllSongState extends State<_ListSong> {
   final ArtworkType artworkType = ArtworkType.AUDIO;
   int idSong = 0;
   
+  final _controller = ScrollController();
+  
   @override
   void initState() {
     super.initState();
     _loadSongList();
+     // Setup the listener.
+  _controller.addListener(() {
+    if (_controller.position.hasPixels) {
+      bool isTop = _controller.position.pixels <= 50;
+
+      print(_controller.position.pixels);
+      if (isTop) {
+        print('At the top');
+      } else {
+        print('At the bottom');
+      }
+    }
+  });
   }
 
   Future<void> _loadSongList() async {
@@ -63,10 +78,11 @@ class _GetAllSongState extends State<_ListSong> {
       alignment: Alignment.center,
       children: [
       CustomScrollView(
+        controller: _controller,
         slivers: [
           SliverAppBar(
             title: const Text('All of the song'),
-            floating: false,
+            floating: true,
             flexibleSpace:
             Padding(
               
@@ -88,6 +104,10 @@ class _GetAllSongState extends State<_ListSong> {
             ,
             expandedHeight: 400,
             centerTitle: true,
+          ),
+          SliverPersistentHeader(
+            delegate: SearchBar(),
+            pinned: true,
           ),
           SliverList(
             delegate: SliverChildBuilderDelegate((context, index) {
@@ -121,38 +141,7 @@ class _GetAllSongState extends State<_ListSong> {
           ),
         ],
       ),
-      Padding(
-        padding: const EdgeInsets.all(0),
-        child: Container(
-          margin: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-          
-          decoration: BoxDecoration(
-            // border: Border.all(
-            //   color: Colors.white
-            // ),
-            borderRadius: BorderRadius.circular(6)
-          ),
-          child: const TextField(
-            obscureText: true,
-            textAlign: TextAlign.center,
-            decoration: InputDecoration(
-              hintStyle: TextStyle(color: Colors.white, fontSize: 18),
-              border: InputBorder.none,
-              hintText: 'Search...',
-              contentPadding: EdgeInsets.fromLTRB(0, 15, 50, 0),
-              prefixIcon: Padding(
-                padding: EdgeInsetsDirectional.only(start: 5),
-                child: Icon(Icons.search_outlined, color: Colors.white, size: 30,),
-              )
-        )
-          ).frosted(
-            height: 50,
-            width: MediaQuery.of(context).size.width,
-            borderRadius: BorderRadius.circular(5),
-            blur: 2.5,
-          ),
-        ),
-      )
+      
     ],
     );
   }
@@ -185,4 +174,78 @@ class _GetAllSongState extends State<_ListSong> {
 //     );
 //   }
 
+}
+
+class SearchBar extends SliverPersistentHeaderDelegate {
+  
+  @override
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    final hasNotch = MediaQuery.of(context).viewPadding.top > 35;
+    final topPadding = MediaQuery.of(context).padding.top;
+    return 
+    Stack(
+      children: [
+        Padding(
+        padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+        child: Container(
+          color: Color.fromARGB(85, 255, 255, 255), // Color de fondo de la barra de búsqueda
+          
+        ).blurred(
+          blur: 2.5,
+          borderRadius: BorderRadius.circular(5),
+        ),
+        
+      ),
+      const Padding(
+        padding: EdgeInsets.all(8.0),
+        child: TextField(
+          decoration: InputDecoration(
+            hintText: 'Search...',
+            border: InputBorder.none,
+          ),
+        ),
+      ),
+      ],
+      
+    );
+    // Container(
+    //   padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+    //   decoration: BoxDecoration(
+    //     // border: Border.all(
+    //     //   color: Colors.white
+    //     // ),
+    //     borderRadius: BorderRadius.circular(6)
+    //   ),
+    //   child: const TextField(
+    //     obscureText: true,
+    //     textAlign: TextAlign.center,
+    //     decoration: InputDecoration(
+    //       hintStyle: TextStyle(color: Colors.white, fontSize: 18),
+    //       border: InputBorder.none,
+    //       hintText: 'Search...',
+    //       contentPadding: EdgeInsets.fromLTRB(0, 15, 50, 0),
+    //       prefixIcon: Padding(
+    //         padding: EdgeInsetsDirectional.only(start: 5),
+    //         child: Icon(Icons.search_outlined, color: Colors.white, size: 30,),
+    //       )
+    // )
+    //   ).frosted(
+    //     height: 100,
+    //     width: MediaQuery.of(context).size.width,
+    //     borderRadius: BorderRadius.circular(5),
+    //     blur: 2.5,
+    //   ),
+    // );
+  }
+  
+  @override
+  double get maxExtent => 60;
+  
+  @override
+  double get minExtent => 60;
+  
+  @override
+  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
+    return false;
+  }
 }
