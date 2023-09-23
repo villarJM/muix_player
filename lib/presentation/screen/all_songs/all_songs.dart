@@ -5,6 +5,7 @@ import 'package:muix_player/presentation/screen/widgets/shared/linear_gradient_b
 import 'package:muix_player/presentation/screen/widgets/side_menu.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:blur/blur.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 
 
@@ -40,11 +41,16 @@ class _GetAllSongState extends State<_ListSong> {
   final SongPostRepositoriesImp songs = SongPostRepositoriesImp(songsPostDatasources: LocalSongsDatasource());
   List<SongModel> _songList = [];
 
+  AudioPlayer player = AudioPlayer();
+
+
+
   final OnAudioQuery _audioQuery = OnAudioQuery();
 
   final ArtworkType artworkType = ArtworkType.AUDIO;
   int idSong = 0;
   bool isLoading = false;
+  bool isPlaying = false;
   
   final _scrollController = ScrollController();
   double _searchBarTopPosition = 400;
@@ -60,7 +66,7 @@ class _GetAllSongState extends State<_ListSong> {
     
   }
   
-void _scrollListener() {
+void _scrollListener() { 
     setState(() {
     _searchBarTopPosition = 400.0 - _scrollController.offset;
     if (_searchBarTopPosition < 35) {
@@ -68,9 +74,15 @@ void _scrollListener() {
     }
     });
   }
+
+  Future<void> playLocalAudio(audioPath) async {
+    await player.play(DeviceFileSource(audioPath));
+  }
+  
   @override
   void dispose() {
     super.dispose();
+    _scrollController.removeListener(_scrollListener);
     _scrollController.dispose();
   }
 
@@ -153,6 +165,8 @@ void _scrollListener() {
                       setState(() {
                         
                       });
+                      print(audio.data);
+                      playLocalAudio(audio.data);
                     },
                   ),
                 );
