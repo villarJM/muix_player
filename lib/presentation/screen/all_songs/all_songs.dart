@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:muix_player/infractructure/datasources/local_songs_datasource_impl.dart';
 import 'package:muix_player/infractructure/repositories/song_post_repositories_impl.dart';
+import 'package:muix_player/presentation/screen/widgets/all_song/playing_now_screen.dart';
 import 'package:muix_player/presentation/screen/widgets/shared/linear_gradient_background.dart';
 import 'package:muix_player/presentation/screen/widgets/side_menu.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:blur/blur.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:muix_player/app/repositories/song_player_manager_repositories.dart';
 
 
 
@@ -41,8 +43,8 @@ class _GetAllSongState extends State<_ListSong> {
   final SongPostRepositoriesImp songs = SongPostRepositoriesImp(songsPostDatasources: LocalSongsDatasource());
   List<SongModel> _songList = [];
 
-  AudioPlayer player = AudioPlayer();
-
+  SongPlayerManager audioPlayerManager = SongPlayerManager();
+  PlayerState playerState = PlayerState.stopped;
 
 
   final OnAudioQuery _audioQuery = OnAudioQuery();
@@ -52,6 +54,7 @@ class _GetAllSongState extends State<_ListSong> {
   String title = '';
   String? artist = '';
   String path = '';
+  int? duration = 0;
 
   static IconData iconChange = Icons.play_arrow_rounded;
 
@@ -67,9 +70,15 @@ class _GetAllSongState extends State<_ListSong> {
     if (!isLoading) {
       _loadSongList();
       isLoading = true;
+      
     } 
     // _scrollController.addListener(_scrollListener);
-    
+    audioPlayerManager.audioPlayer.onPlayerStateChanged.listen((PlayerState state) {
+      print(' state $state');
+      setState(() {
+        playerState = state;
+      });
+    });
   }
   
 void _scrollListener() { 
@@ -81,20 +90,6 @@ void _scrollListener() {
     });
   }
 
-  Future<void> playLocalAudio(audioPath) async {
-    await player.play(DeviceFileSource(audioPath));
-  }
-  Future<void> pauseLocalAudio() async {
-    await player.pause();
-  }
-  Future<void> stopLocalAudio() async {
-    player.stop;
-  }
-  // Future<void> isSelectedAudio(audioPath) async {
-  //   if(audioPath.isNull){
-
-  //   }
-  // }
   @override
   void dispose() {
     super.dispose();
@@ -181,15 +176,16 @@ void _scrollListener() {
                       title = audio.title;
                       artist = audio.artist;
                       path = audio.data;
+                      duration = audio.duration;
                       // playing
                       // iconChange = iconChange == Icons.play_arrow_rounded ? Icons.pause_rounded : Icons.play_arrow_rounded;
-                      stopLocalAudio();
+                      
                       setState(() {
                         
                       });
                       
                       iconChange = Icons.pause_rounded;
-                      playLocalAudio(path);
+                      audioPlayerManager.playLocalAudio(path);
                     },
                   ),
                 );
@@ -242,12 +238,14 @@ void _scrollListener() {
                     
                   });
                   if(iconChange == Icons.pause_rounded){
-                    playLocalAudio(path);
+                    audioPlayerManager.playLocalAudio(path);
                   } else if (iconChange == Icons.play_arrow_rounded){
-                    pauseLocalAudio();
+                    audioPlayerManager.pauseLocalAudio();
                   } 
                 }, icon: Icon(iconChange)),
-                
+                onTap: () {
+                  Navigator.of(context).push(_createRoute(id: idSong, artist: artist!, title: title, artworkType: artworkType, duration: duration!, playerState: playerState, audioPlayerManager: audioPlayerManager));
+                },
               ).frosted(
                 height: 70,
                 width: MediaQuery.of(context).size.width,
@@ -255,9 +253,45 @@ void _scrollListener() {
                 blur: 2.5,
               ),
             ),
+            
           ),
       ),
     ],
     );
   }
+
+  Route _createRoute({
+    required int id, 
+    required String artist, 
+    required String title, 
+    required ArtworkType artworkType, 
+    required int duration, 
+    required PlayerState playerState, 
+    required audioPlayerManager
+  }) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => PlayingNowScreen(
+        id: id, 
+        title: title, 
+        artist: artist, 
+        artworkType: artworkType, 
+        duration: duration,
+        playerState: playerState,
+        audioPlayerManager: audioPlayerManager,
+      ),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(0.0, 1.0);
+        const end = Offset.zero;
+        const curve = Curves.ease;
+
+        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
+    );
 }
+}
+
