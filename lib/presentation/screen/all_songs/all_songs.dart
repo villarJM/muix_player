@@ -49,6 +49,12 @@ class _GetAllSongState extends State<_ListSong> {
 
   final ArtworkType artworkType = ArtworkType.AUDIO;
   int idSong = 0;
+  String title = '';
+  String? artist = '';
+  String path = '';
+
+  static IconData iconChange = Icons.play_arrow_rounded;
+
   bool isLoading = false;
   bool isPlaying = false;
   
@@ -62,7 +68,7 @@ class _GetAllSongState extends State<_ListSong> {
       _loadSongList();
       isLoading = true;
     } 
-    _scrollController.addListener(_scrollListener);
+    // _scrollController.addListener(_scrollListener);
     
   }
   
@@ -78,7 +84,17 @@ void _scrollListener() {
   Future<void> playLocalAudio(audioPath) async {
     await player.play(DeviceFileSource(audioPath));
   }
-  
+  Future<void> pauseLocalAudio() async {
+    await player.pause();
+  }
+  Future<void> stopLocalAudio() async {
+    player.stop;
+  }
+  // Future<void> isSelectedAudio(audioPath) async {
+  //   if(audioPath.isNull){
+
+  //   }
+  // }
   @override
   void dispose() {
     super.dispose();
@@ -119,7 +135,7 @@ void _scrollListener() {
                   artworkBorder: const BorderRadius.all(Radius.circular(0)),
                   artworkHeight: 500,
                   artworkWidth: 500,
-                  size: 1500,
+                  size: 1800,
                 ),
                 Container(
                   decoration: BoxDecoration(
@@ -162,11 +178,18 @@ void _scrollListener() {
                     ),
                     onTap: () {
                       idSong = audio.id;
+                      title = audio.title;
+                      artist = audio.artist;
+                      path = audio.data;
+                      // playing
+                      // iconChange = iconChange == Icons.play_arrow_rounded ? Icons.pause_rounded : Icons.play_arrow_rounded;
+                      stopLocalAudio();
                       setState(() {
                         
                       });
-                      print(audio.data);
-                      playLocalAudio(audio.data);
+                      
+                      iconChange = Icons.pause_rounded;
+                      playLocalAudio(path);
                     },
                   ),
                 );
@@ -176,21 +199,64 @@ void _scrollListener() {
           ),
         ],
       ),
+      // Positioned(
+      //     top: _searchBarTopPosition,
+      //     left: 0,
+      //     right: 0,
+      //     child: Padding(
+      //       padding: const EdgeInsets.all(8.0),
+      //       child: 
+      //       const Text('Search...', style: TextStyle(color: Colors.white, fontSize: 18,),).frosted(
+      //     height: 50,
+      //     width: MediaQuery.of(context).size.width,
+      //     borderRadius: BorderRadius.circular(5),
+      //     blur: 2.5,
+      //     ),
+      //     ),
+      //   ),
       Positioned(
-          top: _searchBarTopPosition,
+          bottom: 0,
+          // top: 0,
           left: 0,
           right: 0,
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: 
-            const Text('Search...', style: TextStyle(color: Colors.white, fontSize: 18,),).frosted(
-          height: 50,
-          width: MediaQuery.of(context).size.width,
-          borderRadius: BorderRadius.circular(5),
-          blur: 2.5,
+            padding: const EdgeInsets.all(0.0),
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.white),
+                borderRadius: const BorderRadius.all(Radius.circular(21)),
+              ),
+              child: ListTile(
+                title: Text(title, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Colors.white)),
+                subtitle: Text(artist!, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Colors.white)),
+                leading: QueryArtworkWidget(
+                  controller: _audioQuery,
+                  id: idSong,
+                  type: ArtworkType.AUDIO,
+                  artworkBorder: BorderRadius.circular(10),
+                ),
+                trailing: IconButton(onPressed: () {
+                  
+                  iconChange = iconChange == Icons.play_arrow_rounded ? Icons.pause_rounded : Icons.play_arrow_rounded;
+                  setState(() {
+                    
+                  });
+                  if(iconChange == Icons.pause_rounded){
+                    playLocalAudio(path);
+                  } else if (iconChange == Icons.play_arrow_rounded){
+                    pauseLocalAudio();
+                  } 
+                }, icon: Icon(iconChange)),
+                
+              ).frosted(
+                height: 70,
+                width: MediaQuery.of(context).size.width,
+                borderRadius: const BorderRadius.all(Radius.circular(20)),
+                blur: 2.5,
+              ),
+            ),
           ),
-          ),
-        ),
+      ),
     ],
     );
   }
