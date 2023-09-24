@@ -56,7 +56,7 @@ class _GetAllSongState extends State<_ListSong> {
   String path = '';
   int? duration = 0;
 
-  static IconData iconChange = Icons.play_arrow_rounded;
+  static IconData iconPlayer = Icons.play_arrow_rounded;
 
   bool isLoading = false;
   bool isPlaying = false;
@@ -74,7 +74,6 @@ class _GetAllSongState extends State<_ListSong> {
     } 
     // _scrollController.addListener(_scrollListener);
     audioPlayerManager.audioPlayer.onPlayerStateChanged.listen((PlayerState state) {
-      print(' state $state');
       setState(() {
         playerState = state;
       });
@@ -178,13 +177,13 @@ void _scrollListener() {
                       path = audio.data;
                       duration = audio.duration;
                       // playing
-                      // iconChange = iconChange == Icons.play_arrow_rounded ? Icons.pause_rounded : Icons.play_arrow_rounded;
+                      // iconPlayer = iconPlayer == Icons.play_arrow_rounded ? Icons.pause_rounded : Icons.play_arrow_rounded;
                       
                       setState(() {
                         
                       });
                       
-                      iconChange = Icons.pause_rounded;
+                      iconPlayer = Icons.pause_rounded;
                       audioPlayerManager.playLocalAudio(path);
                     },
                   ),
@@ -233,18 +232,28 @@ void _scrollListener() {
                 ),
                 trailing: IconButton(onPressed: () {
                   
-                  iconChange = iconChange == Icons.play_arrow_rounded ? Icons.pause_rounded : Icons.play_arrow_rounded;
+                  iconPlayer = iconPlayer == Icons.play_arrow_rounded ? Icons.pause_rounded : Icons.play_arrow_rounded;
                   setState(() {
                     
                   });
-                  if(iconChange == Icons.pause_rounded){
+                  if(iconPlayer == Icons.pause_rounded){
                     audioPlayerManager.playLocalAudio(path);
-                  } else if (iconChange == Icons.play_arrow_rounded){
+                  } else if (iconPlayer == Icons.play_arrow_rounded){
                     audioPlayerManager.pauseLocalAudio();
                   } 
-                }, icon: Icon(iconChange)),
+                }, icon: Icon(iconPlayer)),
                 onTap: () {
-                  Navigator.of(context).push(_createRoute(id: idSong, artist: artist!, title: title, artworkType: artworkType, duration: duration!, playerState: playerState, audioPlayerManager: audioPlayerManager));
+                  Navigator.of(context).push(_createRoute(
+                    id: idSong, 
+                    artist: artist!, 
+                    title: title, 
+                    artworkType: artworkType, 
+                    duration: duration!, 
+                    playerState: playerState, 
+                    audioPlayerManager: audioPlayerManager, 
+                    iconPlayer: iconPlayer,
+                    path: path,
+                  ));
                 },
               ).frosted(
                 height: 70,
@@ -267,7 +276,9 @@ void _scrollListener() {
     required ArtworkType artworkType, 
     required int duration, 
     required PlayerState playerState, 
-    required audioPlayerManager
+    required SongPlayerManager audioPlayerManager,
+    required IconData iconPlayer,
+    required String path,
   }) {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => PlayingNowScreen(
@@ -278,6 +289,8 @@ void _scrollListener() {
         duration: duration,
         playerState: playerState,
         audioPlayerManager: audioPlayerManager,
+        iconPlayer: iconPlayer,
+        path: path,
       ),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const begin = Offset(0.0, 1.0);

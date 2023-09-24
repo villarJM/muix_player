@@ -1,6 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:muix_player/app/repositories/song_player_manager_repositories.dart';
+import 'package:muix_player/presentation/screen/widgets/all_song/control_player/control_player.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class PlayingNowScreen extends StatefulWidget {
@@ -12,6 +13,8 @@ class PlayingNowScreen extends StatefulWidget {
   final int duration;
   final PlayerState playerState;
   final SongPlayerManager audioPlayerManager;
+  final IconData iconPlayer;
+  final String path;
 
 const PlayingNowScreen({ 
   Key? key,
@@ -22,6 +25,8 @@ const PlayingNowScreen({
   required this.duration,
   required this.playerState,
   required this.audioPlayerManager,
+  required this.iconPlayer, 
+  required this.path,
 }) : super(key: key);
 
   @override
@@ -96,17 +101,7 @@ class _PlayingNowScreenState extends State<PlayingNowScreen> {
                 flex: 3,
                 child: Padding(
                   padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.10),
-                  child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Icon(Icons.shuffle_rounded, size: 40.0, color: Colors.white,),
-                        Icon(Icons.skip_previous_rounded, size: 40.0, color: Colors.white,),
-                        Icon(Icons.play_arrow, size: 40.0, color: Colors.white,),
-                        Icon(Icons.skip_next_rounded, size: 40.0, color: Colors.white,),
-                        Icon(Icons.repeat_rounded, size: 40.0, color: Colors.white,)
-                      ],
-                    ),
+                  child: ControlPlayer(audioPlayerManager: widget.audioPlayerManager, iconPlayer: widget.iconPlayer, path: widget.path,)
                 ),
               ),
               
