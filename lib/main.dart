@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:muix_player/config/router/app_router.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -9,7 +10,7 @@ void main() async {
   await _checkAndRequestPermissions();
   
 
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()),);
 }
 
 Future<void> _checkAndRequestPermissions() async {
