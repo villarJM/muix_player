@@ -18,7 +18,7 @@ final appRouter = GoRouter(
       builder: (context, state) => const AllSongs(),
     ),
     GoRoute(
-      path: '/playing',
+      path: '/playing-now',
       name: PlayingNowScreen.name,
       builder: (context, state) => const PlayingNowScreen(),
     ),

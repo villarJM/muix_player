@@ -14,8 +14,38 @@ class MenuItems {
 
 const appMenuItems = <MenuItems> [
   MenuItems(
+    title: 'Playing now', 
+    link: '/playing-now', 
+    icon: Icons.play_arrow_outlined,
+  ),
+  MenuItems(
+    title: 'Dashboard', 
+    link: '/', 
+    icon: Icons.border_all,
+  ),
+  MenuItems(
     title: 'All the songs', 
     link: '/all-songs', 
-    icon: Icons.music_note
+    icon: Icons.music_note_outlined,
+  ),
+  MenuItems(
+    title: 'Albums', 
+    link: '/albums', 
+    icon: Icons.disc_full,
+  ),
+  MenuItems(
+    title: 'Artist', 
+    link: '/artist', 
+    icon: Icons.mic_rounded,
+  ),
+  MenuItems(
+    title: 'Genders', 
+    link: '/genders', 
+    icon: Icons.library_music,
+  ),
+  MenuItems(
+    title: 'Playlist', 
+    link: '/playlist', 
+    icon: Icons.playlist_play_outlined,
   ),
 ];
