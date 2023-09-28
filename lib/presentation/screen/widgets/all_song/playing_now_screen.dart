@@ -1,7 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:muix_player/app/repositories/song_player_manager_repositories.dart';
 import 'package:muix_player/presentation/providers/song_info_state_notifier_provider.dart';
 import 'package:muix_player/presentation/screen/widgets/all_song/control_player/control_player.dart';
 import 'package:on_audio_query/on_audio_query.dart';
@@ -21,11 +20,6 @@ class _PlayingNowScreenState extends ConsumerState<PlayingNowScreen> {
   final OnAudioQuery _audioQuery = OnAudioQuery();
   final ArtworkType artworkType = ArtworkType.AUDIO;
 
-@override
-  void initState() {
-    // TODO: implement initState
-    
-  }
   @override
   Widget build(BuildContext context){
 
