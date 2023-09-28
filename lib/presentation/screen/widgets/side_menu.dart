@@ -47,6 +47,7 @@ class _SideMenuState extends State<SideMenu> {
             indicatorShape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(5)),
             ),
+            elevation: 0.1,
             indicatorColor: const Color(0XFF4B0440).withOpacity(0.7),
             onDestinationSelected: (value) {
               setState(() {
