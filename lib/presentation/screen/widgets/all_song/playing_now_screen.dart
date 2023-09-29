@@ -27,77 +27,80 @@ class _PlayingNowScreenState extends ConsumerState<PlayingNowScreen> {
 
     return Scaffold(
       body: Stack(
+        alignment: Alignment.topCenter,
         children: [
-          Container(
-          color: const Color.fromARGB(255, 33, 25, 110),
-          child: Column(
-
-            children: [
-              
-              Expanded(
-                flex: 5,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 0),
-                  child: QueryArtworkWidget(
-                    controller: _audioQuery,
-                    id: todos[0].idSong, 
-                    type: artworkType,
-                    artworkBorder: BorderRadius.circular(0),
-                    artworkHeight: 400,
-                    artworkWidth: 400,
-                    size: 1800,
-                    ),
-                ),
-              ),
-                Expanded(
-                  flex: 1,
-                  child: SizedBox(
-                    height: 30,
-                    child: ListTile(
-                      titleAlignment: ListTileTitleAlignment.center,
-                      title: Text(todos[0].title, style: const TextStyle(fontSize: 18, color: Colors.white,), textAlign: TextAlign.center,),
-                      subtitle: Text(todos[0].artist, style: const TextStyle(fontSize: 18, color: Colors.white,), textAlign: TextAlign.center,),
+          QueryArtworkWidget(
+            controller: _audioQuery,
+            id: todos[0].idSong, 
+            type: artworkType,
+            artworkBorder: BorderRadius.circular(0),
+            artworkHeight: 600,
+            artworkWidth: 500,
+            size: 1800,
+            ),
+          Positioned.fill(
+            top: 400,
+            child: Container(
+              decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                    const Color(0XFF212345).withAlpha(0),
+                    const Color(0XFF212345),
+                    const Color(0XFF212345),
+                    const Color(0XFF212345)
+                  ],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter
                     ),
                   ),
-                ),
-
-              todos[0].playerState == PlayerState.playing
-              ? StreamBuilder(
-                  stream: todos[0].songPlayerManager.onAudioPositionChanged,
-                  builder: (context, snapshot) {
-                    return Slider(
-                      value: snapshot.hasData
-                          ? snapshot.data!.inMilliseconds.toDouble()
-                          : 0.0,
-                      onChanged: (value) {
-                        todos[0].songPlayerManager.seekAudio(Duration(milliseconds: value.toInt()));
-                      },
-                      min: 0.0,
-                      max: todos[0].duration.toDouble(),
-                    );
-                  },
-                )
-              : Container(),
-              Expanded(
-                flex: 3,
-                child: Padding(
-                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.10),
-                  child: ControlPlayer(audioPlayerManager: todos[0].songPlayerManager,  path: todos[0].path,)
-                ),
-              ),
-              
-            ],
+            ),
           ),
-        ),
-        Positioned(
-                top: 35,
-                left: 10,
-                child: IconButton(onPressed: () {
-                  Navigator.pop(context);
-                }, 
-                icon: const Icon(Icons.chevron_left_rounded, color: Colors.white,)
-              )
+          const SizedBox(height: 40,),
+          Positioned(
+            bottom: MediaQuery.of(context).size.height * 0.25,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(todos[0].title, style: const TextStyle(fontSize: 18, color: Colors.white,), textAlign: TextAlign.center,),
+                Text(todos[0].artist, style: const TextStyle(fontSize: 18, color: Colors.white,), textAlign: TextAlign.center,),
+              ]
+            )
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 500, 0, 0),
+            child: StreamBuilder(
+                stream: todos[0].songPlayerManager.onAudioPositionChanged,
+                builder: (context, snapshot) {
+                  return Slider(
+                    value: snapshot.hasData
+                        ? snapshot.data!.inMilliseconds.toDouble()
+                        : 0.0,
+                    onChanged: (value) {
+                      todos[0].songPlayerManager.seekAudio(Duration(milliseconds: value.toInt()));
+                    },
+                    min: 0.0,
+                    max: todos[0].duration.toDouble(),
+                  );
+                },
               ),
+          ),
+          Positioned(
+            width: MediaQuery.of(context).size.width,
+            bottom: MediaQuery.of(context).size.height * 0.1,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 0),
+              child: ControlPlayer(audioPlayerManager: todos[0].songPlayerManager,  path: todos[0].path,)
+            ),
+          ),
+          Positioned(
+            top: 35,
+            left: 10,
+            child: IconButton(onPressed: () {
+                Navigator.pop(context);
+              }, 
+              icon: const Icon(Icons.chevron_left_rounded, color: Colors.white,)
+            )
+          ),
         ],
       ),
     );

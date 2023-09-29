@@ -22,4 +22,9 @@ class SongPostRepositoriesImp implements SongPostRepository {
   }
 
 
+  @override
+  Future<List<SongModel>> getRecentlyAddedSongs() {
+    // TODO: implement getRecentlyAddedSongs
+    return songsPostDatasources.getRecentlyAddedSongs();
+  }
 }

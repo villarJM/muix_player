@@ -6,4 +6,6 @@ abstract class SongPostRepository {
   Future<List<SongModel>> getSongFiles();
 
   Future<List<SongPost>> convertToSongInfoList(List<SongModel> songs);
+
+  Future<List<SongModel>> getRecentlyAddedSongs();
 }
