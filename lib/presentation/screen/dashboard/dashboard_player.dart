@@ -1,26 +1,30 @@
 import 'package:blur/blur.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:muix_player/app/repositories/song_player_manager_repositories.dart';
 import 'package:muix_player/infractructure/datasources/local_songs_datasource_impl.dart';
 import 'package:muix_player/infractructure/repositories/song_post_repositories_impl.dart';
+import 'package:muix_player/presentation/providers/audio_player_manager_provider.dart';
 import 'package:muix_player/presentation/screen/widgets/side_menu.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
-class DashboardPlayer extends StatefulWidget {
+class DashboardPlayer extends ConsumerStatefulWidget {
 
   static const String name = '/';
 
   const DashboardPlayer({Key? key}) : super(key: key);
 
   @override
-  State<DashboardPlayer> createState() => _DashboardPlayerState();
+  ConsumerState<DashboardPlayer> createState() => _DashboardPlayerState();
 }
 
-class _DashboardPlayerState extends State<DashboardPlayer> {
+class _DashboardPlayerState extends ConsumerState<DashboardPlayer> {
 
   final SongPostRepositoriesImp songs = SongPostRepositoriesImp(songsPostDatasources: LocalSongsDatasource());
   List<SongModel> _songRecently = [];
 
+  SongPlayerManager audioPlayerManager = SongPlayerManager();
 
   Future<void> _loadSongListRecently() async {
     List<SongModel> songRecently = await songs.getRecentlyAddedSongs();
@@ -28,11 +32,15 @@ class _DashboardPlayerState extends State<DashboardPlayer> {
       _songRecently = songRecently;
     });
   }
-
+  Future<void> _loadSongListProvider() async {
+    List<SongModel> songList = await songs.getSongFiles();
+    ref.read(listSongProvider.notifier).state = songList;
+  }
   @override
   void initState() {
     super.initState();
     _loadSongListRecently();
+    _loadSongListProvider();
   }
 
   @override
@@ -41,7 +49,6 @@ class _DashboardPlayerState extends State<DashboardPlayer> {
   }
   @override
   Widget build(BuildContext context) {
-
     final scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
       appBar: AppBar(
