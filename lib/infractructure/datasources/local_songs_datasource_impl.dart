@@ -17,10 +17,14 @@ class LocalSongsDatasource extends SongPostDatasources {
   Future <List<SongPost>> convertToSongInfoList(List<SongModel> songs) async {
     return songs.map((song) {
       return SongPost(
+        id: song.id,
         title: song.title,
         artist: song.artist,
         album: song.album,
         gender: song.genre,
+        duration: song.duration,
+        path: song.data,
+        position: 0,
       );
     }).toList();
   }
