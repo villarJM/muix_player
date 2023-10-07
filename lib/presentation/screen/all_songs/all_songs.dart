@@ -1,16 +1,15 @@
+import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:muix_player/infractructure/datasources/local_songs_datasource_impl.dart';
 import 'package:muix_player/infractructure/repositories/song_post_repositories_impl.dart';
 import 'package:muix_player/presentation/providers/audio_player_manager_provider.dart';
-import 'package:muix_player/presentation/providers/song_info_state_notifier_provider.dart';
 import 'package:muix_player/presentation/screen/widgets/all_song/playing_now_screen.dart';
 import 'package:muix_player/presentation/screen/widgets/side_menu.dart';
 import 'package:muix_player/shared_preferences/last_song_listen_preference.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:blur/blur.dart';
 import 'package:audioplayers/audioplayers.dart';
-import 'package:muix_player/app/repositories/song_player_manager_repositories.dart';
 
 
 
@@ -43,19 +42,13 @@ class _ListSong extends ConsumerStatefulWidget{
 
 class _GetAllSongState extends ConsumerState<_ListSong> {
 
+  final CarouselController carouselController = CarouselController();
   // shared preferences
   final LastSongListenPreference shared = LastSongListenPreference();
 
-  int spIdSong = 0;
-  String spTitle = '';
-  String spArtist = '';
-  String spPath = '';
-  int spDuration = 0;
 
   final SongPostRepositoriesImp songs = SongPostRepositoriesImp(songsPostDatasources: LocalSongsDatasource());
   List<SongModel> _songList = [];
-
-  SongPlayerManager audioPlayerManager = SongPlayerManager();
   
   PlayerState playerState = PlayerState.stopped;
 
@@ -82,14 +75,6 @@ class _GetAllSongState extends ConsumerState<_ListSong> {
       isLoading = true;
     } 
     // _scrollController.addListener(_scrollListener);
-    audioPlayerManager.audioPlayer.onPlayerStateChanged.listen((PlayerState state) {
-      setState(() {
-        playerState = state;
-      });
-      if (state == PlayerState.playing) {
-        ref.read(todosProvider.notifier).toggle(spIdSong == 0 ? idSong : spIdSong);
-      }
-    });
     getPreferenceSong();
   }
   
@@ -121,22 +106,17 @@ void _scrollListener() {
 
     Map<String, dynamic> songData = await shared.getData();
     if(songData.isNotEmpty){
-      spIdSong = songData['idSong'];
-      spTitle = songData['title'];
-      spArtist = songData['artist'];
-      spPath = songData['path'];
-      spDuration = songData['duration'];
-
-      ref.read(todosProvider.notifier).addTodo(Todo(idSong: spIdSong, title: spTitle, artist: spArtist, path: spPath, duration: spDuration, playerState: playerState, songPlayerManager: audioPlayerManager));
+      ref.read(songInfoNotifierProvider.notifier).songPost(songData['id'], songData['title'], songData['artist'], songData['album'], songData['gender'], songData['duration'], songData['path'], songData['position']);
     }
     
   }
   @override
   Widget build(BuildContext context) {
     
+    final songInfoProvider = ref.watch(songInfoNotifierProvider);
+    final audioState = ref.watch(audioPlayerProvider);
     bool icon = ref.watch(isIconPlayer);
     IconData iconPlayer = ref.watch(iconPlayerChange);
-    List<Todo> todos = ref.watch(todosProvider);
     
     return Stack(
       alignment: Alignment.center,
@@ -153,7 +133,7 @@ void _scrollListener() {
               children: [
                 QueryArtworkWidget(
                   controller: _audioQuery, 
-                  id: idSong == 0 ? spIdSong : idSong, 
+                  id: idSong == 0 ? songInfoProvider.id! : idSong, 
                   type: artworkType, 
                   artworkQuality: FilterQuality.high,
                   artworkFit: BoxFit.cover,
@@ -204,72 +184,22 @@ void _scrollListener() {
                     ),
                     onTap: () {
 
-
-                      
-                      if (todos.isEmpty && idSong != audio.id) {
-
-                        ref.read(todosProvider.notifier).removeTodo();
+                        ref.read(positionNotifierProvider.notifier).setPosition(index);
                         shared.clearData();
-                        Map<String, dynamic> songData = {
-                          'idSong': audio.id,
-                          'title': audio.title,
-                          'artist': audio.artist,
-                          'path': audio.data,
-                          'duration': audio.duration,
-                        };
+                        ref.read(songInfoNotifierProvider.notifier).songPost(audio.id, audio.title, audio.artist, audio.album, audio.genre, audio.duration, audio.data, index);
                         setState(() {
-                          shared.saveData(songData);
 
                           idSong = audio.id;
                           title = audio.title;
                           artist = audio.artist;
                           path = audio.data;
                           duration = audio.duration;
-                          playerState = PlayerState.playing;
-
-                          spIdSong = 0;
-                          spTitle = '';
-                          spArtist = '';
-                          spPath = '';
-                          spDuration = 0;
                         });
-
-                        ref.read(todosProvider.notifier).addTodo(Todo(idSong: audio.id, title: audio.title, artist: audio.artist!, path: audio.data, duration: audio.duration!, playerState: playerState, songPlayerManager: audioPlayerManager));
-
-                      } else if (audio.id != todos[0].idSong) {
-
-                        ref.read(todosProvider.notifier).removeTodo();
-                        shared.clearData();
-                        Map<String, dynamic> songData = {
-                          'idSong': audio.id,
-                          'title': audio.title,
-                          'artist': audio.artist,
-                          'path': audio.data,
-                          'duration': audio.duration,
-                        };
-                        setState(() {
-                          shared.saveData(songData);
-
-                          idSong = audio.id;
-                          title = audio.title;
-                          artist = audio.artist;
-                          path = audio.data;
-                          duration = audio.duration;
-
-                          spIdSong = 0;
-                          spTitle = '';
-                          spArtist = '';
-                          spPath = '';
-                          spDuration = 0;
-                        });
-
-                        ref.read(todosProvider.notifier).addTodo(Todo(idSong: audio.id, title: audio.title, artist: audio.artist!, path: audio.data, duration: audio.duration!, playerState: playerState, songPlayerManager: audioPlayerManager));
-
-                      }
-                      
                       ref.read(isIconPlayer.notifier).state = !icon;
                       ref.read(iconPlayerChange.notifier).state = Icons.pause_rounded;
-                      audioPlayerManager.playLocalAudio(audio.data);
+                      audioState.playAudio(audio.data);
+                      ref.read(audioPlayerProvider.notifier).playerState = PlayerState.playing;
+                      playerState = audioState.playerState;
                     },
                   ),
                 );
@@ -307,11 +237,11 @@ void _scrollListener() {
                 borderRadius: const BorderRadius.all(Radius.circular(21)),
               ),
               child: ListTile(
-                title: Text(spTitle == '' ? title : spTitle, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Colors.white)),
-                subtitle: Text(spArtist == '' ? artist! : spArtist, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Colors.white)),
+                title: Text(songInfoProvider.title == '' ? title : songInfoProvider.title, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Colors.white)),
+                subtitle: Text(songInfoProvider.artist == '' ? artist! : songInfoProvider.artist!, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Colors.white)),
                 leading: QueryArtworkWidget(
                   controller: _audioQuery,
-                  id: spIdSong == 0 ? idSong : spIdSong,
+                  id: songInfoProvider.id == 0 ? idSong : songInfoProvider.id!,
                   type: ArtworkType.AUDIO,
                   artworkBorder: BorderRadius.circular(10),
                 ),
@@ -321,7 +251,8 @@ void _scrollListener() {
                   ref.read(isIconPlayer.notifier).state = !icon;
                   ref.read(iconPlayerChange.notifier).state = icon ? Icons.play_arrow_rounded : Icons.pause_rounded;
                   // icon = false => play, icon = true => pause
-                  icon ? audioPlayerManager.pauseLocalAudio() : audioPlayerManager.playLocalAudio(spPath == '' ? path : spPath);
+                  icon ? audioState.pauseAudio() : audioState.playAudio(songInfoProvider.path == '' ? path : songInfoProvider.path);
+                  ref.read(audioPlayerProvider.notifier).playerState = playerState == PlayerState.playing ? PlayerState.paused : PlayerState.playing;
                 }, icon: Icon(iconPlayer)),
                 onTap: () {
                   Navigator.of(context).push(_createRoute());

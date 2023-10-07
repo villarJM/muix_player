@@ -1,17 +1,18 @@
+import 'package:audioplayers/audioplayers.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:muix_player/app/repositories/song_player_manager_repositories.dart';
 import 'package:muix_player/presentation/providers/audio_player_manager_provider.dart';
 
 class ControlPlayer extends ConsumerStatefulWidget {
 
-  final SongPlayerManager audioPlayerManager;
   final String path;
+  final CarouselController controller;
 
   const ControlPlayer({
-    Key? key, 
-    required this.audioPlayerManager,  
-    required this.path
+    Key? key,   
+    required this.path,
+    required this.controller,
   }) : super(key: key);
 
   @override
@@ -20,10 +21,11 @@ class ControlPlayer extends ConsumerStatefulWidget {
 
 class _ControlPlayerState extends ConsumerState<ControlPlayer> {
 
+  PlayerState playerState = PlayerState.paused;
   @override
   Widget build(BuildContext context) {
-
-    bool icon = ref.read(isIconPlayer);
+    final audioState = ref.read(audioPlayerProvider);
+    bool icon = ref.watch(isIconPlayer);
     IconData iconPlayer = ref.watch(iconPlayerChange);
     
     return Row(
@@ -38,8 +40,9 @@ class _ControlPlayerState extends ConsumerState<ControlPlayer> {
         ),
         IconButton(
           onPressed: () {
-
-          }, icon: const Icon(Icons.skip_previous_rounded, size: 40.0, color: Colors.white,)
+            widget.controller.previousPage();
+          }, 
+          icon: const Icon(Icons.skip_previous_rounded, size: 40.0, color: Colors.white,)
         ),
         IconButton(
           onPressed: () {
@@ -47,14 +50,16 @@ class _ControlPlayerState extends ConsumerState<ControlPlayer> {
             ref.read(isIconPlayer.notifier).state = !icon;
             ref.read(iconPlayerChange.notifier).state = icon ? Icons.play_arrow_rounded : Icons.pause_rounded;
             // icon = false => play, icon = true => pause
-            icon ? widget.audioPlayerManager.pauseLocalAudio() : widget.audioPlayerManager.playLocalAudio(widget.path);
-
+            icon ? audioState.pauseAudio() : audioState.playAudio(widget.path);
+            playerState = icon ? PlayerState.paused : PlayerState.playing;
           }, icon: Icon(iconPlayer, size: 40.0, color: Colors.white),
         ),
+        // button next
         IconButton(
           onPressed: () {
-
-          }, icon: const Icon(Icons.skip_next_rounded, size: 40.0, color: Colors.white,),
+            widget.controller.nextPage();
+          }, 
+          icon: const Icon(Icons.skip_next_rounded, size: 40.0, color: Colors.white,),
         ),
         IconButton(
           onPressed: () {

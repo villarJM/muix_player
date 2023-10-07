@@ -4,8 +4,7 @@ import 'package:audioplayers/audioplayers.dart';
 
 class SongPlayerManager {
   final AudioPlayer audioPlayer = AudioPlayer();
-  Stream<Duration> get onAudioPositionChanged =>
-      audioPlayer.onPositionChanged;
+  Stream<Duration> get onAudioPositionChanged => audioPlayer.onPositionChanged;
 
   Future<void> playLocalAudio(String path) async {
     try {
