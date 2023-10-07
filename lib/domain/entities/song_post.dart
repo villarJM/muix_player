@@ -1,7 +1,7 @@
 
 
 class SongPost {
-  final int id;
+  final int? id;
   final String title;
   final String? artist;
   final String? album;
