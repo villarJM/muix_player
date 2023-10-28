@@ -1,6 +1,9 @@
+import 'dart:typed_data';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:muix_player/data/models/song_local_model.dart';
 import 'package:muix_player/domain/entities/song_post.dart';
 import 'package:muix_player/presentation/providers/current_audio_info_notifier_provider.dart';
 import 'package:on_audio_query/on_audio_query.dart';
@@ -32,20 +35,20 @@ class PositionNotifier extends StateNotifier<int> {
     state = index!;
   }
 }
-final songInfoNotifierProvider = StateNotifierProvider<SongInfoNotifier, SongPost>((ref) {
-  return SongInfoNotifier(SongPost(id: 0, title: '', artist: '', album: '', gender: '', duration: 0, path: '', position: 0));
+final songInfoNotifierProvider = StateNotifierProvider<SongInfoNotifier, SongLocalModel>((ref) {
+  return SongInfoNotifier(SongLocalModel(id: 0, title: '', artist: '', album: '', gender: '', duration: 0, path: '', artwork: Uint8List(0)));
 });
 
-class SongInfoNotifier extends StateNotifier<SongPost> {
+class SongInfoNotifier extends StateNotifier<SongLocalModel> {
   final LastSongListenPreference shared = LastSongListenPreference();
-  SongInfoNotifier(SongPost state) : super(state);
+  SongInfoNotifier(SongLocalModel state) : super(state);
 
-  void songPost(int? id, String? title, String? artist, String? album, String? gender, int? duration, String? path, int? position) {
-    state = SongPost(id: id!, title: title!, artist: artist, album: album, gender: gender, duration: duration, path: path!, position: position);
-    _saveSharedPreferencesSongPost(id, title, artist, album, gender, duration, path, position);
+  void songLocal(int? id, String? title, String? artist, String? album, String? gender, int? duration, String? path) {
+    state = SongLocalModel(id: id!, title: title!, artist: artist!, album: album!, gender: gender!, duration: duration!, path: path!, artwork: Uint8List(0));
+    // _saveSharedPreferencesSongPost(id, title, artist, album, gender, duration, path);
   }
 
-  void _saveSharedPreferencesSongPost(int? id, String? title, String? artist, String? album, String? gender, int? duration, String? path, int? position) {
+  void _saveSharedPreferencesSongPost(int? id, String? title, String? artist, String? album, String? gender, int? duration, String? path) {
     
     Map<String, dynamic> songData = {
       'id': id,
@@ -55,7 +58,6 @@ class SongInfoNotifier extends StateNotifier<SongPost> {
       'gender': gender ?? '',
       'path': path,
       'duration': duration,
-      'position': position,
     };
     
       shared.saveData(songData);

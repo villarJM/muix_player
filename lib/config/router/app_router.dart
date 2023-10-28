@@ -1,7 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:muix_player/presentation/screen/all_songs/all_songs.dart';
 import 'package:muix_player/presentation/screen/dashboard/dashboard_player.dart';
-import 'package:muix_player/presentation/screen/widgets/all_song/playing_now_screen.dart';
+import 'package:muix_player/presentation/screen/playing_now/playing_now_screen.dart';
 
 // GoRouter Configuration
 final appRouter = GoRouter(

@@ -8,7 +8,6 @@ void main() async {
 
   // Verifica y solicita los permisos necesarios.
   await _checkAndRequestPermissions();
-  
 
   runApp(const ProviderScope(child: MyApp()),);
 }
@@ -33,7 +32,8 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext 
+  context) {
 
     // final songPostRepository = SongPostRepositoriesImp(songsPostDatasources: LocalSongsDatasource());
     return MaterialApp.router(
