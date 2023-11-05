@@ -31,11 +31,11 @@ class _SideMenuState extends State<SideMenu> {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: const BorderRadius.only(bottomRight: Radius.circular(20), topRight: Radius.circular(20)),
-            border: Border.all(color: const Color.fromARGB(255, 114, 114, 114)),
+            border: Border.all(color: Colors.white54),
             gradient: LinearGradient(
               colors: [
-                const Color(0XFF404094).withOpacity(0.1),
-                const Color(0XFF4B0440).withOpacity(1.0)
+                const Color(0XFFedf5f8).withOpacity(0.1),
+                const Color(0XFFedf5f8).withOpacity(1.0)
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,

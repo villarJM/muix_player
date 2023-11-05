@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:muix_player/infractructure/datasources/song_local_data_source_impl.dart';
-import 'package:muix_player/infractructure/repositories/song_local_repository.dart';
+import 'package:muix_player/data/song_local_data_source_impl.dart';
+import 'package:muix_player/data/repositories/song_local_repository.dart';
 
 final SongLocalDataSourceImpl songLocalDataSourceImpl = SongLocalDataSourceImpl();
 final SongLocalRepository songLocalRepository = SongLocalRepository(songLocalDataSourceImpl: songLocalDataSourceImpl);
