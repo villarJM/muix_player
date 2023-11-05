@@ -9,8 +9,8 @@ const GradientBackground({ Key? key }) : super(key: key);
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            Color(0XFF212345),
-            Color(0XFF404094),
+            Color(0XFFedf5f8),
+            Color(0XFFedf5f8),
           ],
           begin: Alignment.bottomCenter,
           end: Alignment.topCenter
