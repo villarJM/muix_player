@@ -1,8 +1,7 @@
 
 import 'dart:typed_data';
-import 'package:muix_player/domain/entities/song_local.dart';
 
-class SongLocalModel extends SongLocal{
+class SongLocalModel {
   final int id;
   final String title;
   final String artist;
@@ -21,7 +20,7 @@ class SongLocalModel extends SongLocal{
     required this.duration,
     required this.path,
     required this.artwork,
-  }) : super(id: id, title: title, artist: artist, album: album, genre: gender, duration: duration, data: path, artwork: artwork);
+  });
 
   factory SongLocalModel.fromJson(Map<dynamic, dynamic> json) => SongLocalModel(
     id: json["_id"], 
@@ -30,7 +29,7 @@ class SongLocalModel extends SongLocal{
     album: json["album"], 
     gender: json["genre"] ?? "", 
     duration: json["duration"], 
-    path: json["_uri"],
+    path: json["_data"],
     artwork: Uint8List(0),
   );
 
