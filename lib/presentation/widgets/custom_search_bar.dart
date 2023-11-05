@@ -9,12 +9,12 @@ class CustomSearchBar extends SliverPersistentHeaderDelegate {
     return Container(
       alignment: Alignment.center,
       child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 5),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: const Text('Search...', style: TextStyle(color: Colors.white, fontSize: 18,),).frosted(
             height: 55,
             width: MediaQuery.of(context).size.width,
             borderRadius: BorderRadius.circular(5),
-            blur: 2.5,
+            blur: 16.0,
         ),
       )
     );
