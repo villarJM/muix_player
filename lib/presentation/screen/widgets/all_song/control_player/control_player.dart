@@ -36,13 +36,25 @@ class _ControlPlayerState extends ConsumerState<ControlPlayer> {
           onPressed: () {
 
           },
-          icon: const Icon(Icons.shuffle_rounded, size: 40.0, color: Colors.white,),
+          icon: const Icon(Icons.shuffle_rounded, size: 40.0, color: Colors.white,shadows: [
+            BoxShadow(
+              offset: Offset(0, 2),
+              blurRadius: 1.0,
+              color: Colors.black38
+            )
+          ]),
         ),
         IconButton(
           onPressed: () {
             widget.controller.previousPage();
           }, 
-          icon: const Icon(Icons.skip_previous_rounded, size: 40.0, color: Colors.white,)
+          icon: const Icon(Icons.skip_previous_rounded, size: 40.0, color: Colors.white, shadows: [
+            BoxShadow(
+              offset: Offset(0, 2),
+              blurRadius: 1.0,
+              color: Colors.black38
+            )
+          ]),
         ),
         IconButton(
           onPressed: () {
@@ -52,19 +64,41 @@ class _ControlPlayerState extends ConsumerState<ControlPlayer> {
             // icon = false => play, icon = true => pause
             icon ? audioState.pauseAudio() : audioState.playAudio(widget.path);
             playerState = icon ? PlayerState.paused : PlayerState.playing;
-          }, icon: Icon(iconPlayer, size: 40.0, color: Colors.white),
+          }, icon: Icon(iconPlayer, size: 40.0, color: Colors.white, 
+          
+          shadows: const [
+            BoxShadow(
+              offset: Offset(0, 2),
+              blurRadius: 1.0,
+              color: Colors.black38
+            )
+          ], ),
         ),
         // button next
         IconButton(
           onPressed: () {
-            widget.controller.nextPage();
+            // widget.controller.nextPage();
           }, 
-          icon: const Icon(Icons.skip_next_rounded, size: 40.0, color: Colors.white,),
+          icon: const Icon(Icons.skip_next_rounded, size: 40.0, color: Color(0Xffffffff), shadows: [
+            BoxShadow(
+              offset: Offset(0, 2),
+              blurRadius: 1.0,
+              color: Colors.black38
+            )
+          ]),
         ),
         IconButton(
           onPressed: () {
 
-          }, icon: const Icon(Icons.repeat_rounded, size: 40.0, color: Colors.white,),
+          }, icon: const Icon(Icons.repeat_rounded, size: 40.0, color: Color(0Xffffffff), shadows: [
+            BoxShadow(
+
+              offset: Offset(0, 2),
+              blurRadius: 1.0,
+              color: Colors.black38
+            ),
+
+          ], ),
         ),
       ],
     );

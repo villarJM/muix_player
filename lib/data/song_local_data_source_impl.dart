@@ -83,16 +83,6 @@ class SongLocalDataSourceImpl extends SongLocalDataSource{
       return imageToUint8List('assets/images/placeholder_song.png');
     }
   }
-
-  Future<List<SongLocalModel>> addImageSongLocal(List<SongLocalModel> songs) async {
-    final newListSong = await Future.wait(
-      songs.map((song) async {
-        song.artwork = await getImage(song.id);
-        return song;
-      }).toList()
-    );
-    return newListSong;
-  }
   
   Future<Uint8List> imageToUint8List(String imagePath) async {
     // Carga la imagen desde la ruta del archivo

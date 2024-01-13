@@ -13,6 +13,7 @@ class CustomSelectedSongBox extends StatelessWidget {
   final String artist;
   final String path;
   final Color color;
+  final Function()? onTap;
 
   const CustomSelectedSongBox({
     super.key,
@@ -22,6 +23,7 @@ class CustomSelectedSongBox extends StatelessWidget {
     required this.artist,
     required this.path,
     required this.color,
+    this.onTap,
   });
   
   @override
@@ -32,14 +34,16 @@ class CustomSelectedSongBox extends StatelessWidget {
       right: 0,
       child: Padding(
         padding: const EdgeInsets.all(5.0),
-        child: ListTile(
-          title: Text(title,
+        child: InkWell(
+          onTap: onTap,
+          child: ListTile(
+            title: Text(title,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(color: Colors.white)),
-          subtitle: Text(artist,
+            subtitle: Text(artist,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(color: Colors.white)),
-          leading: SizedBox(
+            leading: SizedBox(
               height: 50,
               width: 50,
               child: Card(
@@ -48,18 +52,20 @@ class CustomSelectedSongBox extends StatelessWidget {
                   id: id,
                   radius: 10,
                 ),
-              )),
-          trailing: IconButton(
+              )
+              ),
+            trailing: IconButton(
               onPressed: () {
                 AudioContextManager.playAudio(path);
               },
               icon: const Icon(Icons.play_arrow)),
-        ).frosted(
-          frostColor: color,
-          height: 70,
-          width: MediaQuery.of(context).size.width,
-          borderRadius: const BorderRadius.all(Radius.circular(20)),
-          blur: 16.0,
+          ).frosted(
+            frostColor: color,
+            height: 70,
+            width: MediaQuery.of(context).size.width,
+            borderRadius: const BorderRadius.all(Radius.circular(20)),
+            blur: 16.0,
+          ),
         ),
       ),
     );
@@ -68,7 +74,7 @@ class CustomSelectedSongBox extends StatelessWidget {
   Route _createRoute() {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) =>
-          const PlayingNowScreen(),
+          PlayingNowScreen(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const begin = Offset(0.0, 1.0);
         const end = Offset.zero;

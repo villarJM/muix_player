@@ -9,7 +9,6 @@ class SongLocalModel {
   final String gender;
   final int duration;
   final String path;
-  late Uint8List artwork;
 
   SongLocalModel({
     required this.id,
@@ -19,7 +18,6 @@ class SongLocalModel {
     required this.gender,
     required this.duration,
     required this.path,
-    required this.artwork,
   });
 
   factory SongLocalModel.fromJson(Map<dynamic, dynamic> json) => SongLocalModel(
@@ -30,7 +28,6 @@ class SongLocalModel {
     gender: json["genre"] ?? "", 
     duration: json["duration"], 
     path: json["_data"],
-    artwork: Uint8List(0),
   );
 
   Map<String, dynamic> toJson() {
@@ -42,7 +39,6 @@ class SongLocalModel {
       "gender": gender,
       "duration": duration,
       "path": path,
-      "artwork": artwork,
     };
   }
 

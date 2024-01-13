@@ -36,7 +36,7 @@ class PositionNotifier extends StateNotifier<int> {
   }
 }
 final songInfoNotifierProvider = StateNotifierProvider<SongInfoNotifier, SongLocalModel>((ref) {
-  return SongInfoNotifier(SongLocalModel(id: 0, title: '', artist: '', album: '', gender: '', duration: 0, path: '', artwork: Uint8List(0)));
+  return SongInfoNotifier(SongLocalModel(id: 0, title: '', artist: '', album: '', gender: '', duration: 0, path: ''));
 });
 
 class SongInfoNotifier extends StateNotifier<SongLocalModel> {
@@ -44,7 +44,7 @@ class SongInfoNotifier extends StateNotifier<SongLocalModel> {
   SongInfoNotifier(SongLocalModel state) : super(state);
 
   void songLocal(int? id, String? title, String? artist, String? album, String? gender, int? duration, String? path) {
-    state = SongLocalModel(id: id!, title: title!, artist: artist!, album: album!, gender: gender!, duration: duration!, path: path!, artwork: Uint8List(0));
+    state = SongLocalModel(id: id!, title: title!, artist: artist!, album: album!, gender: gender!, duration: duration!, path: path!);
     // _saveSharedPreferencesSongPost(id, title, artist, album, gender, duration, path);
   }
 

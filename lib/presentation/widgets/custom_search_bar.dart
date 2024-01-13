@@ -1,5 +1,6 @@
 import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
+import 'package:glassmorphism/glassmorphism.dart';
 
 class CustomSearchBar extends SliverPersistentHeaderDelegate {
   @override
@@ -9,15 +10,40 @@ class CustomSearchBar extends SliverPersistentHeaderDelegate {
     return Container(
       alignment: Alignment.center,
       child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: const Text('Search...', style: TextStyle(color: Colors.white, fontSize: 18,),).frosted(
-            height: 55,
-            width: MediaQuery.of(context).size.width,
-            borderRadius: BorderRadius.circular(5),
-            blur: 16.0,
+          padding: const EdgeInsets.fromLTRB(15, 5, 15, 0),
+          child: GlassmorphicContainer(
+            width: double.infinity,
+            height: 60,
+            borderRadius: 10,
+            blur: 20,
+            alignment: Alignment.bottomCenter,
+            border: 1,
+            linearGradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Colors.white.withOpacity(0.1),
+                  Colors.white.withOpacity(0.05),
+                ],
+                stops: const [
+                  0.1,
+                  1,
+                ]),
+            borderGradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                const Color(0Xffffffff).withOpacity(0.5),
+                const Color(0Xffffffff).withOpacity(0.0),
+                const Color(0Xffffffff).withOpacity(0.0),
+                const Color(0Xffffffff).withOpacity(0.5),
+              ],
+              
+            ),
+            child: const Center(child: Text("Search...")),
+          ),
         ),
-      )
-    );
+      );
   }
 
   @override

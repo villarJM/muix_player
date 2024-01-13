@@ -22,7 +22,7 @@ class SongLocalService {
   // }
 
   Future<void> getSongForID(int songID) async {
-    final songLocal = ref.watch(songLocalRepositoryProvider).getSongLocal(10).asStream();
+    final songLocal = ref.watch(songLocalRepositoryProvider).getSongLocal().asStream();
     
     SongLocalModel searchSong = SongLocalModel(
       id: 0, 
@@ -32,7 +32,6 @@ class SongLocalService {
       gender: '', 
       duration: 0, 
       path: '',
-      artwork: Uint8List(0)
     );
     songLocal.forEach((song) {
       searchSong = song.singleWhere((element) => element.id == songID);
@@ -41,8 +40,30 @@ class SongLocalService {
     });
   }
 
+  Future<SongLocalModel> getSongForPosition(int songPosition) async {
+
+    final songLocal = ref.watch(songLocalRepositoryProvider).getSongLocal().asStream();
+
+  await for (var element in songLocal) {
+    if (element.isNotEmpty && songPosition >= 0 && songPosition < element.length) {
+      return element.elementAt(songPosition);
+    }
+  }
+
+  // Si el flujo está vacío o la posición no es válida, retorna un modelo vacío.
+  return SongLocalModel(
+    id: 0,
+    title: '',
+    artist: '',
+    album: '',
+    gender: '',
+    duration: 0,
+    path: '',
+  );
+  }
+
   Future<void> getPositionSong(int state) async {
-    final songLocal = ref.watch(songLocalRepositoryProvider).getSongLocal(10).asStream();
+    final songLocal = ref.watch(songLocalRepositoryProvider).getSongLocal().asStream();
     final songPositions = songLocal.asyncMap((list) {
       return list.asMap();
     });
