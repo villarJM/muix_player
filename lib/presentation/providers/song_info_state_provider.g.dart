@@ -6,11 +6,11 @@ part of 'song_info_state_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$todoHash() => r'55ccd6b634d66c66a0213143b5127d3e0a991438';
+String _$todoHash() => r'5a253496034cb64014508a7b88515118f2be68b6';
 
 /// See also [Todo].
 @ProviderFor(Todo)
-final todoProvider = AutoDisposeNotifierProvider<Todo, SongTodo>.internal(
+final todoProvider = NotifierProvider<Todo, int>.internal(
   Todo.new,
   name: r'todoProvider',
   debugGetCreateSourceHash:
@@ -19,6 +19,6 @@ final todoProvider = AutoDisposeNotifierProvider<Todo, SongTodo>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef _$Todo = AutoDisposeNotifier<SongTodo>;
+typedef _$Todo = Notifier<int>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

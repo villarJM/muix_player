@@ -59,9 +59,13 @@ class SongLocalDataSourceImpl extends SongLocalDataSource{
   }
 
   List<SongLocalModel> convertToSong(List<SongModel> songs, List<SongLocalModel> songLocalList) {
+    int count = 0;
     for (var song in songs) {
-      SongLocalModel songLocal = SongLocalModel.fromJson(song.getMap);
+      
+      SongLocalModel songLocal = SongLocalModel.fromJson(song.getMap, count);
+      count++;
       songLocalList.add(songLocal);
+      
     }
     return songLocalList;
   }

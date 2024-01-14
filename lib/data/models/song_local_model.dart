@@ -1,6 +1,4 @@
 
-import 'dart:typed_data';
-
 class SongLocalModel {
   final int id;
   final String title;
@@ -9,6 +7,7 @@ class SongLocalModel {
   final String gender;
   final int duration;
   final String path;
+  final int position;
 
   SongLocalModel({
     required this.id,
@@ -18,9 +17,10 @@ class SongLocalModel {
     required this.gender,
     required this.duration,
     required this.path,
+    required this.position,
   });
 
-  factory SongLocalModel.fromJson(Map<dynamic, dynamic> json) => SongLocalModel(
+  factory SongLocalModel.fromJson(Map<dynamic, dynamic> json, int count) => SongLocalModel(
     id: json["_id"], 
     title: json["title"], 
     artist: json["artist"], 
@@ -28,6 +28,7 @@ class SongLocalModel {
     gender: json["genre"] ?? "", 
     duration: json["duration"], 
     path: json["_data"],
+    position: count,
   );
 
   Map<String, dynamic> toJson() {

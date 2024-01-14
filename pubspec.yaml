@@ -55,6 +55,7 @@ dependencies:
   another_transformer_page_view: ^2.0.1
   # the annotation package containing @riverpod
   riverpod_annotation: ^2.3.0
+  flutter_screenutil: ^5.9.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0

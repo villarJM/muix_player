@@ -6,18 +6,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:muix_player/data/models/song_local_model.dart';
+import 'package:muix_player/presentation/providers/interactive_color_state_provider.dart';
 import 'package:muix_player/presentation/providers/song_info_state_provider.dart';
-import 'package:muix_player/presentation/screen/playing_now/playing_now_screen.dart';
 import 'package:muix_player/presentation/screen/widgets/side_menu.dart';
 import 'package:muix_player/presentation/widgets/custom_search_bar.dart';
 import 'package:muix_player/presentation/widgets/custom_selected_song_box.dart';
 import 'package:muix_player/presentation/widgets/loard_artwork.dart';
 import 'package:muix_player/provider/song_local_provider.dart';
 import 'package:muix_player/shared_preferences/last_song_listen_preference.dart';
+import 'package:muix_player/util/generate_palete.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:audioplayers/audioplayers.dart';
-import 'package:palette_generator/palette_generator.dart';
-import 'dart:ui' as ui;
+import 'package:skeletons/skeletons.dart';
 
 
 
@@ -36,14 +36,9 @@ class AllSongs extends ConsumerWidget {
       backgroundColor: const Color(0xffedf5f8),
       
       key: scaffoldKey,
-      body: Stack(
+      body: const Stack(
         children: [
-          // Container(
-          //   decoration: const BoxDecoration(
-          //     image: DecorationImage(image: AssetImage("assets/images/background1.jpg")),
-          //   ),
-          // ),
-          const _ListSong(),
+          _ListSong(),
         ],
       ),
       drawer: SideMenu(scaffoldKey: scaffoldKey),
@@ -64,6 +59,8 @@ class _GetAllSongState extends ConsumerState<_ListSong> {
   final CarouselController carouselController = CarouselController();
   // shared preferences
   final LastSongListenPreference shared = LastSongListenPreference();
+
+  GeneratePalete generatePalete = GeneratePalete();
   
   PlayerState playerState = PlayerState.stopped;
 
@@ -91,22 +88,6 @@ class _GetAllSongState extends ConsumerState<_ListSong> {
   @override
   void dispose() {
     super.dispose();
-    _scrollController.dispose();
-  }
-
-  void loadColor(int id) {
-    _generatePalette(id);
-  }
-  // ignore: unused_element
-  Future<void> _generatePalette(int id) async {
-    final uint8list = await ref.watch(songLocalRepositoryProvider).getImage(id);
-      ui.decodeImageFromList(uint8list, (result) async { 
-        final PaletteGenerator generator = await PaletteGenerator.fromImage(result);
-        setState(() {
-          imagen = uint8list;
-          colorImage = generator.dominantColor!.color; 
-        });
-      });
   }
 
   Future<void> getPreferenceSong() async {
@@ -178,18 +159,9 @@ class _GetAllSongState extends ConsumerState<_ListSong> {
                                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                                   child: LoardArtwork(id: songTodo.id, radius: 10,))),
                               onTap: () {
-                                _generatePalette(songTodo.id);
+                                generatePalete.getDominantingColorImageSong(songTodo.id, ref);
 
-                                ref.read(todoProvider.notifier).addTodo(SongTodo(
-                                  id: songTodo.id, 
-                                  title: songTodo.title, 
-                                  artist: songTodo.artist, 
-                                  album: songTodo.album,
-                                  duration: songTodo.duration, 
-                                  path: songTodo.path,
-                                  position: index,
-
-                                ));
+                                ref.read(todoProvider.notifier).addPosition(index);
 
                                 setState(() {
                                   idSong = songTodo.id;
@@ -213,14 +185,26 @@ class _GetAllSongState extends ConsumerState<_ListSong> {
                   title: title, 
                   artist: artist!, 
                   path: path, 
-                  color: colorImage,
-                  onTap: () => context.goNamed('playing-now', extra: {'position': '$position'})
+                  color: ref.watch(interactiveColorProvider),
+                  onTap: () => context.push('/playing-now')
                 )
               ],
             ),
                    );
         } else {
-          return const Center(child: CircularProgressIndicator(),);
+          return const SingleChildScrollView(
+            child: Column(
+              children: [
+                SkeletonAvatar(
+                  style: SkeletonAvatarStyle(
+                    height: 500,
+                    width: 500
+                  ),
+                ),
+                
+              ],
+            ),
+          );
         }
       },
     );

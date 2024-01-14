@@ -32,10 +32,11 @@ class SongLocalService {
       gender: '', 
       duration: 0, 
       path: '',
+      position: 0,
     );
     songLocal.forEach((song) {
       searchSong = song.singleWhere((element) => element.id == songID);
-      ref.read(songInfoNotifierProvider.notifier).songLocal(searchSong.id, searchSong.title, searchSong.artist, searchSong.album, searchSong.gender, searchSong.duration, searchSong.path);
+      ref.read(songInfoNotifierProvider.notifier).songLocal(searchSong.id, searchSong.title, searchSong.artist, searchSong.album, searchSong.gender, searchSong.duration, searchSong.path, searchSong.position);
       // searchSong.copyWith(id: searchSong.id, title: searchSong.title, artist: searchSong.artist, album: searchSong.album, genre: searchSong.gender, duration: searchSong.duration, data: searchSong.data);
     });
   }
@@ -59,6 +60,7 @@ class SongLocalService {
     gender: '',
     duration: 0,
     path: '',
+    position: 0
   );
   }
 
