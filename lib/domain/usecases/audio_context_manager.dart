@@ -1,4 +1,5 @@
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/material.dart';
 
 class AudioContextManager {
   
@@ -9,7 +10,7 @@ class AudioContextManager {
     try {
       await audioPlayer.play(DeviceFileSource(source));
     } catch (e) {
-      print(e); 
+      debugPrintStack();
     }
   }
 

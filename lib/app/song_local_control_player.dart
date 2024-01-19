@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:muix_player/app/service/song_local_service.dart';
-import 'package:muix_player/data/models/song_local_model.dart';
 
 class SongLocalControlPlayer extends StateNotifier<AsyncValue<void>>{
 

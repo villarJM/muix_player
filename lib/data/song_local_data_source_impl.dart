@@ -81,7 +81,8 @@ class SongLocalDataSourceImpl extends SongLocalDataSource{
   @override
   Future<Uint8List> getImage(int id ) async {
     Uint8List? getImage = await audioQuery.queryArtwork(id, ArtworkType.AUDIO, size: 1800);
-    if(getImage != null){
+    if(getImage 
+    != null){
       return Uint8List.fromList(getImage);
     } else {
       return imageToUint8List('assets/images/placeholder_song.png');

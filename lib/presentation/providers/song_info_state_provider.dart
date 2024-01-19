@@ -1,15 +1,21 @@
+import 'package:muix_player/data/models/song_local_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'song_info_state_provider.g.dart';
 
 @Riverpod(keepAlive: true)
-class Todo extends _$Todo {
+class SongInfo extends _$SongInfo {
   @override
-  int build() => 0;
+  SongLocalModel build() => SongLocalModel(
+    id: 0, 
+    title: '', 
+    artist: '', 
+    album: '', 
+    gender: '', 
+    duration: 0, 
+    path: '', 
+    position: 0
+  );
 
-  void addPosition(int position) => state = position;
-
-  void nextIncrement() => state++;
-
-  void previousIncrement() => state--;
+  void addSongInfo(SongLocalModel songLocalModel) => state = songLocalModel;  
 }

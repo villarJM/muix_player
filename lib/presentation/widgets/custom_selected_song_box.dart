@@ -1,29 +1,26 @@
-
-import 'package:audioplayers/audioplayers.dart';
-import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
+import 'package:glass_kit/glass_kit.dart';
 import 'package:muix_player/domain/usecases/audio_context_manager.dart';
-import 'package:muix_player/presentation/screen/playing_now/playing_now_screen.dart';
 import 'package:muix_player/presentation/widgets/loard_artwork.dart';
 
 class CustomSelectedSongBox extends StatelessWidget {
-  final AudioPlayer audioPlayer;
   final int id;
   final String title;
   final String artist;
   final String path;
   final Color color;
   final Function()? onTap;
+  final Widget? iconButton;
 
   const CustomSelectedSongBox({
     super.key,
-    required this.audioPlayer,
     required this.id,
     required this.title,
     required this.artist,
     required this.path,
     required this.color,
     this.onTap,
+    this.iconButton,
   });
   
   @override
@@ -36,67 +33,51 @@ class CustomSelectedSongBox extends StatelessWidget {
         padding: const EdgeInsets.all(5.0),
         child: InkWell(
           onTap: onTap,
-          child: ListTile(
-            title: Text(title,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(color: Colors.white)),
-            subtitle: Text(artist,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(color: Colors.white)),
-            leading: SizedBox(
-              height: 50,
-              width: 50,
-              child: Card(
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                child: LoardArtwork(
-                  id: id,
-                  radius: 10,
-                ),
-              )
-              ),
-            trailing: IconButton(
-              onPressed: () {
-                AudioContextManager.playAudio(path);
-              },
-              icon: const Icon(Icons.play_arrow)),
-          ).frosted(
-            frostColor: color,
+          child: GlassContainer(
             height: 70,
             width: MediaQuery.of(context).size.width,
-            borderRadius: const BorderRadius.all(Radius.circular(20)),
-            blur: 16.0,
-          ),
+            gradient: LinearGradient(
+              colors: [Colors.white.withOpacity(0.40), color.withOpacity(0.10)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(13),
+            borderGradient: LinearGradient(
+              colors: [Colors.white.withOpacity(0.60), Colors.white.withOpacity(0.10), Colors.white.withOpacity(0.05), Colors.white.withOpacity(0.6)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              stops: const [0.0, 0.39, 0.40, 1.0],
+            ),
+            blur: 10.0,
+            borderWidth: 1.2,
+            elevation: 3.0,
+            isFrostedGlass: true,
+            shadowColor: Colors.black.withOpacity(0.50),
+            alignment: Alignment.center,
+            frostedOpacity: 0.00,
+            child: ListTile(
+              title: Text(title,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(color: Colors.white)),
+              subtitle: Text(artist,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(color: Colors.white)),
+              leading: SizedBox(
+                height: 50,
+                width: 50,
+                child: Card(
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  child: LoardArtwork(
+                    id: id,
+                    radius: 10,
+                  ),
+                )
+                ),
+              trailing: iconButton,
+            ),
+          )
         ),
       ),
-    );
-  }
-
-  Route _createRoute() {
-    return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) =>
-          PlayingNowScreen(),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        const begin = Offset(0.0, 1.0);
-        const end = Offset.zero;
-        const curve = Curves.ease;
-
-        var tween =
-            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-        return SlideTransition(
-          position: animation.drive(tween),
-          child: child,
-        );
-      },
-      // settings: RouteSettings(
-      //   arguments: {
-      //     'id': id,
-      //     'title': title,
-      //     'artist': artist,
-      //     'duration': duration,
-      //     'path': path,
-      //   }
-      // )
     );
   }
 }

@@ -1,9 +1,7 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'dart:math';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:muix_player/data/models/song_local_model.dart';
-import 'package:muix_player/domain/entities/song_local.dart';
-import 'package:muix_player/presentation/providers/audio_player_manager_provider.dart';
 import 'package:muix_player/provider/song_local_provider.dart';
 
 class SongLocalService {
@@ -21,7 +19,7 @@ class SongLocalService {
   //   return 
   // }
 
-  Future<void> getSongForID(int songID) async {
+  Future<SongLocalModel> getSongForID(int songID) async {
     final songLocal = ref.watch(songLocalRepositoryProvider).getSongLocal().asStream();
     
     SongLocalModel searchSong = SongLocalModel(
@@ -36,9 +34,10 @@ class SongLocalService {
     );
     songLocal.forEach((song) {
       searchSong = song.singleWhere((element) => element.id == songID);
-      ref.read(songInfoNotifierProvider.notifier).songLocal(searchSong.id, searchSong.title, searchSong.artist, searchSong.album, searchSong.gender, searchSong.duration, searchSong.path, searchSong.position);
-      // searchSong.copyWith(id: searchSong.id, title: searchSong.title, artist: searchSong.artist, album: searchSong.album, genre: searchSong.gender, duration: searchSong.duration, data: searchSong.data);
+      // ref.read(songInfoProvider.notifier).addSongInfo(searchSong);
+      
     });
+    return searchSong;
   }
 
   Future<SongLocalModel> getSongForPosition(int songPosition) async {
@@ -98,4 +97,12 @@ class SongLocalService {
     index--;
   }
 
+  // Future<void> randomOrder(WidgetRef ref) async {
+  //   Random random = Random();
+  //   List<SongLocalModel> songList = await  ref.watch(songLocalRepositoryProvider).getSongLocal();
+  //   songList.shuffle(random);
+  //   for (int i = 0; i < songList.length; i++) {
+  //   songList[i].position = i + 1;
+  // }
+  // }
 }
