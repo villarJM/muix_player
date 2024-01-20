@@ -85,12 +85,15 @@ class _GetAllSongState extends ConsumerState<_ListSong> {
   Uint8List imagen = Uint8List.fromList([]);
   bool expandedHeight = true;
   String search = '';
+  List<SongLocalModel> songList = [];
 
   int skipCount = 0;
   int maxResult = 12;
 
   @override
   void initState() {
+    
+    loadSong();
     convertImagetoUint8List();
     super.initState();
   }
@@ -100,6 +103,14 @@ class _GetAllSongState extends ConsumerState<_ListSong> {
     super.dispose();
   }
 
+  void loadSong() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      songList = await ref.watch(songLocalRepositoryProvider).getSongLocal();
+      setState(() {
+        
+      });
+    });
+  }
   Future<void> getPreferenceSong() async {
     Map<String, dynamic> songData = await shared.getData();
     if(songData.isNotEmpty){
@@ -117,137 +128,109 @@ class _GetAllSongState extends ConsumerState<_ListSong> {
   }
   @override
   Widget build(BuildContext context) {
-      return _widget();
-  }
-
-  Widget _widget(){
-    return FutureBuilder(
-      future: ref.watch(songLocalRepositoryProvider).getSongLocal(), 
-      builder: (BuildContext context, AsyncSnapshot<List<SongLocalModel>> snapshot) {
-        if (snapshot.hasData) {
-           return SafeArea(
-            child: Stack(
-              children: [
-                Image.memory(
-                  fit: BoxFit.cover,
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
-                  ref.watch(interactiveBackgroundImageProvider)
-                ).blurred(
-                  blur: 40,
-                  blurColor: ref.watch(interactiveColorProvider),
-                  colorOpacity: 0.8,
+    return SafeArea(
+      child: Stack(
+        children: [
+          Image.memory(
+            fit: BoxFit.cover,
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            ref.watch(interactiveBackgroundImageProvider)
+          ).blurred(
+            blur: 40,
+            blurColor: ref.watch(interactiveColorProvider),
+            colorOpacity: 0.8,
+          ),
+          CustomScrollView(
+            slivers: <Widget>[
+              SliverAppBar(
+                backgroundColor: const Color(0xffedf5f8),
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(20.0),
+                    bottomRight: Radius.circular(20.0),
+                  ),
                 ),
-                CustomScrollView(
-                  slivers: <Widget>[
-                    SliverAppBar(
-                      backgroundColor: const Color(0xffedf5f8),
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(20.0),
-                          bottomRight: Radius.circular(20.0),
-                        ),
-                      ),
-                      elevation: 0,
-                      title: const Text('All of the song'),
-                      floating: true,
-                      flexibleSpace: Stack (
-                        alignment: Alignment.center,
-                        children: [
-                          LoardArtwork(
-                            id: ref.watch(songInfoProvider).id, 
-                            width: 500, 
-                            height: 500,
-                            quality: FilterQuality.high,
-                            radius: 20,
-                          ),
-                        ],
-                      ),
-                      expandedHeight: expandedHeight == true ? 400 : 0,
-                      centerTitle: true,
+                elevation: 0,
+                title: const Text('All of the song'),
+                floating: true,
+                flexibleSpace: Stack (
+                  alignment: Alignment.center,
+                  children: [
+                    LoardArtwork(
+                      id: ref.watch(songInfoProvider).id, 
+                      width: 500, 
+                      height: 500,
+                      quality: FilterQuality.high,
+                      radius: 20,
                     ),
-                    
-                    SliverPersistentHeader(
-                      delegate: CustomSearchBar(
-                        textEditingController: _textEditingController,
-                        onChanged: (value) {
-                          setState(() {
-                            search = value;
-                            
-                          });
-                        },
-                        onTap: () {
-                          setState(() {
-                            expandedHeight = false;
-                          });
-                        },
-                        onEditingComplete: () {
-                          // setState(() {
-                          //   expandedHeight = true;
-                          // });
-                        },
-                      ),
-                      pinned: true,
-                    ),
-                 
-                    SliverList.builder(
-                      addAutomaticKeepAlives: true,
-                      itemCount: snapshot.data!.length,
-                      itemBuilder: (context, index) {
-                        if(snapshot.data!.isEmpty){
-                          return const Center(child: LinearProgressIndicator());                 
-                        } else {
-                          final songTodo = snapshot.data![index];
-
-                          return index == ref.watch(controlPlayersProvider) ? 
-                          _cardSong(Colors.black12, songTodo, index) : 
-                          _cardSong(Colors.transparent, songTodo, index);
-                        }
-                      }
-                    )
                   ],
                 ),
-                CustomSelectedSongBox(
-                  id: ref.watch(songInfoProvider).id, 
-                  title: ref.watch(songInfoProvider).title, 
-                  artist: ref.watch(songInfoProvider).artist, 
-                  path: ref.watch(songInfoProvider).path, 
-                  color: ref.watch(interactiveColorProvider),
-                  onTap: () => context.push('/playing-now'),
-                  iconButton: IconButton(
-                    onPressed: () => AudioContextManager.playAudio(path),
-                    icon: const Icon(Icons.play_arrow)),
-                  artwork: SizedBox(
-                    height: 50,
-                    width: 50,
-                    child: Card(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                      child: LoardArtwork(
-                        id: ref.watch(songInfoProvider).id,
-                        radius: 10,
-                      ),
-                    )
-                  ),
-                )
-              ],
-            ),
-                   );
-        } else {
-          return const SingleChildScrollView(
-            child: Column(
-              children: [
-                SkeletonAvatar(
-                  style: SkeletonAvatarStyle(
-                    height: 500,
-                    width: 500
-                  ),
+                expandedHeight: expandedHeight == true ? 400 : 0,
+                centerTitle: true,
+              ),
+              
+              SliverPersistentHeader(
+                delegate: CustomSearchBar(
+                  textEditingController: _textEditingController,
+                  onChanged: (value) {
+                    setState(() {
+                      search = value;
+                      
+                    });
+                  },
+                  onTap: () {
+                    setState(() {
+                      expandedHeight = false;
+                    });
+                  },
+                  onEditingComplete: () {
+                    // setState(() {
+                    //   expandedHeight = true;
+                    // });
+                  },
                 ),
-                
-              ],
+                pinned: true,
+              ),
+            
+              SliverList.builder(
+                addAutomaticKeepAlives: true,
+                itemCount: songList.length,
+                itemBuilder: (context, index) {
+
+                    final songTodo = songList[index];
+
+                    return index == ref.watch(controlPlayersProvider) ? 
+                    _cardSong(Colors.black12, songTodo, index) : 
+                    _cardSong(Colors.transparent, songTodo, index);
+                } 
+              )
+            ],
+          ),
+          CustomSelectedSongBox(
+            id: ref.watch(songInfoProvider).id, 
+            title: ref.watch(songInfoProvider).title, 
+            artist: ref.watch(songInfoProvider).artist, 
+            path: ref.watch(songInfoProvider).path, 
+            color: ref.watch(interactiveColorProvider),
+            onTap: () => context.push('/playing-now'),
+            iconButton: IconButton(
+              onPressed: () => AudioContextManager.playAudio(path),
+              icon: const Icon(Icons.play_arrow)),
+            artwork: SizedBox(
+              height: 50,
+              width: 50,
+              child: Card(
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                child: LoardArtwork(
+                  id: ref.watch(songInfoProvider).id,
+                  radius: 10,
+                ),
+              )
             ),
-          );
-        }
-      },
+          )
+        ],
+      ),
     );
   }
 
