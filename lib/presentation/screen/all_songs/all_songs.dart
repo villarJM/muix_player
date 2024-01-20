@@ -70,6 +70,8 @@ class _GetAllSongState extends ConsumerState<_ListSong> {
   
   PlayerState playerState = PlayerState.stopped;
 
+  late AudioContextManager audioContextManager;
+
   final ArtworkType artworkType = ArtworkType.AUDIO;
   int idSong = 0;
   String title = '';
@@ -153,7 +155,7 @@ class _GetAllSongState extends ConsumerState<_ListSong> {
                         alignment: Alignment.center,
                         children: [
                           LoardArtwork(
-                            id: idSong, 
+                            id: ref.watch(songInfoProvider).id, 
                             width: 500, 
                             height: 500,
                             quality: FilterQuality.high,
@@ -206,15 +208,26 @@ class _GetAllSongState extends ConsumerState<_ListSong> {
                   ],
                 ),
                 CustomSelectedSongBox(
-                  id: idSong, 
-                  title: title, 
-                  artist: artist!, 
-                  path: path, 
+                  id: ref.watch(songInfoProvider).id, 
+                  title: ref.watch(songInfoProvider).title, 
+                  artist: ref.watch(songInfoProvider).artist, 
+                  path: ref.watch(songInfoProvider).path, 
                   color: ref.watch(interactiveColorProvider),
                   onTap: () => context.push('/playing-now'),
                   iconButton: IconButton(
                     onPressed: () => AudioContextManager.playAudio(path),
                     icon: const Icon(Icons.play_arrow)),
+                  artwork: SizedBox(
+                    height: 50,
+                    width: 50,
+                    child: Card(
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      child: LoardArtwork(
+                        id: ref.watch(songInfoProvider).id,
+                        radius: 10,
+                      ),
+                    )
+                  ),
                 )
               ],
             ),

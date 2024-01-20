@@ -11,6 +11,7 @@ class CustomSelectedSongBox extends StatelessWidget {
   final Color color;
   final Function()? onTap;
   final Widget? iconButton;
+  final Widget? artwork;
 
   const CustomSelectedSongBox({
     super.key,
@@ -21,6 +22,7 @@ class CustomSelectedSongBox extends StatelessWidget {
     required this.color,
     this.onTap,
     this.iconButton,
+    this.artwork,
   });
   
   @override
@@ -62,17 +64,7 @@ class CustomSelectedSongBox extends StatelessWidget {
               subtitle: Text(artist,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(color: Colors.white)),
-              leading: SizedBox(
-                height: 50,
-                width: 50,
-                child: Card(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                  child: LoardArtwork(
-                    id: id,
-                    radius: 10,
-                  ),
-                )
-                ),
+              leading: artwork,
               trailing: iconButton,
             ),
           )
