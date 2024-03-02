@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:muix_player/domain/usecases/audio_context_manager.dart';
+import 'package:muix_player/presentation/providers/interactive_color_state_provider.dart';
+import 'package:muix_player/presentation/providers/song_info_state_provider.dart';
 import 'package:muix_player/presentation/screen/widgets/gradient_background.dart';
 import 'package:muix_player/presentation/screen/widgets/side_menu.dart';
 import 'package:muix_player/presentation/widgets/custom_card_carousel.dart';
 import 'package:muix_player/presentation/widgets/custom_card_carousel_circle.dart';
 import 'package:muix_player/presentation/widgets/custom_card_carousel_square.dart';
+import 'package:muix_player/presentation/widgets/custom_selected_song_box.dart';
+import 'package:muix_player/presentation/widgets/loard_artwork.dart';
 import 'package:muix_player/provider/song_local_provider.dart';
 
 class DashboardPlayer extends ConsumerStatefulWidget {
@@ -42,34 +48,62 @@ class _DashboardPlayerState extends ConsumerState<DashboardPlayer> {
         children: [
           const GradientBackground(),
           SingleChildScrollView(
-            child: Column(
+            child: Stack(
               children: [
-                // Title Carousel
-                const _TitleCarousel(left: 10, top: 10, title: 'New Single',),
-                // Carousel Card New Single Music
-                const SizedBox(height: 10,),
-                CustomCardCarousel(height: 200.0, viewportFraction: 1.0, isEnLargeCenterPage: true, marginHorizontal: 10.0, borderRadio: 10.0, isCircle: false, songRecently: ref.watch(songLocalRepositoryProvider).getRecentlyAddedSongsLocal()),
+                Column(
+                  children: [
+                    // Title Carousel
+                    const _TitleCarousel(left: 10, top: 10, title: 'New Single',),
+                    // Carousel Card New Single Music
+                    const SizedBox(height: 10,),
+                    CustomCardCarousel(height: 200.0, viewportFraction: 1.0, isEnLargeCenterPage: true, marginHorizontal: 10.0, borderRadio: 10.0, isCircle: false, songRecently: ref.watch(songLocalRepositoryProvider).getRecentlyAddedSongsLocal()),
         
-                const SizedBox(height: 20,),
-                // Title Carousel
-                const _TitleCarousel(left: 10, top: 0, title: 'Most Played',),
-                // Carousel Card Most Played
-                const SizedBox(height: 10,),
-                CustomCardCarouselSquare(height: 130.0, viewportFraction: 0.325, isEnLargeCenterPage: false, marginHorizontal: 5.0, borderRadio: 10.0,isCircle: false, songRecently: ref.watch(songLocalRepositoryProvider).getRecentlyAddedSongsLocal()),
+                    const SizedBox(height: 20,),
+                    // Title Carousel
+                    const _TitleCarousel(left: 10, top: 0, title: 'Most Played',),
+                    // Carousel Card Most Played
+                    const SizedBox(height: 10,),
+                    CustomCardCarouselSquare(height: 130.0, viewportFraction: 0.325, isEnLargeCenterPage: false, marginHorizontal: 5.0, borderRadio: 10.0,isCircle: false, songRecently: ref.watch(songLocalRepositoryProvider).getRecentlyAddedSongsLocal()),
         
-                const SizedBox(height: 10,),
-                // Title Carousel
-                const _TitleCarousel(left: 10, top: 0, title: 'Playlist',),
-                // Carousel Card Playlist
-                const SizedBox(height: 10,),
-                CustomCardCarouselSquare(height: 130.0, viewportFraction: 0.325, isEnLargeCenterPage: false, marginHorizontal: 5.0, borderRadio: 10.0,isCircle: false, songRecently: ref.watch(songLocalRepositoryProvider).getRecentlyAddedSongsLocal()),
+                    const SizedBox(height: 10,),
+                    // Title Carousel
+                    const _TitleCarousel(left: 10, top: 0, title: 'Playlist',),
+                    // Carousel Card Playlist
+                    const SizedBox(height: 10,),
+                    CustomCardCarouselSquare(height: 130.0, viewportFraction: 0.325, isEnLargeCenterPage: false, marginHorizontal: 5.0, borderRadio: 10.0,isCircle: false, songRecently: ref.watch(songLocalRepositoryProvider).getRecentlyAddedSongsLocal()),
         
-                const SizedBox(height: 10,),
-                // Title Carousel
-                const _TitleCarousel(left: 10, top: 0, title: 'Artist',),
-                // Carousel Card Playlist
-                const SizedBox(height: 10,),
-                CustomCardCarouselCircle(height: 130.0, viewportFraction: 0.225, isEnLargeCenterPage: false, marginHorizontal: 13.0, borderRadio: 60.0,isCircle: true, songRecently: ref.watch(songLocalRepositoryProvider).getRecentlyAddedSongsLocal(),)
+                    const SizedBox(height: 10,),
+                    // Title Carousel
+                    const _TitleCarousel(left: 10, top: 0, title: 'Artist',),
+                    // Carousel Card Playlist
+                    const SizedBox(height: 10,),
+                    CustomCardCarouselCircle(height: 130.0, viewportFraction: 0.225, isEnLargeCenterPage: false, marginHorizontal: 13.0, borderRadio: 60.0,isCircle: true, songRecently: ref.watch(songLocalRepositoryProvider).getRecentlyAddedSongsLocal(),)
+                  ],
+                ),
+
+                ref.watch(songInfoProvider).title != '' ?
+                CustomSelectedSongBox(
+                  id: ref.watch(songInfoProvider).id, 
+                  title: ref.watch(songInfoProvider).title, 
+                  artist: ref.watch(songInfoProvider).artist, 
+                  path: ref.watch(songInfoProvider).path, 
+                  color: ref.watch(interactiveColorProvider),
+                  onTap: () => context.push('/playing-now'),
+                  iconButton: IconButton(
+                    onPressed: () => AudioContextManager.playAudio(ref.watch(songInfoProvider).path),
+                    icon: const Icon(Icons.play_arrow)),
+                  artwork: SizedBox(
+                    height: 50,
+                    width: 50,
+                    child: Card(
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      child: LoardArtwork(
+                        id: ref.watch(songInfoProvider).id,
+                        radius: 10,
+                      ),
+                    )
+                  ),
+                ) : Container(),
               ],
             ),
           ),

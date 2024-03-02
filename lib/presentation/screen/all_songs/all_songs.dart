@@ -21,7 +21,6 @@ import 'package:muix_player/shared_preferences/last_song_listen_preference.dart'
 import 'package:muix_player/util/generate_palete.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:audioplayers/audioplayers.dart';
-import 'package:skeletons/skeletons.dart';
 
 
 

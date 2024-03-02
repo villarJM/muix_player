@@ -34,6 +34,7 @@ class _PlayingNowScreenState extends ConsumerState<PlayingNowScreen> {
 
   GeneratePalete generatePalete = GeneratePalete();
   bool isLoadingPreferences = false;
+  bool isHability = false;
 
   @override
   void initState() {
@@ -47,7 +48,61 @@ class _PlayingNowScreenState extends ConsumerState<PlayingNowScreen> {
 
   @override
   Widget build(BuildContext context){
-      return Stack(
+
+      return isHability ? 
+
+      Stack(
+        children: [
+          Image.memory(
+            fit: BoxFit.cover,
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            ref.watch(interactiveBackgroundImageProvider)
+          ),
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Colors.black,
+                  Colors.black.withOpacity(0.0),
+                  Colors.black.withOpacity(0.0),
+                ],
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+                stops: const [0.0, 0.3, 1]
+              )
+            ),
+          ),
+          Positioned(
+            bottom: 10,
+            left: 10,
+            child: Row(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(50),
+                  child: Image.memory(
+                    fit: BoxFit.cover,
+                    height: 50,
+                    width: 50,
+                    ref.watch(interactiveBackgroundImageProvider)
+                  ),
+                ),
+                const SizedBox(width: 10,),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                 children: [
+                  Text(ref.watch(songInfoProvider).title, style: const TextStyle(fontSize: 14, color: Colors.white, decoration: TextDecoration.none, overflow: TextOverflow.fade),),
+                  Text(ref.watch(songInfoProvider).artist, style: const TextStyle(fontSize: 14, color: Colors.white, decoration: TextDecoration.none, overflow: TextOverflow.fade),),
+                 ],
+                )
+              ],
+            ),
+          ),
+          
+        ],
+      )
+      
+      : Stack(
         children: [
           Image.memory(
             fit: BoxFit.cover,
@@ -84,7 +139,13 @@ class _PlayingNowScreenState extends ConsumerState<PlayingNowScreen> {
                       children: [
                         Container(
                           padding: const EdgeInsets.fromLTRB(0, 10,0, 100),
-                          child: LoardArtwork(id: ref.watch(songInfoProvider).id, height: 600, width: MediaQuery.of(context).size.width, radius: 20),
+                          child: InkWell(
+                            onTap: () {
+                              setState(() {
+                                isHability = true;
+                              });
+                            },
+                            child: LoardArtwork(id: ref.watch(songInfoProvider).id, height: 600, width: MediaQuery.of(context).size.width, radius: 20)),
                         ),
                         Positioned(
                           bottom: 0,

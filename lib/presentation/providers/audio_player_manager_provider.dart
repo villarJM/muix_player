@@ -74,6 +74,7 @@ class AudioPlayerNotifier extends ChangeNotifier {
   PlayerState playerState = PlayerState.paused;
 
   void playAudio(String url) async {
+    
     await audioPlayer.play(DeviceFileSource(url));
     playerState = PlayerState.playing;
     notifyListeners();
