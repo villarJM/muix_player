@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:muix_player/config/router/app_router.dart';
+import 'package:muix_player/presentation/screen/widgets/custom_navigation_bar.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 void main() async {
@@ -32,16 +32,11 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext 
-  context) {
+  Widget build(BuildContext context) {
 
-    // final songPostRepository = SongPostRepositoriesImp(songsPostDatasources: LocalSongsDatasource());
-    return MaterialApp.router(
-      routerConfig: appRouter,
+    return  const MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      home: CustomNavigationBar(),
     );
   }
 }
