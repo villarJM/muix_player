@@ -1,5 +1,7 @@
 import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:muix_player/theme/app_muix_theme.dart';
 
 class ScreenBlur extends StatelessWidget {
 const ScreenBlur({ Key? key }) : super(key: key);
@@ -9,13 +11,13 @@ const ScreenBlur({ Key? key }) : super(key: key);
     return Stack(
       children: [
         Container(
-          color: const Color.fromARGB(255, 66, 243, 255),
+          color: AppMuixTheme.background,
         ),
         Transform.translate(
-          offset: const Offset(-120, -200),
+          offset: const Offset(-120, -240),
           child: Container(
-              height: 450,
-              width: 450,
+              height: 450.h,
+              width: 450.w,
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   transform: GradientRotation(1),
@@ -31,8 +33,8 @@ const ScreenBlur({ Key? key }) : super(key: key);
         Transform.translate(
           offset: const Offset(190, 400),
           child: Container(
-              height: 450,
-              width: 450,
+              height: 450.h,
+              width: 450.w,
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   transform: GradientRotation(3),

@@ -4,8 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:muix_player/domain/usecases/audio_context_manager.dart';
 import 'package:muix_player/presentation/providers/interactive_color_state_provider.dart';
 import 'package:muix_player/presentation/providers/song_info_state_provider.dart';
-import 'package:muix_player/presentation/screen/widgets/gradient_background.dart';
-import 'package:muix_player/presentation/screen/widgets/side_menu.dart';
 import 'package:muix_player/presentation/widgets/custom_card_carousel.dart';
 import 'package:muix_player/presentation/widgets/custom_card_carousel_circle.dart';
 import 'package:muix_player/presentation/widgets/custom_card_carousel_square.dart';
@@ -36,48 +34,37 @@ class _DashboardPlayerState extends ConsumerState<DashboardPlayer> {
   }
   @override
   Widget build(BuildContext context) {
-    final scaffoldKey = GlobalKey<ScaffoldState>();
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text('Muix Player'),
-        backgroundColor: const Color(0XFFedf5f8),
-        elevation: 0.0,
-      ),
-      body: Stack(
+    return Stack(
         children: [
-          const GradientBackground(),
           SingleChildScrollView(
             child: Stack(
               children: [
                 Column(
                   children: [
-                    // Title Carousel
-                    const _TitleCarousel(left: 10, top: 10, title: 'New Single',),
                     // Carousel Card New Single Music
-                    const SizedBox(height: 10,),
-                    CustomCardCarousel(height: 200.0, viewportFraction: 1.0, isEnLargeCenterPage: true, marginHorizontal: 10.0, borderRadio: 10.0, isCircle: false, songRecently: ref.watch(songLocalRepositoryProvider).getRecentlyAddedSongsLocal()),
+                    const SizedBox(height: 20,),
+                    CustomCardCarousel(height: 200.0, viewportFraction: 1.0, isEnLargeCenterPage: true, marginHorizontal: 20.0, borderRadio: 10.0, isCircle: false, songRecently: ref.watch(songLocalRepositoryProvider).getRecentlyAddedSongsLocal()),
         
                     const SizedBox(height: 20,),
                     // Title Carousel
-                    const _TitleCarousel(left: 10, top: 0, title: 'Most Played',),
+                    const _TitleCarousel(left: 20, top: 0, title: 'New Albums',),
                     // Carousel Card Most Played
-                    const SizedBox(height: 10,),
-                    CustomCardCarouselSquare(height: 130.0, viewportFraction: 0.325, isEnLargeCenterPage: false, marginHorizontal: 5.0, borderRadio: 10.0,isCircle: false, songRecently: ref.watch(songLocalRepositoryProvider).getRecentlyAddedSongsLocal()),
+                    const SizedBox(height: 20,),
+                    CustomCardCarouselSquare(height: 150.0, viewportFraction: 0.325, isEnLargeCenterPage: false, marginHorizontal: 15.0, borderRadio: 10.0,isCircle: false, songRecently: ref.watch(songLocalRepositoryProvider).getRecentlyAddedSongsLocal()),
         
                     const SizedBox(height: 10,),
                     // Title Carousel
-                    const _TitleCarousel(left: 10, top: 0, title: 'Playlist',),
+                    const _TitleCarousel(left: 20, top: 0, title: 'Playlist',),
                     // Carousel Card Playlist
-                    const SizedBox(height: 10,),
-                    CustomCardCarouselSquare(height: 130.0, viewportFraction: 0.325, isEnLargeCenterPage: false, marginHorizontal: 5.0, borderRadio: 10.0,isCircle: false, songRecently: ref.watch(songLocalRepositoryProvider).getRecentlyAddedSongsLocal()),
+                    const SizedBox(height: 20,),
+                    CustomCardCarouselSquare(height: 150.0, viewportFraction: 0.325, isEnLargeCenterPage: false, marginHorizontal: 15.0, borderRadio: 10.0,isCircle: false, songRecently: ref.watch(songLocalRepositoryProvider).getRecentlyAddedSongsLocal()),
         
                     const SizedBox(height: 10,),
                     // Title Carousel
-                    const _TitleCarousel(left: 10, top: 0, title: 'Artist',),
+                    const _TitleCarousel(left: 20, top: 0, title: 'Artist',),
                     // Carousel Card Playlist
-                    const SizedBox(height: 10,),
-                    CustomCardCarouselCircle(height: 130.0, viewportFraction: 0.225, isEnLargeCenterPage: false, marginHorizontal: 13.0, borderRadio: 60.0,isCircle: true, songRecently: ref.watch(songLocalRepositoryProvider).getRecentlyAddedSongsLocal(),)
+                    const SizedBox(height: 20,),
+                    CustomCardCarouselCircle(height: 130.0, viewportFraction: 0.325, isEnLargeCenterPage: false, marginHorizontal: 20.0, borderRadio: 60.0,isCircle: true, songRecently: ref.watch(songLocalRepositoryProvider).getRecentlyAddedSongsLocal(),)
                   ],
                 ),
 
@@ -109,9 +96,7 @@ class _DashboardPlayerState extends ConsumerState<DashboardPlayer> {
           ),
         ],
         
-      ),
-      drawer: SideMenu(scaffoldKey: scaffoldKey,),
-    );
+      );
   }
 }
 

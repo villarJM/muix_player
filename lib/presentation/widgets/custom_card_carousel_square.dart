@@ -97,7 +97,8 @@ class CustomCardCarouselSquare extends ConsumerWidget {
                     ),
                     // ignore: avoid_unnecessary_containers
                     Container(
-                      child: const Text('Texto'),
+                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5,),
+                      child: Text(song.title, style: const TextStyle(fontSize: 12, ),maxLines: 2, textAlign: TextAlign.center),
                     )
                   ],
                 );

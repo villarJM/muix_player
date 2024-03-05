@@ -1,4 +1,3 @@
-import 'package:blur/blur.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -65,35 +64,14 @@ class CustomCardCarousel extends ConsumerWidget {
                         alignment: Alignment.center,
                         children: [
                           LoardArtwork(id: song.id, width: 800, height: 500, radius: borderRadio),
-                          Positioned(
-                            top: MediaQuery.of(context).size.height * 0.18,
-                            left: MediaQuery.of(context).size.width * 0.65,
-                            child: Container(
-                              height: 35,
-                              width: 100,
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Colors.white70),
-                                borderRadius: const BorderRadius.all(Radius.circular(5)),
-                              ),
-                              child: TextButton(
-                                onPressed: () {
-                                
-                                }, 
-                                child: const Text('Listen Now', style: TextStyle(color: Colors.white),)),
-                            ).frosted(
-                              height: 35,
-                              width: 100,
-                              blur: 2.5,
-                              borderRadius: const BorderRadius.all(Radius.circular(5)),
-                            ),
-                          ), 
+                          
                           isCircle ?
                           Positioned(
                             bottom: 1,
                             child: Center(child: Text(song.artist, style: const TextStyle(color: Colors.white), overflow: TextOverflow.fade))
                           ) : 
                           Positioned(
-                            top: 20,
+                            bottom: 20,
                             left: 20,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
