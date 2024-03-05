@@ -31,6 +31,7 @@ dependencies:
   another_transformer_page_view: ^2.0.1
   audioplayers: ^5.2.0
   blur: ^3.1.0
+  buttons_tabbar: ^1.3.8
   cached_memory_image: ^1.3.1
   carousel_slider: ^4.2.1
   cupertino_icons: ^1.0.2
@@ -51,16 +52,16 @@ dependencies:
   palette_generator: 0.3.3+3
   path_provider: ^2.1.1
   permission_handler: ^11.0.0
+  provider: ^6.1.2
+  r_border: ^1.0.0
   riverpod_annotation: ^2.3.0
   shared_preferences: ^2.2.1
   skeletonizer: ^0.8.0
   skeletons: ^0.0.3
   sliver_tools: ^0.2.12
   transparent_image: ^2.0.1
-  r_border: ^1.0.0
 
 dev_dependencies:
-  # a tool for running code generators
   build_runner: ^2.4.6
   custom_lint: ^0.5.6
   flutter_launcher_icons: ^0.13.1
@@ -94,10 +95,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+    - family: Gasoek One
+      fonts:
+        - asset: assets/fonts/GasoekOne-Regular.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

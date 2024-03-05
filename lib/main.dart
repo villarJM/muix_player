@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:muix_player/presentation/screen/widgets/custom_navigation_bar.dart';
+import 'package:muix_player/shared_preferences/preferences_app_theme.dart';
+import 'package:muix_player/theme/muix_theme.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 void main() async {
+  
+  // await PreferencesAppTheme.init();
   WidgetsFlutterBinding.ensureInitialized();
-
   // Verifica y solicita los permisos necesarios.
   await _checkAndRequestPermissions();
 
@@ -34,9 +38,21 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return  const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: CustomNavigationBar(),
+    return ScreenUtilInit(
+      designSize: const Size(360, 690),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context, child) {
+        return Consumer(
+          builder: (context, ref, child) {
+            return MaterialApp(
+            
+            debugShowCheckedModeBanner: false,
+            home: CustomNavigationBar(),
+          );
+          },
+        );
+      },
     );
   }
 }
