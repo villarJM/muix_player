@@ -34,15 +34,10 @@ class AppMuixTheme extends ChangeNotifier{
 
 
   // Colores Light
-  static const Color _lightBackground = Color.fromARGB(255, 66, 243, 255); //#42F3FF
+  static const Color _lightBackground = Color.fromARGB(255, 228, 211, 182); //#E4D3B6
+  static const Color _lightBackgroundSecondary = Color.fromARGB(255, 223, 217, 205); //#DFD9CD
 
-  static const Color _lightColor1 = Color.fromARGB(255, 220, 48, 240); //#DC30F0
-  static const Color _lightColor2 = Color.fromARGB(255,100, 0, 217); //#6400D9
-
-  static const Color _lightColor3 = Color.fromARGB(255, 165, 119, 0); //#A57700
-  static const Color _lightColor4 = Color.fromARGB(255,141, 0, 59); //#8D003B
-
-  static const Color _lightPrimary = Color.fromARGB(255, 255, 255, 255); //#FFFFFF 
+  static const Color _lightPrimary = Color.fromARGB(255, 51, 46, 33); //#332E21 
   static const Color _lightSecondary = Color.fromARGB(255, 250, 160, 81); //#
   static const Color _lightTertiary = Color.fromARGB(255, 243, 202, 69); // Amarillo Lima PANTONE P 10-16 C #dfab00
 
@@ -60,6 +55,8 @@ class AppMuixTheme extends ChangeNotifier{
 
   // Color del lienzo
   static Color get background => _isDarkMode ? _darkBackground : _lightBackground;
+  // Color del lienzo
+  static Color get backgroundSecondary => _isDarkMode ? _darkBackground : _lightBackgroundSecondary;
 
   //Color de las figuras
   // static Color get linearGradientColor1 => _isDarkMode ? _lightSphereBottom1 
@@ -86,72 +83,30 @@ class AppMuixTheme extends ChangeNotifier{
     secondary,
   ];
 
-  // Títulos color primario
+  // Títulos color primario Regular
 
-  static TextStyle get textTitle36 => TextStyle(
-    fontFamily: 'Gasoek One',
+  static TextStyle get textTitleUrbanistRegular36 => TextStyle(
+    fontFamily: 'Urbanist',
     color: textPrimary,
-    fontSize: 36,
+    fontSize: 36.sp,
     fontWeight: FontWeight.normal
   );
 
-  static TextStyle get textTitle20 => TextStyle(
-    fontFamily: 'Gasoek One',
+  // Texto normal color primario Medium
+
+  static TextStyle get textUrbanistMedium11 => TextStyle(
+    fontFamily: 'Urbanist',
     color: textPrimary,
-    fontSize: 20.sp,
+    fontSize: 11.sp,
     fontWeight: FontWeight.normal
   );
 
-  static TextStyle get textTitle18 => TextStyle(
-    fontFamily: 'Gasoek One',
-    color: textPrimary, 
-    fontSize: 18.sp,
+  // Texto normal Medium
+  static TextStyle get textUrbanistMedium12 => TextStyle(
+    fontFamily: 'Urbanist',
+    color: Colors.white,
+    fontSize: 12.sp,
     fontWeight: FontWeight.normal
-  );
-
-  static TextStyle get textTitle16 => TextStyle(
-    fontFamily: 'Gasoek One',
-    color: textPrimary,
-    fontSize: 16.sp,
-    fontWeight: FontWeight.normal
-  );
-
-  static TextStyle get textTitle14 => TextStyle(
-    fontFamily: 'Gasoek One',
-    color: textPrimary,
-    fontSize: 14.sp,
-    fontWeight: FontWeight.normal
-  );
-
-  // Texto normal color primario
-  static TextStyle get textClassic20 => TextStyle(
-    fontFamily: 'Alata',
-    color: textPrimary,
-    fontSize: 20.sp,
-  );
-  
-  static TextStyle get textClassic18 => TextStyle(
-    fontFamily: 'Alata',
-    color: textPrimary,
-    fontSize: 18.sp,
-  );
-  static TextStyle get textClassic16 => TextStyle(
-    fontFamily: 'Alata',
-    color: textPrimary,
-    fontSize: 16.sp,
-  );
-  
-  static TextStyle get textClassic14 => TextStyle(
-    fontFamily: 'Alata',
-    color: textPrimary,
-    fontSize: 14.sp,
-  );
-
-  // Texto normal
-  static TextStyle get textClassicBlack20 => TextStyle(
-    fontFamily: 'Alata',
-    color: textColor,
-    fontSize: 20.sp,
   );
   
   static TextStyle get textClassicBlack18 => TextStyle(

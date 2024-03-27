@@ -6,4 +6,6 @@ class OfflineSongLocal {
   Future<List<SongModel>> getSongs() async {
     return onAudioQuery.querySongs();
   }
+
+  
 }

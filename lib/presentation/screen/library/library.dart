@@ -15,7 +15,7 @@ const Library({ Key? key }) : super(key: key);
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        title: Text('Library', style: AppMuixTheme.textTitle36),
+        title: Text('Library', style: AppMuixTheme.textTitleUrbanistRegular36),
       ),
       body: SafeArea(
         child: DefaultTabController(
@@ -44,10 +44,8 @@ const Library({ Key? key }) : super(key: key);
                 child: TabBarView(
                   children: <Widget>[
                     DashboardPlayer(),
-                    // AllSongs(),
-                    Center(
-                      child: Icon(Icons.directions_bike),
-                    ),
+                    AllSongs(),
+                    
                     Center(
                       child: Icon(Icons.directions_bike),
                     ),
