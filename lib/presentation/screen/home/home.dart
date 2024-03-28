@@ -1,12 +1,10 @@
-import 'dart:ui';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:muix_player/helper/icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:muix_player/presentation/widgets/custom_box_activity.dart';
 import 'package:muix_player/presentation/widgets/custom_carousel_indicator.dart';
-import 'package:muix_player/presentation/widgets/image_filtered_linear_gradient_blur.dart';
-import 'package:muix_player/presentation/widgets/image_filtered_linear_gradient_opacity.dart';
 import 'package:super_cupertino_navigation_bar/super_cupertino_navigation_bar.dart';
 import 'package:muix_player/theme/app_muix_theme.dart';
 
@@ -17,17 +15,36 @@ const Home({ Key? key }) : super(key: key);
   Widget build(BuildContext context){
     return SuperScaffold(
       appBar: SuperAppBar(
-        title: Text('Hello, Misael', style: AppMuixTheme.textTitleUrbanistRegular36,),
+        title: Text('Home', style: AppMuixTheme.textTitleUrbanistRegular36,),
+        largeTitle: SuperLargeTitle(
+          largeTitle: 'Hello, Misael',
+          textStyle: AppMuixTheme.textTitleUrbanistRegular36,
+          actions: [
+            Container(
+              height: 35.w,
+              width: 35.w,
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 228, 211, 182),
+                border: Border.all(color: Colors.white),
+                borderRadius: BorderRadius.circular(10)
+              ),
+              child: IconButton(onPressed: (){}, icon: const Iconify(Jam.menu))
+            )
+          ]
+        ),
+        searchBar: SuperSearchBar(
+          enabled: false,
+        ),
         backgroundColor: Colors.transparent,
       ),
       body: Scaffold(
         backgroundColor: Colors.transparent,
-        
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Column(
               children: [
+                const SizedBox(height: 20,),
                 rowRecentActivity(
                   'Name', 'Playlist', 
                   20.0, 0.0, 0.0, 20.0,
