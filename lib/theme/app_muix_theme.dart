@@ -108,11 +108,13 @@ class AppMuixTheme extends ChangeNotifier{
     fontSize: 12.sp,
     fontWeight: FontWeight.normal
   );
-  
-  static TextStyle get textClassicBlack18 => TextStyle(
-    fontFamily: 'Alata',
-    color: textColor,
-    fontSize: 18.sp,
+
+  // Texto normal Bold
+  static TextStyle get textUrbanistBold15 => TextStyle(
+    fontFamily: 'Urbanist',
+    color: textPrimary,
+    fontSize: 15.sp,
+    fontWeight: FontWeight.bold
   );
   
   static TextStyle get textClassicBlack16 => TextStyle(

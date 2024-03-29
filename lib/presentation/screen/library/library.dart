@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:muix_player/helper/icons.dart';
+import 'package:muix_player/presentation/screen/albums/albums.dart';
 import 'package:muix_player/presentation/screen/all_songs/songs.dart';
 import 'package:muix_player/presentation/screen/dashboard/dashboard.dart';
 import 'package:muix_player/theme/app_muix_theme.dart';
@@ -72,10 +73,7 @@ const Library({ Key? key }) : super(key: key);
                     children: <Widget>[
                       Dashboard(),
                       Songs(),
-                      
-                      Center(
-                        child: Icon(Icons.directions_bike),
-                      ),
+                      Albums(),
                       Center(
                         child: Icon(Icons.directions_car),
                       ),

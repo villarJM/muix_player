@@ -5,6 +5,8 @@ import 'package:muix_player/helper/icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:muix_player/presentation/widgets/custom_box_activity.dart';
 import 'package:muix_player/presentation/widgets/custom_carousel_indicator.dart';
+import 'package:muix_player/presentation/widgets/image_filtered_linear_gradient_blur.dart';
+import 'package:muix_player/presentation/widgets/image_filtered_linear_gradient_opacity.dart';
 import 'package:super_cupertino_navigation_bar/super_cupertino_navigation_bar.dart';
 import 'package:muix_player/theme/app_muix_theme.dart';
 
@@ -106,19 +108,19 @@ const Home({ Key? key }) : super(key: key);
                   fit: StackFit.expand,
                   children: [
                     Image.asset(
-                      'assets/images/better_off.jpg',
+                      'assets/images/placeholder_song.png',
                       fit: BoxFit.cover,
                       height: 40.h,
                       alignment: Alignment.bottomCenter
                     ),
-                    // ImageFilteredLinearGradientBlur(
-                    //   imageBlurred: Image.asset(
-                    //     'assets/images/better_off.jpg',
-                    //     fit: BoxFit.cover,
-                    //     height: 40.h,
-                    //     alignment: Alignment.bottomCenter
-                    //   ),
-                    // ),
+                    ImageFilteredLinearGradientBlur(
+                      imageBlurred: Image.asset(
+                        'assets/images/placeholder_song.png',
+                        fit: BoxFit.cover,
+                        height: 40.h,
+                        alignment: Alignment.bottomCenter
+                      ),
+                    ),
                     Positioned(
                       bottom: 1,
                       child: SizedBox(
@@ -138,20 +140,20 @@ const Home({ Key? key }) : super(key: key);
                   alignment: Alignment.bottomCenter,
                   fit: StackFit.expand,
                   children: [
-                    Image.asset(
-                      'assets/images/better_off.jpg',
-                      fit: BoxFit.cover,
-                      height: 40.h,
-                      alignment: Alignment.bottomCenter
-                    ),
-                    // ImageFilteredLinearGradientOpacity(
-                    //   imageBlurred: Image.asset(
-                    //     'assets/images/better_off.jpg',
-                    //     fit: BoxFit.cover,
-                    //     height: 40.h,
-                    //     alignment: Alignment.bottomCenter
-                    //   ),
+                    // Image.asset(
+                    //   'assets/images/better_off.jpg',
+                    //   fit: BoxFit.cover,
+                    //   height: 40.h,
+                    //   alignment: Alignment.bottomCenter
                     // ),
+                    ImageFilteredLinearGradientOpacity(
+                      imageBlurred: Image.asset(
+                        'assets/images/better_off.jpg',
+                        fit: BoxFit.cover,
+                        height: 40.h,
+                        alignment: Alignment.bottomCenter
+                      ),
+                    ),
                     Positioned(
                       bottom: 1,
                       child: SizedBox(
