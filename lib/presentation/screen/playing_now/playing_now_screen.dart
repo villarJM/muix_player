@@ -16,6 +16,7 @@ import 'package:muix_player/presentation/widgets/loard_artwork.dart';
 import 'package:muix_player/provider/song_local_service_provider.dart';
 import 'package:muix_player/util/generate_palete.dart';
 import 'package:muix_player/util/time_format.dart';
+import 'package:on_audio_query/on_audio_query.dart';
 
 class PlayingNowScreen extends ConsumerStatefulWidget {
 
@@ -145,7 +146,7 @@ class _PlayingNowScreenState extends ConsumerState<PlayingNowScreen> {
                                 isHability = true;
                               });
                             },
-                            child: LoardArtwork(id: ref.watch(songInfoProvider).id, height: 600, width: MediaQuery.of(context).size.width, radius: 20)),
+                            child: LoardArtwork(id: ref.watch(songInfoProvider).id, height: 600, width: MediaQuery.of(context).size.width, radius: 20, artworkType: ArtworkType.AUDIO,),),
                         ),
                         Positioned(
                           bottom: 0,

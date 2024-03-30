@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:muix_player/data/models/song_local_model.dart';
 import 'package:muix_player/presentation/widgets/loard_artwork.dart';
+import 'package:on_audio_query/on_audio_query.dart';
 import 'package:skeletons/skeletons.dart';
 
 class CustomCardCarouselSquare extends ConsumerWidget {
@@ -66,7 +67,7 @@ class CustomCardCarouselSquare extends ConsumerWidget {
                           child: Stack(
                             alignment: Alignment.center,
                             children: [
-                              LoardArtwork(id: song.id, width: 300, height: 110, radius: borderRadio),
+                              LoardArtwork(id: song.id, width: 300, height: 110, radius: borderRadio, artworkType: ArtworkType.AUDIO,),
                               Positioned(
                                 top: MediaQuery.of(context).size.height * 0.18,
                                 left: MediaQuery.of(context).size.width * 0.65,

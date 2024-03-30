@@ -10,6 +10,7 @@ import 'package:muix_player/presentation/widgets/custom_card_carousel_square.dar
 import 'package:muix_player/presentation/widgets/custom_selected_song_box.dart';
 import 'package:muix_player/presentation/widgets/loard_artwork.dart';
 import 'package:muix_player/provider/song_local_provider.dart';
+import 'package:on_audio_query/on_audio_query.dart';
 
 class DashboardPlayer extends ConsumerStatefulWidget {
 
@@ -87,6 +88,7 @@ class _DashboardPlayerState extends ConsumerState<DashboardPlayer> {
                       child: LoardArtwork(
                         id: ref.watch(songInfoProvider).id,
                         radius: 10,
+                        artworkType: ArtworkType.AUDIO,
                       ),
                     )
                   ),

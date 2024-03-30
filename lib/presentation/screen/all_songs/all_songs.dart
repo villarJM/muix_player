@@ -140,6 +140,7 @@ class _GetAllSongState extends ConsumerState<_ListSong> {
                 child: LoardArtwork(
                   id: songList[index].id,
                   radius: 10,
+                  artworkType: ArtworkType.AUDIO,
                 ),
               )
             ),
@@ -267,7 +268,7 @@ class _GetAllSongState extends ConsumerState<_ListSong> {
           child: Card(
             elevation: 5.0,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            child: LoardArtwork(id: songLocalModel.id, radius: 10,))),
+            child: LoardArtwork(id: songLocalModel.id, radius: 10, artworkType: ArtworkType.AUDIO,))),
         onTap: () {
           generatePalete.getDominantingColorImageSong(songLocalModel.id, ref);
 

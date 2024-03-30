@@ -94,11 +94,18 @@ class AppMuixTheme extends ChangeNotifier{
 
   // Texto normal color primario Medium
 
-  static TextStyle get textUrbanistMedium11 => TextStyle(
+  static TextStyle get textUrbanistMediumPrimary11 => TextStyle(
     fontFamily: 'Urbanist',
     color: textPrimary,
     fontSize: 11.sp,
-    fontWeight: FontWeight.normal
+    fontWeight: FontWeight.w300
+  );
+
+  static TextStyle get textUrbanistMediumPrimary12 => TextStyle(
+    fontFamily: 'Urbanist',
+    color: textPrimary,
+    fontSize: 12.sp,
+    fontWeight: FontWeight.w700
   );
 
   // Texto normal Medium

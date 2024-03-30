@@ -10,9 +10,9 @@ const ImageFilteredLinearGradientOpacity({ Key? key, this.imageBlurred }) : supe
   Widget build(BuildContext context){
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(
-          color: Colors.white
-        )
+        // border: Border.all(
+        //   color: Colors.white
+        // )
       ),
       child: ImageFiltered(
         imageFilter: ImageFilter.blur(sigmaX: 0, sigmaY: 0),

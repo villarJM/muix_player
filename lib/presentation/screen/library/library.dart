@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:muix_player/helper/icons.dart';
 import 'package:muix_player/presentation/screen/albums/albums.dart';
 import 'package:muix_player/presentation/screen/all_songs/songs.dart';
+import 'package:muix_player/presentation/screen/artists/artist.dart';
 import 'package:muix_player/presentation/screen/dashboard/dashboard.dart';
 import 'package:muix_player/theme/app_muix_theme.dart';
 import 'package:buttons_tabbar/buttons_tabbar.dart';
@@ -45,7 +46,7 @@ const Library({ Key? key }) : super(key: key);
           padding: const EdgeInsets.only(top: 20),
           child: DefaultTabController(
             
-            length: 5,
+            length: 6,
             
             child: Column(
               children: <Widget>[
@@ -64,6 +65,7 @@ const Library({ Key? key }) : super(key: key);
                     Tab(text: "Home",),
                     Tab(text: "Songs",),
                     Tab(text: "Albums",),
+                    Tab(text: "Artist",),
                     Tab(text: "Genres",),
                     Tab(text: "Playlist"),
                   ],
@@ -74,6 +76,7 @@ const Library({ Key? key }) : super(key: key);
                       Dashboard(),
                       Songs(),
                       Albums(),
+                      Artist(),
                       Center(
                         child: Icon(Icons.directions_car),
                       ),

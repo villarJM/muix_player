@@ -203,7 +203,7 @@ const Home({ Key? key }) : super(key: key);
         Positioned(
           child: CustomCarouselIndicator(
             label: labelL,
-            style: AppMuixTheme.textUrbanistMedium11,
+            style: AppMuixTheme.textUrbanistMediumPrimary11,
             borderRadiusTL: 10,
             borderRadiusTR: 0,
             borderRadiusBL: 0,
@@ -214,7 +214,7 @@ const Home({ Key? key }) : super(key: key);
           right: 1,
           child: CustomCarouselIndicator(
             label: labelR,
-            style: AppMuixTheme.textUrbanistMedium11,
+            style: AppMuixTheme.textUrbanistMediumPrimary11,
             borderRadiusTL: 0,
             borderRadiusTR: 10,
             borderRadiusBL: 10,

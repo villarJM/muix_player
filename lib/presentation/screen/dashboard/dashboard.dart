@@ -206,7 +206,7 @@ const Dashboard({ Key? key }) : super(key: key);
               angle: angleL,
               child: CustomCarouselIndicator(
                 label: labelL,
-                style: AppMuixTheme.textUrbanistMedium11,
+                style: AppMuixTheme.textUrbanistMedium12,
                 borderRadiusTL: indicatorBorderRadiusLTL,
                 borderRadiusTR: indicatorBorderRadiusLTR,
                 borderRadiusBL: indicatorBorderRadiusLBL,
@@ -224,7 +224,7 @@ const Dashboard({ Key? key }) : super(key: key);
               angle: angleR,
               child: CustomCarouselIndicator(
                 label: labelR,
-                style: AppMuixTheme.textUrbanistMedium11,
+                style: AppMuixTheme.textUrbanistMedium12,
                 borderRadiusTL: indicatorBorderRadiusRTL,
                 borderRadiusTR: indicatorBorderRadiusRTR,
                 borderRadiusBL: indicatorBorderRadiusRBL,
