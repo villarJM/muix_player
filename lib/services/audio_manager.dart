@@ -5,13 +5,16 @@ import 'package:muix_player/notifiers/progress_notifier.dart';
 import 'package:muix_player/notifiers/repeat_button_notifier.dart';
 import 'package:audio_service/audio_service.dart';
 import 'package:muix_player/services/service_locator.dart';
+import 'package:on_audio_query/on_audio_query.dart';
 // import 'package:muix_player/services/playlist_repository.dart';
 // import 'package:muix_player/services/service_locator.dart';
 
 class AudioManager {
   // Listeners: Updates going to the UI
   final currentSongTitleNotifier = ValueNotifier<String>('');
-  final playlistNotifier = ValueNotifier<List<String>>([]);
+  final playlistNotifier = ValueNotifier<List<MediaItem>>([]);
+  final albumListNotifier = ValueNotifier<List<AlbumModel>>([]);
+  final artistListNotifier = ValueNotifier<List<ArtistModel>>([]);
   final progressNotifier = ProgressNotifier();
   final repeatButtonNotifier = RepeatButtonNotifier();
   final isFirstSongNotifier = ValueNotifier<bool>(true);
@@ -22,7 +25,9 @@ class AudioManager {
 
   // Events: Calls coming from the UI
   void init() async {
-    // await loadPlaylist();
+    await _loadPlaylist();
+    await _loadAlbumList();
+    await _loadArtistList();
     _listenToChangesInPlaylist();
     _listenToPlaybackState();
     _listenToCurrentPosition();
@@ -31,16 +36,30 @@ class AudioManager {
     _listenToChangesInSong();
   }
 
-  Future<void> loadPlaylist(List<dynamic> playlist) async {
-    // final songRepository = getIt<OfflineSongLocal>();
-    // final playlist = await offlineSongLocal!.getSongs();
+  Future<void> _loadPlaylist() async {
+    final offlineSongLocal = getIt<OfflineSongLocal>();
+    final playlist = await offlineSongLocal.getSongs();
     final mediaItems = playlist.map((song) => MediaItem(
       id: song.id.toString(),
       album: song.album,
       title: song.title,
+      artist: song.artist,
       extras: {'url': song.data},
     )).toList();
     _audioHandler.addQueueItems(mediaItems);
+    playlistNotifier.value = mediaItems;
+  }
+
+  Future<void> _loadArtistList() async {
+    final offlineSongLocal = getIt<OfflineSongLocal>();
+    final artistList = await offlineSongLocal.getArtists();
+    artistListNotifier.value = artistList;
+  }
+
+  Future<void> _loadAlbumList() async {
+    final offlineSongLocal = getIt<OfflineSongLocal>();
+    final albumList = await offlineSongLocal.getAlbums();
+    albumListNotifier.value = albumList;
   }
 
   void _listenToChangesInPlaylist() {
@@ -49,7 +68,7 @@ class AudioManager {
         playlistNotifier.value = [];
         currentSongTitleNotifier.value = '';
       } else {
-        final newList = playlist.map((item) => item.title).toList();
+        final newList = playlist.map((item) => item).toList();
         playlistNotifier.value = newList;
       }
       _updateSkipButtons();

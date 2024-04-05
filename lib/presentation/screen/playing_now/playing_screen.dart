@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:muix_player/helper/icons.dart';
+import 'package:muix_player/presentation/screen/widgets/all_song/control_player/control_player.dart';
 import 'package:muix_player/presentation/screen/widgets/background.dart';
 import 'package:muix_player/presentation/widgets/circle_painter.dart';
+import 'package:muix_player/presentation/widgets/player_control.dart';
 import 'package:muix_player/presentation/widgets/wave_slider.dart';
 import 'package:muix_player/theme/app_muix_theme.dart';
 import 'package:muix_player/util/blend_mask.dart';
@@ -37,7 +39,8 @@ class PlayingScreenState extends State<PlayingScreen> {
         const Background(),
         Scaffold(
           appBar: AppBar(
-            title: const Text('Playing Now'),
+            centerTitle: true,
+            title: Text('Playing Now', style: AppMuixTheme.textUrbanistSemiBoldPrimary20),
             backgroundColor: Colors.transparent,
           ),
           backgroundColor: Colors.transparent,
@@ -83,31 +86,6 @@ class PlayingScreenState extends State<PlayingScreen> {
                               
                             ),
                           ),
-                          // Container(
-                          //   height: 270.h,
-                          //   width: 270.h,
-                          //   decoration:  const BoxDecoration(
-                          //     backgroundBlendMode: BlendMode.hardLight,
-                          //     color: Colors.transparent,
-                              
-                          //   ),
-                          //   child: ClipOval(
-                          //     child: QueryArtworkWidget(
-                          //         id: widget.id,
-                          //         type: ArtworkType.AUDIO,
-                          //         keepOldArtwork: true,
-                          //         artworkBorder: BorderRadius.circular(10),
-                          //         artworkFit: BoxFit.cover,
-                          //         artworkHeight: 270.h,
-                          //         artworkWidth: 270.h,
-                          //         artworkQuality: FilterQuality.high,
-                          //         quality: 100,
-                          //         size: 1600,
-                          //         artworkBlendMode: BlendMode.saturation,
-                          //       ),
-                          //   ),
-                          // ),
-                          
                           CustomPaint(
                             size: Size(70.h, 70.h), // Tamaño del widget CustomPaint
                             painter: CirclePainter(200), // Pasamos el radio del círculo
@@ -117,11 +95,12 @@ class PlayingScreenState extends State<PlayingScreen> {
                       ),
                       
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+                        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                         child: Column(
                           children: [
+                            Text(widget.title, maxLines: 1, style: AppMuixTheme.textUrbanistSemiBoldPrimary32,),
                             Text(widget.artist, maxLines: 1,),
-                            Text(widget.title, maxLines: 1,)
+                            
                           ],
                         ),
                       ),
@@ -138,32 +117,7 @@ class PlayingScreenState extends State<PlayingScreen> {
                           onChangeEnd: (p0) {},
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            IconButton(onPressed: (){}, icon: Iconify(Ph.shuffle_fill, color: AppMuixTheme.primary, size: 35,)),
-                            Transform.rotate(
-                              angle: 3.15,
-                              child: IconButton(onPressed: (){}, icon: Iconify(Teenyicons.next_small_solid, color: AppMuixTheme.primary, size: 40,))),
-                            IconButton(onPressed: (){}, icon: Iconify(Ri.play_fill, color: AppMuixTheme.primary, size: 50,)),
-                            IconButton(onPressed: (){}, icon: Iconify(Teenyicons.next_small_solid, color: AppMuixTheme.primary, size: 40,)),
-                            
-                            IconButton(onPressed: (){}, icon: Iconify(Ph.repeat_fill, color: AppMuixTheme.primary, size: 35,), ),
-                            // Container(
-                            //   height: 35.w,
-                            //   width: 35.w,
-                            //   decoration: BoxDecoration(
-                            //     color: AppMuixTheme.backgroundSecondary,
-                            //     border: Border.all(color: Colors.white),
-                            //     borderRadius: BorderRadius.circular(10)
-                            //   ),
-                            //   child: IconButton(onPressed: (){}, icon: const Iconify(Ph.pause_fill))
-                            // ),
-                          ],
-                        ),
-                      ),
+                      PlayerControl(),
                     ],
                   ),
                   

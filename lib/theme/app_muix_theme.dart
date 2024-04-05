@@ -98,16 +98,45 @@ class AppMuixTheme extends ChangeNotifier{
     fontFamily: 'Urbanist',
     color: textPrimary,
     fontSize: 11.sp,
-    fontWeight: FontWeight.w300
+    fontWeight: FontWeight.w500
   );
 
   static TextStyle get textUrbanistMediumPrimary12 => TextStyle(
     fontFamily: 'Urbanist',
     color: textPrimary,
     fontSize: 12.sp,
-    fontWeight: FontWeight.w700
+    fontWeight: FontWeight.w500
   );
 
+  static TextStyle get textUrbanistMediumPrimary24 => TextStyle(
+    fontFamily: 'Urbanist',
+    color: textPrimary,
+    fontSize: 24.sp,
+    fontWeight: FontWeight.w500
+  );
+
+  static TextStyle get textUrbanistMediumPrimary32 => TextStyle(
+    fontFamily: 'Urbanist',
+    color: textPrimary,
+    fontSize: 32.sp,
+    fontWeight: FontWeight.w600
+  );
+
+  // Texto normal color primario SemiBold
+
+  static TextStyle get textUrbanistSemiBoldPrimary32 => TextStyle(
+    fontFamily: 'Urbanist',
+    color: textPrimary,
+    fontSize: 32.sp,
+    fontWeight: FontWeight.w800
+  );
+
+  static TextStyle get textUrbanistSemiBoldPrimary20 => TextStyle(
+    fontFamily: 'Urbanist',
+    color: textPrimary,
+    fontSize: 20.sp,
+    fontWeight: FontWeight.w800
+  );
   // Texto normal Medium
   static TextStyle get textUrbanistMedium12 => TextStyle(
     fontFamily: 'Urbanist',
