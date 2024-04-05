@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:muix_player/presentation/screen/widgets/custom_navigation.dart';
+import 'package:muix_player/services/service_locator.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 void main() async {
@@ -10,7 +11,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // Verifica y solicita los permisos necesarios.
   await _checkAndRequestPermissions();
-
+  await setupServiceLocator();
   runApp(const ProviderScope(child: MyApp()),);
 }
 

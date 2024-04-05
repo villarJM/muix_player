@@ -2,7 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:muix_player/util/util.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
-class OfflineSongLocal {
+class OfflineSongLocal extends OnAudioQuery{
   static OnAudioQuery onAudioQuery = OnAudioQuery();
 
   Future<List<SongModel>> getSongs() async {
