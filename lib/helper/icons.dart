@@ -7,3 +7,4 @@ export 'package:iconify_flutter/icons/material_symbols.dart';
 export 'package:fluentui_system_icons/fluentui_system_icons.dart';
 export 'package:iconify_flutter/icons/teenyicons.dart';
 export 'package:iconify_flutter/icons/ph.dart';
+export 'package:iconify_flutter/icons/icon_park_outline.dart';
