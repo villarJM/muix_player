@@ -67,10 +67,29 @@ class _SongsState extends State<Songs> {
                       artworkFit: BoxFit.cover,
                       artworkHeight: 100,
                     ),
-                    borderRadiusTopLeft: 20,
-                    borderRadiusTopRight: 0,
-                    borderRadiusBottomLeft: 0,
-                    borderRadiusBottomRight: 20,
+                    icon: IconButton(onPressed: (){}, icon: const Icon(Icons.more_vert)),
+                    boxDecoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.white
+                      ),
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.zero,
+                        bottomLeft: Radius.zero,
+                        bottomRight: Radius.circular(20),
+                      ),
+                      gradient: const LinearGradient(
+                        colors: [Color.fromARGB(255, 5, 23, 39), Color.fromARGB(200, 228, 211, 182),Color.fromARGB(255, 228, 211, 182),],
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                      )
+                    ),
+                    imageBorderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(19),
+                      topRight: Radius.zero,
+                      bottomLeft: Radius.zero,
+                      bottomRight: Radius.circular(19),
+                    ),
                   ),
                 ) : 
                 InkWell(
@@ -92,10 +111,29 @@ class _SongsState extends State<Songs> {
                       artworkFit: BoxFit.cover,
                       artworkHeight: 100,
                     ),
-                    borderRadiusTopLeft: 0,
-                    borderRadiusTopRight: 20,
-                    borderRadiusBottomLeft: 20,
-                    borderRadiusBottomRight: 0,
+                    icon: IconButton(onPressed: (){}, icon: const Icon(Icons.more_vert)),
+                    boxDecoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.white
+                      ),
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.zero,
+                        topRight: Radius.circular(20),
+                        bottomLeft: Radius.circular(20),
+                        bottomRight: Radius.zero,
+                      ),
+                      gradient: const LinearGradient(
+                        colors: [Color.fromARGB(255, 5, 23, 39), Color.fromARGB(200, 228, 211, 182),Color.fromARGB(255, 228, 211, 182),],
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                      )
+                    ),
+                    imageBorderRadius: const BorderRadius.only(
+                      topLeft: Radius.zero,
+                      topRight: Radius.circular(19),
+                      bottomLeft: Radius.circular(19),
+                      bottomRight: Radius.zero,
+                    ),
                   ),
                 );
               },
