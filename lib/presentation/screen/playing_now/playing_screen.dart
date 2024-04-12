@@ -1,17 +1,17 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:muix_player/helper/icons.dart';
-import 'package:muix_player/presentation/screen/widgets/all_song/control_player/control_player.dart';
+import 'package:muix_player/notifiers/progress_notifier.dart';
 import 'package:muix_player/presentation/screen/widgets/background.dart';
-import 'package:muix_player/presentation/widgets/circle_painter.dart';
 import 'package:muix_player/presentation/widgets/player_control.dart';
+import 'package:muix_player/presentation/widgets/top_figure_painter.dart';
 import 'package:muix_player/presentation/widgets/wave_slider.dart';
+import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
+import 'package:muix_player/services/audio_manager.dart';
+import 'package:muix_player/services/service_locator.dart';
 import 'package:muix_player/theme/app_muix_theme.dart';
-import 'package:muix_player/util/blend_mask.dart';
 import 'package:on_audio_query/on_audio_query.dart';
-import 'package:wave/config.dart';
-import 'package:wave/wave.dart';
+import 'package:text_scroll/text_scroll.dart';
 
 class PlayingScreen extends StatefulWidget {
 
@@ -31,17 +31,42 @@ class PlayingScreen extends StatefulWidget {
 }
 
 class PlayingScreenState extends State<PlayingScreen> {
+
+  final audioManager = getIt<AudioManager>();
   int age = 0;
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         const Background(),
+
+        CustomPaint(
+          size: Size(MediaQuery.of(context).size.width, 300.h),
+          painter: TopFigurePainter(),
+        ),
+
         Scaffold(
           appBar: AppBar(
             centerTitle: true,
             title: Text('Playing Now', style: AppMuixTheme.textUrbanistSemiBoldPrimary20),
             backgroundColor: Colors.transparent,
+            leading: IconButton(
+              onPressed: () => Navigator.of(context).pop(), 
+              icon: Iconify(Ic.round_chevron_left, 
+                color: AppMuixTheme.background, 
+                size: 35,
+              )
+            ),
+            actions: [
+              IconButton(
+                onPressed: (){}, 
+                icon: Iconify(Jam.menu, 
+                  color: AppMuixTheme.background, 
+                  size: 35,
+                )
+              ),
+
+            ],
           ),
           backgroundColor: Colors.transparent,
           body: SingleChildScrollView(
@@ -52,53 +77,34 @@ class PlayingScreenState extends State<PlayingScreen> {
                 children: [
                   Column(
                     children: [
-                      Stack(
-                        alignment: Alignment.center,
-                        children: [
-
-                          Image.asset(
-                            'assets/images/cd.png',
-                            fit: BoxFit.cover,
-                            height: 260.h,
-                            width: 260.h,
-                            alignment: Alignment.bottomCenter,
-                            // colorBlendMode: BlendMode.xor,
+                      SizedBox(
+                        height: 260.h,
+                        width: 260.h,
+                        child: QueryArtworkWidget(
+                            id: widget.id,
+                            type: ArtworkType.AUDIO,
+                            keepOldArtwork: true,
+                            artworkFit: BoxFit.cover,
+                            artworkHeight: 260.h,
+                            artworkWidth: 260.h,
+                            artworkBorder: BorderRadius.circular(20),
+                            artworkQuality: FilterQuality.high,
+                            quality: 100,
+                            size: 1600,
                           ),
-                          SizedBox(
-                            height: 260.h,
-                            width: 260.h,
-                            child: BlendMask(
-                              blendMode: BlendMode.hardLight,
-                              opacity: 1.0,
-                              child: ClipOval(
-                                child: QueryArtworkWidget(
-                                    id: widget.id,
-                                    type: ArtworkType.AUDIO,
-                                    keepOldArtwork: true,
-                                    artworkFit: BoxFit.cover,
-                                    artworkHeight: 270.h,
-                                    artworkWidth: 270.h,
-                                    artworkQuality: FilterQuality.high,
-                                    quality: 100,
-                                    size: 1600,
-                                  ),
-                              )
-                              
-                            ),
-                          ),
-                          CustomPaint(
-                            size: Size(70.h, 70.h), // Tamaño del widget CustomPaint
-                            painter: CirclePainter(200), // Pasamos el radio del círculo
-                          ),
-                          
-                        ],
                       ),
                       
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                         child: Column(
                           children: [
-                            Text(widget.title, maxLines: 1, style: AppMuixTheme.textUrbanistSemiBoldPrimary32,),
+                            // Text(widget.title, maxLines: 1, style: AppMuixTheme.textUrbanistSemiBoldPrimary32,),
+                            TextScroll(
+                              widget.title,
+                              velocity: const Velocity(pixelsPerSecond: Offset(80, 0)),
+                              style: AppMuixTheme.textUrbanistSemiBoldPrimary32,
+                              selectable: true,
+                            ),
                             Text(widget.artist, maxLines: 1,),
                             
                           ],
@@ -106,63 +112,36 @@ class PlayingScreenState extends State<PlayingScreen> {
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 25),
-                        child: WaveSlider(
-                          color: AppMuixTheme.primary,
-                          onChanged: (double val) {
-                            setState(() {
-                              age = (val * 10).round();
-                            });
-                          },
-                          onChangeStart: (p0) {},
-                          onChangeEnd: (p0) {},
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            IconButton(onPressed: (){}, icon: const Iconify(Ph.download_bold, size: 30,)),
+                            IconButton(onPressed: (){}, icon: const Iconify(Ri.equalizer_line, size: 30,)),
+                            IconButton(onPressed: (){}, icon: const Iconify(Ph.heart, size: 30,))
+                          ],
                         ),
                       ),
-                      PlayerControl(),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 25),
+                        child: ValueListenableBuilder<ProgressBarState>(
+                          valueListenable: audioManager.progressNotifier,
+                          builder: (_, value,__) {
+                            return ProgressBar(
+                              progress: value.current,
+                              buffered: value.buffered,
+                              total: value.total,
+                              onSeek: audioManager.seek,
+                            );
+                          }
+                        ),
+                      ),
+                      const PlayerControl(),
                     ],
                   ),
                   
                 ],
               ),
             ),
-          ),
-        ),
-        Positioned(
-          bottom: 1,
-          child: Container(
-            height: 110.h,
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  AppMuixTheme.primary,
-                  AppMuixTheme.background
-                ],
-                begin: Alignment.bottomCenter,
-                end: Alignment.topCenter,
-                tileMode: TileMode.clamp,
-              )
-            ),
-          ),
-        ),
-        Positioned(
-          bottom: 1,
-          child: WaveWidget(
-            config: CustomConfig(
-              colors: [
-                AppMuixTheme.backgroundSecondary,
-                AppMuixTheme.primary
-              ],
-              durations: [
-                5000,
-                4000
-              ],
-              heightPercentages: [
-                0.3,
-                0.3
-              ],
-            ),
-            backgroundColor: Colors.transparent,
-            size: Size(MediaQuery.of(context).size.width, 100.h),
           ),
         ),
       ],

@@ -16,7 +16,7 @@ const PlayerControl({ Key? key }) : super(key: key);
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          ShuffleButton(),
+          ShuffleButton(), 
           PreviousButton(),
           PlayButton(),
           NextButton(),
@@ -40,9 +40,7 @@ class PreviousButton extends StatelessWidget {
       valueListenable: audioManager.isFirstSongNotifier,
       builder: (_, isFirst, __) {
         return IconButton(
-          icon: Transform.rotate(
-          angle: 3.15,
-          child: Iconify(Teenyicons.next_small_solid, color: AppMuixTheme.primary, size: 40,)),
+          icon: Iconify(Uim.previous, color: AppMuixTheme.primary, size: 40,),
             onPressed: (isFirst) ? null : audioManager.previous,
         );
       },
@@ -62,7 +60,9 @@ class NextButton extends StatelessWidget {
       valueListenable: audioManager.isLastSongNotifier,
       builder: (_, isLast, __) {
         return IconButton(
-          icon: Iconify(Teenyicons.next_small_solid, color: AppMuixTheme.primary, size: 40,),
+          icon: Transform.rotate(
+            angle: 3.15,
+            child: Iconify(Uim.previous, color: AppMuixTheme.primary, size: 40,)),
           onPressed: (isLast) ? null : audioManager.next,
         );
       },
@@ -83,8 +83,8 @@ class ShuffleButton extends StatelessWidget {
       builder: (context, isEnabled, child) {
         return IconButton(
           icon: (isEnabled)
-              ? Iconify(Ph.shuffle_fill, color: AppMuixTheme.primary, size: 35,)
-              : Iconify(Ph.shuffle_fill, color: AppMuixTheme.backgroundSecondary, size: 35,),
+              ? Iconify(Mi.shuffle, color: AppMuixTheme.primary, size: 24,)
+              : const Iconify(Mi.shuffle, color: Colors.white, size: 24,),
           onPressed: audioManager.shuffle,
         );
       },
@@ -106,13 +106,13 @@ class RepeatButton extends StatelessWidget {
         Widget icon;
         switch (value) {
           case RepeatState.off:
-            icon = const Icon(Icons.repeat, color: Colors.grey);
+            icon = const Iconify(Mi.repeat, size: 24, color: Colors.white,);
             break;
           case RepeatState.repeatSong:
-            icon = Iconify(Ph.repeat_fill, color: AppMuixTheme.primary, size: 35,);
+            icon = Iconify(Mi.repeatOnce, color: AppMuixTheme.primary, size: 24,);
             break;
           case RepeatState.repeatPlaylist:
-            icon = const Icon(Icons.repeat);
+            icon = const Iconify(Mi.repeat, size: 24);
             break;
         }
         return IconButton(
@@ -145,9 +145,9 @@ class PlayButton extends StatelessWidget {
               child: const CircularProgressIndicator(),
             );
           case ButtonState.paused:
-            return IconButton(onPressed: audioManager.play, icon: Iconify(Ri.play_fill, color: AppMuixTheme.primary, size: 50,));
+            return IconButton(onPressed: audioManager.play, icon: Iconify(Ri.play_fill, color: AppMuixTheme.primary, size: 35,));
           case ButtonState.playing:
-            return IconButton(onPressed: audioManager.pause, icon: const Iconify(Ph.pause_fill));
+            return IconButton(onPressed: audioManager.pause, icon: const Iconify(Ph.pause_fill, size: 35,));
         }
         
       }

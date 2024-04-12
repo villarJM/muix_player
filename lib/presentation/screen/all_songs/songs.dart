@@ -49,13 +49,16 @@ class _SongsState extends State<Songs> {
                 final songs = playlistSongs[index];
                 return index % 2 == 0 ? 
                 InkWell(
-                  onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (BuildContext context) {
-                        return PlayingScreen(id: int.parse(songs.id), title: songs.title, artist: songs.artist ?? "",);
-                      },
-                    ),
-                  ),
+                  onTap: () {
+                    audioManager..skipToNextQueueItem(index)..play;
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (BuildContext context) {
+                          return PlayingScreen(id: int.parse(songs.id), title: songs.title, artist: songs.artist ?? "",);
+                        },
+                      ),
+                    );
+                  },
                   child: ListItem(
                     title: Text(songs.title, maxLines: 1,),
                     subtitle: Text(songs.artist ?? "", maxLines: 1,),
@@ -93,13 +96,16 @@ class _SongsState extends State<Songs> {
                   ),
                 ) : 
                 InkWell(
-                  onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (BuildContext context) {
-                        return PlayingScreen(id: int.parse(songs.id), title: songs.title, artist: songs.artist ?? "",);
-                      },
-                    ),
-                  ),
+                  onTap: () {
+                    audioManager..skipToNextQueueItem(index)..play;
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (BuildContext context) {
+                          return PlayingScreen(id: int.parse(songs.id), title: songs.title, artist: songs.artist ?? "",);
+                        },
+                      ),
+                    );
+                  },
                   child: ListItem(
                     title: Text(songs.title, maxLines: 1,),
                     subtitle: Text(songs.artist ?? "", maxLines: 1,),

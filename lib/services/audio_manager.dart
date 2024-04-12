@@ -150,6 +150,7 @@ class AudioManager {
 
   void seek(Duration position) => _audioHandler.seek(position);
 
+  void skipToNextQueueItem(int index) => _audioHandler.skipToQueueItem(index);
   void previous() => _audioHandler.skipToPrevious();
   void next() => _audioHandler.skipToNext();
 

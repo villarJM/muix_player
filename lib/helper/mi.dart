@@ -1,0 +1,6 @@
+// Muix Icon
+class Mi {
+  static const String shuffle = '<svg width="24" height="24" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 6.17394L9.23288 6.12756C9.23288 6.12756 13.5068 12.2493 14 13.5247C14.4932 14.8 17.7808 21.9652 17.7808 21.9652L26 21.9189L22.7123 26M2 21.8261L9.23288 21.8725C9.23288 21.8725 13.5068 15.7507 14 14.4754C14.4932 13.2 17.7808 6.03479 17.7808 6.03479L26 6.08116L22.7123 2" stroke="black" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  static const String repeat = '<svg width="24" height="24" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="repeat"><path id="Vector" d="M6.36363 26L2 21.3549H26V14.3871M21.6364 2L26 6.64516H2.00004V13.6129" stroke="black" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>';
+  static const String repeatOnce = '<svg width="24" height="24" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="repeat_once"><path id="1" d="M13.62 18V11.4H12.48L12.96 9.6H15.42V18H13.62Z" fill="black"/><path id="Vector" d="M6.36363 26L2 21.3549H26V14.3871M21.6364 2L26 6.64516H2.00004V13.6129" stroke="black" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>';
+}
