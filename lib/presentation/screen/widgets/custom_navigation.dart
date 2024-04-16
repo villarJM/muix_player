@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:muix_player/config/menu/navegation_item.dart';
 import 'package:muix_player/helper/icons.dart';
+import 'package:muix_player/presentation/providers/dominate_color.dart';
 import 'package:muix_player/presentation/screen/home/home.dart';
 import 'package:muix_player/presentation/screen/library/library.dart';
+import 'package:muix_player/presentation/screen/playing_now/playing_screen.dart';
 import 'package:muix_player/presentation/screen/search/search.dart';
 import 'package:muix_player/presentation/screen/widgets/background.dart';
 import 'package:muix_player/presentation/widgets/list_item.dart';
@@ -26,6 +28,7 @@ class CustomNavigationState extends State<CustomNavigation> {
 
   int currentPageIndex = 0;
   final audioManager = getIt<AudioManager>();
+  final dominateColor = DominateColor();
   bool isClic = true;
   int actualPosition = 0;
   int actualIndex = 0;
@@ -77,36 +80,56 @@ class CustomNavigationState extends State<CustomNavigation> {
               height: 50.h,
               width: MediaQuery.of(context).size.width,
               padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: ValueListenableBuilder<List<MediaItem>>(
+              child: isClic ? ValueListenableBuilder<MediaItem>(
+                valueListenable: audioManager.currentSongTitleNotifier,
+                builder: (_, currentSong,__) {
+                  return ValueListenableBuilder<Color>(
+                    valueListenable: dominateColor.color,
+                    builder: (_, color, __) {
+                      return ListItem(
+                        title: Text(currentSong.title, maxLines: 1, style: AppMuixTheme.textUrbanistMediumPrimary12,),
+                        subtitle: Text(currentSong.artist ?? "", maxLines: 1, style: AppMuixTheme.textUrbanistMediumPrimary12,),
+                        artwork: QueryArtworkWidget(
+                          id: int.parse(currentSong.id),
+                          type: ArtworkType.AUDIO,
+                          artworkBorder: const BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(0),
+                          ),
+                          artworkHeight: 70.h,
+                          keepOldArtwork: true,
+                        ),
+                        onTap: ( ) => Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (BuildContext context) => const PlayingScreen(),
+                          ),
+                        ),
+                        icon: IconButton(onPressed: audioManager.play, icon: const Iconify(Ri.play_fill, color: Colors.white, size: 30,)),
+                        iconQueue: IconButton(
+                          onPressed: () => setState(() {isClic = false;}), 
+                          icon: const Iconify(IconParkOutline.music_menu, color: Colors.white,)
+                        ),
+                        enableIconQueue: true,
+                        boxDecoration: BoxDecoration(
+                          color: color,
+                          border: Border.all(
+                            color: Colors.white
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        imageBorderRadius: const BorderRadius.horizontal(
+                          left: Radius.circular(10), 
+                          right: Radius.zero
+                        )
+                      );
+                    }
+                  );
+                }
+              ): 
+              ValueListenableBuilder<List<MediaItem>>(
                 valueListenable: audioManager.playlistNotifier,
-                builder: (context, playlistSongs,_) {
-                  return isClic ? ListItem(
-                    title: Text("Titulo", maxLines: 1, style: AppMuixTheme.textUrbanistMediumPrimary12,),
-                    subtitle: Text("Artist", maxLines: 1, style: AppMuixTheme.textUrbanistMediumPrimary12,),
-                    artwork: Image.asset(
-                      "assets/images/better_off.jpg",
-                      fit: BoxFit.cover,
-                      height: 70.h,
-                    ),
-                    icon: IconButton(onPressed: audioManager.play, icon: const Iconify(Ri.play_fill, color: Colors.white, size: 30,)),
-                    iconQueue: IconButton(
-                      onPressed: () => setState(() {isClic = false;}), 
-                      icon: const Iconify(IconParkOutline.music_menu, color: Colors.white,)
-                    ),
-                    enableIconQueue: true,
-                    boxDecoration: BoxDecoration(
-                      color: Colors.blueGrey[800],
-                      border: Border.all(
-                        color: Colors.white
-                      ),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    imageBorderRadius: const BorderRadius.horizontal(
-                      left: Radius.circular(10), 
-                      right: Radius.zero
-                    )
-                  ): 
-                  CarouselSlider.builder(
+                builder: (_, playlistSongs, __) {
+                  return CarouselSlider.builder(
                     itemCount: 20, 
                     options: CarouselOptions(
                       viewportFraction: 0.15,
@@ -125,7 +148,10 @@ class CustomNavigationState extends State<CustomNavigation> {
                         children: [
                           InkWell(
                             onDoubleTap: () => setState(() {isClic = true;}),
-                            onTap: () {},
+                            onTap: () async {
+                              dominateColor.color.value = await dominateColor.getDominantingColorImage(int.parse(songs.id), ArtworkType.AUDIO);
+                              audioManager..skipToNextQueueItem(index)..play;
+                            },
                             child: QueryArtworkWidget(
                               id: int.parse(songs.id),
                               type: ArtworkType.AUDIO,
@@ -137,7 +163,6 @@ class CustomNavigationState extends State<CustomNavigation> {
                       );
                     },
                   );
-                  
                 }
               ),
             )

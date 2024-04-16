@@ -11,7 +11,7 @@ import 'package:on_audio_query/on_audio_query.dart';
 
 class AudioManager {
   // Listeners: Updates going to the UI
-  final currentSongTitleNotifier = ValueNotifier<String>('');
+  final currentSongTitleNotifier = ValueNotifier<MediaItem>(const MediaItem(id: '', title: ''));
   final playlistNotifier = ValueNotifier<List<MediaItem>>([]);
   final albumListNotifier = ValueNotifier<List<AlbumModel>>([]);
   final artistListNotifier = ValueNotifier<List<ArtistModel>>([]);
@@ -22,6 +22,7 @@ class AudioManager {
   final isLastSongNotifier = ValueNotifier<bool>(true);
   final isShuffleModeEnabledNotifier = ValueNotifier<bool>(false);
   final _audioHandler = getIt<AudioHandler>();
+  final offlineSongLocal = getIt<OfflineSongLocal>();
 
   // Events: Calls coming from the UI
   void init() async {
@@ -37,27 +38,27 @@ class AudioManager {
   }
 
   Future<void> _loadPlaylist() async {
-    final offlineSongLocal = getIt<OfflineSongLocal>();
+    
     final playlist = await offlineSongLocal.getSongs();
     final mediaItems = playlist.map((song) => MediaItem(
       id: song.id.toString(),
       album: song.album,
       title: song.title,
       artist: song.artist,
-      extras: {'url': song.data},
+      extras: {
+        'url': song.data,
+      },
     )).toList();
     _audioHandler.addQueueItems(mediaItems);
     playlistNotifier.value = mediaItems;
   }
 
   Future<void> _loadArtistList() async {
-    final offlineSongLocal = getIt<OfflineSongLocal>();
     final artistList = await offlineSongLocal.getArtists();
     artistListNotifier.value = artistList;
   }
 
   Future<void> _loadAlbumList() async {
-    final offlineSongLocal = getIt<OfflineSongLocal>();
     final albumList = await offlineSongLocal.getAlbums();
     albumListNotifier.value = albumList;
   }
@@ -66,7 +67,7 @@ class AudioManager {
     _audioHandler.queue.listen((playlist) {
       if (playlist.isEmpty) {
         playlistNotifier.value = [];
-        currentSongTitleNotifier.value = '';
+        currentSongTitleNotifier.value = const MediaItem(id: '', title: '');
       } else {
         final newList = playlist.map((item) => item).toList();
         playlistNotifier.value = newList;
@@ -128,7 +129,7 @@ class AudioManager {
 
   void _listenToChangesInSong() {
     _audioHandler.mediaItem.listen((mediaItem) {
-      currentSongTitleNotifier.value = mediaItem?.title ?? '';
+      currentSongTitleNotifier.value = mediaItem ?? const MediaItem(id: '', title: '');
       _updateSkipButtons();
     });
   }

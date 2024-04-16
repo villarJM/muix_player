@@ -2,7 +2,7 @@ import 'package:audio_service/audio_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:muix_player/helper/offline_song_local.dart';
-import 'package:muix_player/presentation/screen/playing_now/playing_screen.dart';
+import 'package:muix_player/presentation/providers/dominate_color.dart';
 import 'package:muix_player/presentation/widgets/list_item.dart';
 import 'package:muix_player/services/audio_manager.dart';
 import 'package:on_audio_query/on_audio_query.dart';
@@ -20,6 +20,7 @@ class _SongsState extends State<Songs> {
 
   List<SongModel> songsLoad = [];
   final audioManager = getIt<AudioManager>();
+  final dominateColor = DominateColor();
 
   @override
   void initState() {
@@ -48,98 +49,85 @@ class _SongsState extends State<Songs> {
               itemBuilder: (context, index) {
                 final songs = playlistSongs[index];
                 return index % 2 == 0 ? 
-                InkWell(
-                  onTap: () {
+                ListItem(
+                  title: Text(songs.title, maxLines: 1,),
+                  subtitle: Text(songs.artist ?? "", maxLines: 1,),
+                  artwork: QueryArtworkWidget(
+                    id: int.parse(songs.id),
+                    type: ArtworkType.AUDIO,
+                    keepOldArtwork: true,
+                    artworkBorder: BorderRadius.circular(0),
+                    artworkFit: BoxFit.cover,
+                    artworkHeight: 100,
+                  ),
+                  onTap: () async {
+                    dominateColor.color.value = await dominateColor.getDominantingColorImage(int.parse(songs.id), ArtworkType.AUDIO);
                     audioManager..skipToNextQueueItem(index)..play;
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (BuildContext context) {
-                          return PlayingScreen(id: int.parse(songs.id), title: songs.title, artist: songs.artist ?? "",);
-                        },
-                      ),
-                    );
                   },
-                  child: ListItem(
-                    title: Text(songs.title, maxLines: 1,),
-                    subtitle: Text(songs.artist ?? "", maxLines: 1,),
-                    artwork: QueryArtworkWidget(
-                      id: int.parse(songs.id),
-                      type: ArtworkType.AUDIO,
-                      keepOldArtwork: true,
-                      artworkBorder: BorderRadius.circular(0),
-                      artworkFit: BoxFit.cover,
-                      artworkHeight: 100,
+                  icon: IconButton(onPressed: (){}, icon: const Icon(Icons.more_vert)),
+                  boxDecoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.white
                     ),
-                    icon: IconButton(onPressed: (){}, icon: const Icon(Icons.more_vert)),
-                    boxDecoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.white
-                      ),
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        topRight: Radius.zero,
-                        bottomLeft: Radius.zero,
-                        bottomRight: Radius.circular(20),
-                      ),
-                      gradient: const LinearGradient(
-                        colors: [Color.fromARGB(255, 5, 23, 39), Color.fromARGB(200, 228, 211, 182),Color.fromARGB(255, 228, 211, 182),],
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                      )
-                    ),
-                    imageBorderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(19),
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(20),
                       topRight: Radius.zero,
                       bottomLeft: Radius.zero,
-                      bottomRight: Radius.circular(19),
+                      bottomRight: Radius.circular(20),
                     ),
+                    gradient: const LinearGradient(
+                      colors: [Color.fromARGB(255, 5, 23, 39), Color.fromARGB(200, 228, 211, 182),Color.fromARGB(255, 228, 211, 182),],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                    )
+                  ),
+                  imageBorderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(19),
+                    topRight: Radius.zero,
+                    bottomLeft: Radius.zero,
+                    bottomRight: Radius.circular(19),
                   ),
                 ) : 
-                InkWell(
+                ListItem(
+                  title: Text(songs.title, maxLines: 1,),
+                  subtitle: Text(songs.artist ?? "", maxLines: 1,),
+                  artwork: QueryArtworkWidget(
+                    id: int.parse(songs.id),
+                    type: ArtworkType.AUDIO,
+                    keepOldArtwork: true,
+                    artworkBorder: BorderRadius.circular(0),
+                    artworkFit: BoxFit.cover,
+                    artworkHeight: 100,
+                  ),
                   onTap: () {
+                    dominateColor.getDominantingColorImage(int.parse(songs.id), ArtworkType.AUDIO);
                     audioManager..skipToNextQueueItem(index)..play;
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (BuildContext context) {
-                          return PlayingScreen(id: int.parse(songs.id), title: songs.title, artist: songs.artist ?? "",);
-                        },
-                      ),
-                    );
+                    setState(() {
+                      
+                    });
                   },
-                  child: ListItem(
-                    title: Text(songs.title, maxLines: 1,),
-                    subtitle: Text(songs.artist ?? "", maxLines: 1,),
-                    artwork: QueryArtworkWidget(
-                      id: int.parse(songs.id),
-                      type: ArtworkType.AUDIO,
-                      keepOldArtwork: true,
-                      artworkBorder: BorderRadius.circular(0),
-                      artworkFit: BoxFit.cover,
-                      artworkHeight: 100,
+                  icon: IconButton(onPressed: (){}, icon: const Icon(Icons.more_vert)),
+                  boxDecoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.white
                     ),
-                    icon: IconButton(onPressed: (){}, icon: const Icon(Icons.more_vert)),
-                    boxDecoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.white
-                      ),
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.zero,
-                        topRight: Radius.circular(20),
-                        bottomLeft: Radius.circular(20),
-                        bottomRight: Radius.zero,
-                      ),
-                      gradient: const LinearGradient(
-                        colors: [Color.fromARGB(255, 5, 23, 39), Color.fromARGB(200, 228, 211, 182),Color.fromARGB(255, 228, 211, 182),],
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                      )
-                    ),
-                    imageBorderRadius: const BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                       topLeft: Radius.zero,
-                      topRight: Radius.circular(19),
-                      bottomLeft: Radius.circular(19),
+                      topRight: Radius.circular(20),
+                      bottomLeft: Radius.circular(20),
                       bottomRight: Radius.zero,
                     ),
+                    gradient: const LinearGradient(
+                      colors: [Color.fromARGB(255, 5, 23, 39), Color.fromARGB(200, 228, 211, 182),Color.fromARGB(255, 228, 211, 182),],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                    )
+                  ),
+                  imageBorderRadius: const BorderRadius.only(
+                    topLeft: Radius.zero,
+                    topRight: Radius.circular(19),
+                    bottomLeft: Radius.circular(19),
+                    bottomRight: Radius.zero,
                   ),
                 );
               },

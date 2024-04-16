@@ -22,7 +22,7 @@ class OfflineSongLocal extends OnAudioQuery{
   }
 
   Future<Uint8List> getArtwork(int id, ArtworkType artworkType) async {
-    Uint8List? getImage = await onAudioQuery.queryArtwork(id, artworkType, size: 1800);
+    Uint8List? getImage = await onAudioQuery.queryArtwork(id, artworkType, size: 200);
     if(getImage != null) return Uint8List.fromList(getImage);
       return Image.imageToUint8List('assets/images/placeholder_song.png');
   }

@@ -12,7 +12,6 @@ class TopFigurePainter extends CustomPainter {
     final yC = (A.dy + B.dy) / 2;
 
     final paint = Paint()
-    // ..color = Colors.white
     ..shader = ui.Gradient.linear(
       Offset(xC, yC),
       Offset(size.width, 0), 

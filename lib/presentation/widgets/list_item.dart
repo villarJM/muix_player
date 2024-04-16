@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
   final Text title;
   final Text subtitle;
   final Widget artwork;
+  final Function()? onTap;
   final Widget icon;
   final Widget? iconQueue;
   final bool enableIconQueue;
@@ -14,6 +15,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
   required this.title, 
   required this.subtitle, 
   required this.artwork,
+  this.onTap,
   required this.icon,
   this.iconQueue,
   this.enableIconQueue = false,
@@ -23,33 +25,36 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
  
    @override
    Widget build(BuildContext context){
-     return Container(
-      margin: const EdgeInsets.only(top: 3),  
-      height: 45.h,
-      decoration: boxDecoration,
-      child: Row(
-        children: [
-          ClipRRect(
-            borderRadius: imageBorderRadius,
-            child: artwork,
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 15),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  title,
-                  subtitle
-                ],
+     return InkWell(
+      onTap: onTap,
+       child: Container(
+        margin: const EdgeInsets.only(top: 3),  
+        height: 45.h,
+        decoration: boxDecoration,
+        child: Row(
+          children: [
+            ClipRRect(
+              borderRadius: imageBorderRadius,
+              child: artwork,
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    title,
+                    subtitle
+                  ],
+                ),
               ),
             ),
-          ),
-          enableIconQueue ? iconQueue! : Container(),
-          icon
-        ],
-      ),
-    );
+            enableIconQueue ? iconQueue! : Container(),
+            icon
+          ],
+        ),
+           ),
+     );
    }
  }
