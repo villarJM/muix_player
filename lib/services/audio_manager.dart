@@ -14,6 +14,7 @@ class AudioManager {
   final currentSongTitleNotifier = ValueNotifier<MediaItem>(const MediaItem(id: '', title: ''));
   final playlistNotifier = ValueNotifier<List<MediaItem>>([]);
   final albumListNotifier = ValueNotifier<List<AlbumModel>>([]);
+  final songsAlbumListNotifier = ValueNotifier<List<SongModel>>([]);
   final artistListNotifier = ValueNotifier<List<ArtistModel>>([]);
   final progressNotifier = ProgressNotifier();
   final repeatButtonNotifier = RepeatButtonNotifier();

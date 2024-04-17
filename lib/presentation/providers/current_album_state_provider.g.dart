@@ -1,25 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'control_player_state_provider.dart';
+part of 'current_album_state_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$controlPlayersHash() => r'48c4fc6aeab9c4c4178490570088a0db2b07fa28';
+String _$currentAlbumStateProviderHash() =>
+    r'63693d80419ba4385a0cf8bf1a9433a88e9b432c';
 
-/// See also [ControlPlayers].
-@ProviderFor(ControlPlayers)
-final controlPlayersProvider = NotifierProvider<ControlPlayers, int>.internal(
-  ControlPlayers.new,
-  name: r'controlPlayersProvider',
+/// See also [CurrentAlbumStateProvider].
+@ProviderFor(CurrentAlbumStateProvider)
+final currentAlbumStateProviderProvider =
+    NotifierProvider<CurrentAlbumStateProvider, Album>.internal(
+  CurrentAlbumStateProvider.new,
+  name: r'currentAlbumStateProviderProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$controlPlayersHash,
+      : _$currentAlbumStateProviderHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$ControlPlayers = Notifier<int>;
+typedef _$CurrentAlbumStateProvider = Notifier<Album>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

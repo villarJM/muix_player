@@ -13,6 +13,11 @@ class OfflineSongLocal extends OnAudioQuery{
     return onAudioQuery.queryAlbums();
   }
 
+  Future<List<SongModel>> getSongsForAlbums(String album) async {
+    final songs = await onAudioQuery.querySongs();
+    return songs.where((item) => item.album == album).toList();
+  }
+
   Future<List<ArtistModel>> getArtists() async {
     return onAudioQuery.queryArtists();
   }
@@ -21,6 +26,9 @@ class OfflineSongLocal extends OnAudioQuery{
     return onAudioQuery.queryGenres();
   }
 
+  Future<List<String>> getAllPaths() async {
+    return onAudioQuery.queryAllPath();
+  }
   Future<Uint8List> getArtwork(int id, ArtworkType artworkType) async {
     Uint8List? getImage = await onAudioQuery.queryArtwork(id, artworkType, size: 200);
     if(getImage != null) return Uint8List.fromList(getImage);

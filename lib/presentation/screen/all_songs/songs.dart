@@ -48,8 +48,7 @@ class _SongsState extends State<Songs> {
               itemCount: playlistSongs.length,
               itemBuilder: (context, index) {
                 final songs = playlistSongs[index];
-                return index % 2 == 0 ? 
-                ListItem(
+                return ListItem(
                   title: Text(songs.title, maxLines: 1,),
                   subtitle: Text(songs.artist ?? "", maxLines: 1,),
                   artwork: QueryArtworkWidget(
@@ -62,18 +61,18 @@ class _SongsState extends State<Songs> {
                   ),
                   onTap: () async {
                     dominateColor.color.value = await dominateColor.getDominantingColorImage(int.parse(songs.id), ArtworkType.AUDIO);
-                    audioManager..skipToNextQueueItem(index)..play;
+                    audioManager..skipToNextQueueItem(index)..play();
                   },
                   icon: IconButton(onPressed: (){}, icon: const Icon(Icons.more_vert)),
                   boxDecoration: BoxDecoration(
                     border: Border.all(
                       color: Colors.white
                     ),
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.zero,
-                      bottomLeft: Radius.zero,
-                      bottomRight: Radius.circular(20),
+                    borderRadius: BorderRadius.only(
+                      topLeft: index % 2 == 0 ? const Radius.circular(20) : Radius.zero,
+                      topRight: index % 2 == 0 ? Radius.zero : const Radius.circular(20),
+                      bottomLeft: index % 2 == 0 ? Radius.zero : const Radius.circular(20),
+                      bottomRight: index % 2 == 0 ? const Radius.circular(20) : Radius.zero,
                     ),
                     gradient: const LinearGradient(
                       colors: [Color.fromARGB(255, 5, 23, 39), Color.fromARGB(200, 228, 211, 182),Color.fromARGB(255, 228, 211, 182),],
@@ -81,55 +80,14 @@ class _SongsState extends State<Songs> {
                       end: Alignment.centerRight,
                     )
                   ),
-                  imageBorderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(19),
-                    topRight: Radius.zero,
-                    bottomLeft: Radius.zero,
-                    bottomRight: Radius.circular(19),
-                  ),
-                ) : 
-                ListItem(
-                  title: Text(songs.title, maxLines: 1,),
-                  subtitle: Text(songs.artist ?? "", maxLines: 1,),
-                  artwork: QueryArtworkWidget(
-                    id: int.parse(songs.id),
-                    type: ArtworkType.AUDIO,
-                    keepOldArtwork: true,
-                    artworkBorder: BorderRadius.circular(0),
-                    artworkFit: BoxFit.cover,
-                    artworkHeight: 100,
-                  ),
-                  onTap: () {
-                    dominateColor.getDominantingColorImage(int.parse(songs.id), ArtworkType.AUDIO);
-                    audioManager..skipToNextQueueItem(index)..play;
-                    setState(() {
-                      
-                    });
-                  },
-                  icon: IconButton(onPressed: (){}, icon: const Icon(Icons.more_vert)),
-                  boxDecoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.white
-                    ),
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.zero,
-                      topRight: Radius.circular(20),
-                      bottomLeft: Radius.circular(20),
-                      bottomRight: Radius.zero,
-                    ),
-                    gradient: const LinearGradient(
-                      colors: [Color.fromARGB(255, 5, 23, 39), Color.fromARGB(200, 228, 211, 182),Color.fromARGB(255, 228, 211, 182),],
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                    )
-                  ),
-                  imageBorderRadius: const BorderRadius.only(
-                    topLeft: Radius.zero,
-                    topRight: Radius.circular(19),
-                    bottomLeft: Radius.circular(19),
-                    bottomRight: Radius.zero,
+                  imageBorderRadius: BorderRadius.only(
+                    topLeft: index % 2 == 0 ? const Radius.circular(19) : Radius.zero,
+                    topRight: index % 2 == 0 ? Radius.zero : const Radius.circular(19),
+                    bottomLeft: index % 2 == 0 ? Radius.zero : const Radius.circular(19),
+                    bottomRight: index % 2 == 0 ? const Radius.circular(19) : Radius.zero,
                   ),
                 );
+                
               },
             );
           }
