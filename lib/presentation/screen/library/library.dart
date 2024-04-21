@@ -8,6 +8,7 @@ import 'package:muix_player/presentation/screen/all_songs/songs.dart';
 import 'package:muix_player/presentation/screen/artists/artist.dart';
 import 'package:muix_player/presentation/screen/dashboard/dashboard.dart';
 import 'package:muix_player/presentation/screen/genres/genres_screen.dart';
+import 'package:muix_player/presentation/screen/playlist/playlist_screen.dart';
 import 'package:muix_player/theme/app_muix_theme.dart';
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:super_cupertino_navigation_bar/super_cupertino_navigation_bar.dart';
@@ -104,9 +105,7 @@ class _LibraryState extends ConsumerState<Library> with TickerProviderStateMixin
                       Albums(),
                       Artist(),
                       GenresScreen(),
-                      Center(
-                        child: Icon(Icons.directions_transit),
-                      ),
+                      PlaylistScreen()
                     ],
                   ),
                 ),
