@@ -4,10 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:muix_player/helper/icons.dart';
 import 'package:muix_player/presentation/providers/tab_state_provider.dart';
 import 'package:muix_player/presentation/screen/albums/albums.dart';
-import 'package:muix_player/presentation/screen/albums/albums_detail_screen.dart';
 import 'package:muix_player/presentation/screen/all_songs/songs.dart';
 import 'package:muix_player/presentation/screen/artists/artist.dart';
 import 'package:muix_player/presentation/screen/dashboard/dashboard.dart';
+import 'package:muix_player/presentation/screen/genres/genres_screen.dart';
 import 'package:muix_player/theme/app_muix_theme.dart';
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:super_cupertino_navigation_bar/super_cupertino_navigation_bar.dart';
@@ -96,17 +96,15 @@ class _LibraryState extends ConsumerState<Library> with TickerProviderStateMixin
                     Tab(text: "Playlist"),
                   ],
                 ),
-                Expanded(
+                const Expanded(
                   child: TabBarView(
                     children: <Widget>[
-                      const Dashboard(),
-                      const Songs(),
-                      ref.watch(tabStateProviderProvider) ? const AlbumsDetailScreen() : const Albums(),
-                      const Artist(),
-                      const Center(
-                        child: Icon(Icons.directions_car),
-                      ),
-                      const Center(
+                      Dashboard(),
+                      Songs(),
+                      Albums(),
+                      Artist(),
+                      GenresScreen(),
+                      Center(
                         child: Icon(Icons.directions_transit),
                       ),
                     ],

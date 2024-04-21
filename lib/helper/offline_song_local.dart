@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/services.dart';
 import 'package:muix_player/util/util.dart';
 import 'package:on_audio_query/on_audio_query.dart';
@@ -22,6 +24,11 @@ class OfflineSongLocal extends OnAudioQuery{
     return onAudioQuery.queryArtists();
   }
 
+  Future<List<SongModel>> getSongsForArtist(String artist) async {
+    final songs = await onAudioQuery.querySongs();
+    return songs.where((item) => item.artist == artist).toList();
+  }
+
   Future<List<GenreModel>> getGenres() async {
     return onAudioQuery.queryGenres();
   }
@@ -33,5 +40,20 @@ class OfflineSongLocal extends OnAudioQuery{
     Uint8List? getImage = await onAudioQuery.queryArtwork(id, artworkType, size: 200);
     if(getImage != null) return Uint8List.fromList(getImage);
       return Image.imageToUint8List('assets/images/placeholder_song.png');
+  }
+
+  Future<List<Uint8List>> getLisArtwork() async {
+    final songs = await onAudioQuery.querySongs();
+    List<Uint8List> listImage = [];
+
+    for (var item in songs) {
+      Uint8List? getImage = await onAudioQuery.queryArtwork(item.id, ArtworkType.AUDIO, size: 200);
+      ByteData data = await rootBundle.load('assets/images/placeholder_song.png');
+      Uint8List uint8List = data.buffer.asUint8List();
+      final image = getImage ?? uint8List;
+      
+      listImage.add(image);
+    }
+    return listImage;
   }
 }

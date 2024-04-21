@@ -89,7 +89,12 @@ class CustomNavigationState extends State<CustomNavigation> {
                       return ListItem(
                         title: Text(currentSong.title, maxLines: 1, style: AppMuixTheme.textUrbanistMediumPrimary12,),
                         subtitle: Text(currentSong.artist ?? "", maxLines: 1, style: AppMuixTheme.textUrbanistMediumPrimary12,),
-                        artwork: QueryArtworkWidget(
+                        artwork: currentSong.id.isEmpty ? 
+                        Image.asset(
+                          'assets/images/placeholder_song.png',
+                          height: 70.h,
+                        ) :
+                        QueryArtworkWidget(
                           id: int.parse(currentSong.id),
                           type: ArtworkType.AUDIO,
                           artworkBorder: const BorderRadius.only(
