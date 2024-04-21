@@ -2,9 +2,11 @@ import 'package:audio_service/audio_service.dart';
 import 'package:blur/blur.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:muix_player/config/menu/navegation_item.dart';
 import 'package:muix_player/helper/icons.dart';
+import 'package:muix_player/presentation/providers/color_state.dart';
 import 'package:muix_player/presentation/providers/dominate_color.dart';
 import 'package:muix_player/presentation/screen/home/home.dart';
 import 'package:muix_player/presentation/screen/library/library.dart';
@@ -17,14 +19,14 @@ import 'package:muix_player/services/service_locator.dart';
 import 'package:muix_player/theme/app_muix_theme.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
-class CustomNavigation extends StatefulWidget {
+class CustomNavigation extends ConsumerStatefulWidget {
   const CustomNavigation({ Key? key }) : super(key: key);
 
   @override
   CustomNavigationState createState() => CustomNavigationState();
 }
 
-class CustomNavigationState extends State<CustomNavigation> {
+class CustomNavigationState extends ConsumerState<CustomNavigation> {
 
   int currentPageIndex = 0;
   final audioManager = getIt<AudioManager>();
@@ -34,6 +36,8 @@ class CustomNavigationState extends State<CustomNavigation> {
   int actualIndex = 0;
   @override
   Widget build(BuildContext context) {
+
+    // Brightness brightness = ThemeData.estimateBrightnessForColor(ref.watch(colorStateProvider));
     return Scaffold(
       body: Stack(
         children: [
@@ -87,8 +91,8 @@ class CustomNavigationState extends State<CustomNavigation> {
                     valueListenable: dominateColor.color,
                     builder: (_, color, __) {
                       return ListItem(
-                        title: Text(currentSong.title, maxLines: 1, style: AppMuixTheme.textUrbanistMediumPrimary12,),
-                        subtitle: Text(currentSong.artist ?? "", maxLines: 1, style: AppMuixTheme.textUrbanistMediumPrimary12,),
+                        title: Text(currentSong.title, maxLines: 1, style: ThemeData.estimateBrightnessForColor(ref.watch(colorStateProvider)) == Brightness.light ? AppMuixTheme.textTitleUrbanistRegular16 : AppMuixTheme.textTitleUrbanistRegular16White,),
+                        subtitle: Text(currentSong.artist ?? "", maxLines: 1, style: ThemeData.estimateBrightnessForColor(ref.watch(colorStateProvider)) == Brightness.light ? AppMuixTheme.textUrbanistBold16 : AppMuixTheme.textUrbanistBold16White,),
                         artwork: currentSong.id.isEmpty ? 
                         Image.asset(
                           'assets/images/placeholder_song.png',
@@ -109,14 +113,14 @@ class CustomNavigationState extends State<CustomNavigation> {
                             builder: (BuildContext context) => const PlayingScreen(),
                           ),
                         ),
-                        icon: IconButton(onPressed: audioManager.play, icon: const Iconify(Ri.play_fill, color: Colors.white, size: 30,)),
+                        icon: IconButton(onPressed: audioManager.play, icon: Iconify(Ri.play_fill, color: ThemeData.estimateBrightnessForColor(ref.watch(colorStateProvider)) == Brightness.light ? AppMuixTheme.primary : Colors.white, size: 30,)),
                         iconQueue: IconButton(
                           onPressed: () => setState(() {isClic = false;}), 
-                          icon: const Iconify(IconParkOutline.music_menu, color: Colors.white,)
+                          icon: Iconify(IconParkOutline.music_menu, color: ThemeData.estimateBrightnessForColor(ref.watch(colorStateProvider)) == Brightness.light ? AppMuixTheme.primary : Colors.white,)
                         ),
                         enableIconQueue: true,
                         boxDecoration: BoxDecoration(
-                          color: color,
+                          color: ref.watch(colorStateProvider),
                           border: Border.all(
                             color: Colors.white
                           ),

@@ -92,6 +92,20 @@ class AppMuixTheme extends ChangeNotifier{
     fontWeight: FontWeight.normal
   );
 
+  static TextStyle get textTitleUrbanistRegular16 => TextStyle(
+    fontFamily: 'Urbanist',
+    color: textPrimary,
+    fontSize: 15.sp,
+    fontWeight: FontWeight.normal
+  );
+
+  static TextStyle get textTitleUrbanistRegular16White => TextStyle(
+    fontFamily: 'Urbanist',
+    color: Colors.white,
+    fontSize: 15.sp,
+    fontWeight: FontWeight.normal
+  );
+
   // Texto normal color primario Medium
 
   static TextStyle get textUrbanistMediumPrimary11 => TextStyle(
@@ -145,18 +159,26 @@ class AppMuixTheme extends ChangeNotifier{
     fontWeight: FontWeight.normal
   );
 
-  // Texto normal Bold
-  static TextStyle get textUrbanistBold15 => TextStyle(
+  // Texto normal  Bold
+  static TextStyle get textUrbanistBold16 => TextStyle(
     fontFamily: 'Urbanist',
     color: textPrimary,
     fontSize: 15.sp,
     fontWeight: FontWeight.bold
   );
   
-  static TextStyle get textClassicBlack16 => TextStyle(
-    fontFamily: 'Alata',
-    color: textColor,
-    fontSize: 16.sp,
+  static TextStyle get textUrbanistBold16White => TextStyle(
+    fontFamily: 'Urbanist',
+    color: Colors.white,
+    fontSize: 15.sp,
+    fontWeight: FontWeight.bold
+  );
+
+  static TextStyle get textUrbanistBold15 => TextStyle(
+    fontFamily: 'Urbanist',
+    color: textPrimary,
+    fontSize: 14.sp,
+    fontWeight: FontWeight.bold
   );
   
   static TextStyle get textClassicBlack14 => TextStyle(

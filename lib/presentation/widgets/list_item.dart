@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
  class ListItem extends StatelessWidget {
+  final double height;
   final Text title;
   final Text subtitle;
   final Widget artwork;
@@ -12,6 +12,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
   final BorderRadiusGeometry imageBorderRadius;
 
  const ListItem({ Key? key, 
+  this.height = 45,
   required this.title, 
   required this.subtitle, 
   required this.artwork,
@@ -29,7 +30,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
       onTap: onTap,
        child: Container(
         margin: const EdgeInsets.only(top: 3),  
-        height: 45.h,
+        height: height,
         decoration: boxDecoration,
         child: Row(
           children: [
