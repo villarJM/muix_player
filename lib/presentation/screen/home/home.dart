@@ -71,11 +71,17 @@ const Home({ Key? key }) : super(key: key);
                   20.0, 0.0, 0.0, 20.0,
                 ),
                 const SizedBox(height: 30,),
-                carouselItem('Most Played', 'View All', 10),
+
+                carouselItem(
+                  Text(
+                  'Most Played', textAlign: TextAlign.center, 
+                  style: AppMuixTheme.textUrbanistMediumPrimary12,), 
+                  Text('View All', textAlign: TextAlign.center, style: AppMuixTheme.textUrbanistMediumPrimary12), 10),
                 const SizedBox(height: 5,),
-                carouselItem('Playlist', 'View All', 10),
+                carouselItem(Text('Playlist', textAlign: TextAlign.center, style: AppMuixTheme.textUrbanistMediumPrimary12), Text('View All', textAlign: TextAlign.center, style: AppMuixTheme.textUrbanistMediumPrimary12), 10),
                 const SizedBox(height: 5,),
-                carouselItem('Artist', 'View All', 100)
+                carouselItem(Text('Artist', textAlign: TextAlign.center, style: AppMuixTheme.textUrbanistMediumPrimary12), Text('View All', textAlign: TextAlign.center, style: AppMuixTheme.textUrbanistMediumPrimary12), 100),
+                SizedBox(height: 130.h,),
               ],
             ),
           ),
@@ -85,8 +91,8 @@ const Home({ Key? key }) : super(key: key);
   }
 
   Stack carouselItem(
-    String labelL,
-    String labelR,
+    Text labelL,
+    Text labelR,
     double radius,
   ) {
     return Stack(
@@ -202,23 +208,21 @@ const Home({ Key? key }) : super(key: key);
         ),
         Positioned(
           child: CustomCarouselIndicator(
-            label: labelL,
-            style: AppMuixTheme.textUrbanistMediumPrimary11,
-            borderRadiusTL: 10,
-            borderRadiusTR: 0,
-            borderRadiusBL: 0,
-            borderRadiusBR: 10,
+            text: labelL,
+            borderRadiusGeometry: const BorderRadius.only(
+              topLeft: Radius.circular(10.0),
+              bottomRight: Radius.circular(10.0) 
+            ),
           )
         ),
         Positioned(
           right: 1,
           child: CustomCarouselIndicator(
-            label: labelR,
-            style: AppMuixTheme.textUrbanistMediumPrimary11,
-            borderRadiusTL: 0,
-            borderRadiusTR: 10,
-            borderRadiusBL: 10,
-            borderRadiusBR: 0,
+            text: labelR,
+            borderRadiusGeometry: const BorderRadius.only(
+              topRight: Radius.circular(10.0),
+              bottomLeft: Radius.circular(10.0) 
+            ),
           )
         )
       ],

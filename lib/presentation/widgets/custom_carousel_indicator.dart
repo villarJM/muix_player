@@ -8,13 +8,10 @@ class CustomCarouselIndicator extends StatelessWidget {
   final double width;
   final double paddingAll;
   final Color colorBorder;
-  final String label;
-  final TextStyle? style;
+  final Widget? text;
+  final Function()? indicatorOnTap;
   final double blur;
-  final double borderRadiusTL;
-  final double borderRadiusTR;
-  final double borderRadiusBL;
-  final double borderRadiusBR;
+  final BorderRadius borderRadiusGeometry;
 
 const CustomCarouselIndicator({ 
   Key? key, 
@@ -22,13 +19,10 @@ const CustomCarouselIndicator({
   this.width = 80, 
   this.paddingAll = 4, 
   this.colorBorder = Colors.white, 
-  required this.label, 
-  this.style,
+  required this.text,
+  this.indicatorOnTap,
   this.blur = 5,
-  required this.borderRadiusTL, 
-  required this.borderRadiusTR, 
-  required this.borderRadiusBL, 
-  required this.borderRadiusBR 
+  this.borderRadiusGeometry = BorderRadius.zero,
 }) : super(key: key);
 
   @override
@@ -42,15 +36,13 @@ const CustomCarouselIndicator({
           color: colorBorder
         )
       ),
-      child: Text(label, style: style, textAlign: TextAlign.center),
+      child: InkWell(
+        onTap: indicatorOnTap,
+        child: text
+      ),
     ).frosted(
       blur: blur,
-      borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(borderRadiusTL),
-        topRight: Radius.circular(borderRadiusTR),
-        bottomLeft: Radius.circular(borderRadiusBL), 
-        bottomRight: Radius.circular(borderRadiusBR), 
-      ),
+      borderRadius: borderRadiusGeometry,
     );
   }
 }

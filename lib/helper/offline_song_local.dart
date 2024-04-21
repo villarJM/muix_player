@@ -45,6 +45,11 @@ class OfflineSongLocal extends OnAudioQuery{
     return onAudioQuery.createPlaylist(namePlaylist);
   }
 
+  Future<List<SongModel>> getRecentlyAddedSongsLocal() async {
+    final songs = await onAudioQuery.querySongs(sortType: SongSortType.DATE_ADDED, orderType: OrderType.ASC_OR_SMALLER);
+    return songs.sublist(0, 20);
+  }
+
   Future<Uint8List> getArtwork(int id, ArtworkType artworkType) async {
     Uint8List? getImage = await onAudioQuery.queryArtwork(id, artworkType, size: 200);
     if(getImage != null) return Uint8List.fromList(getImage);

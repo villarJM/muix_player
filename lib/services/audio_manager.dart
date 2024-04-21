@@ -19,6 +19,7 @@ class AudioManager {
   final songsArtistListNotifier = ValueNotifier<List<SongModel>>([]);
   final genreListNotifier = ValueNotifier<List<GenreModel>>([]);
   final playlistListNotifier = ValueNotifier<List<PlaylistModel>>([]);
+  final recentlyListNotifier = ValueNotifier<List<SongModel>>([]);
   final progressNotifier = ProgressNotifier();
   final repeatButtonNotifier = RepeatButtonNotifier();
   final isFirstSongNotifier = ValueNotifier<bool>(true);
@@ -35,6 +36,7 @@ class AudioManager {
     await _loadArtistList();
     await _loadGenreList();
     await _loadPlaylists();
+    await _loadRecentlyAddedSongs();
     _listenToChangesInPlaylist();
     _listenToPlaybackState();
     _listenToCurrentPosition();
@@ -85,6 +87,10 @@ class AudioManager {
 
   Future<void> loadSongsForArtist(String artist) async {
     songsArtistListNotifier.value = await offlineSongLocal.getSongsForArtist(artist);
+  }
+
+  Future<void> _loadRecentlyAddedSongs() async {
+    recentlyListNotifier.value = await offlineSongLocal.getRecentlyAddedSongsLocal();
   }
 
   void _listenToChangesInPlaylist() {
