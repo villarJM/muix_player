@@ -20,17 +20,19 @@ const Library({ Key? key }) : super(key: key);
   ConsumerState<Library> createState() => _LibraryState();
 }
 
-class _LibraryState extends ConsumerState<Library> with TickerProviderStateMixin{
+class _LibraryState extends ConsumerState<Library> with AutomaticKeepAliveClientMixin{
 
-  late TabController tabController;
+  late ScrollController scrollController;
 
   @override
   void initState() {
-    tabController = TabController(length: 1, vsync: this);
+    scrollController = ScrollController();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context){
+    super.build(context);
     return SuperScaffold(
       appBar: SuperAppBar(
         title: Text('Library', style: AppMuixTheme.textTitleUrbanistRegular36,),
@@ -66,6 +68,7 @@ class _LibraryState extends ConsumerState<Library> with TickerProviderStateMixin
         searchBar: SuperSearchBar(enabled: false),
         backgroundColor: Colors.transparent,
       ),
+      scrollController: scrollController,
       body: Scaffold(
         backgroundColor: Colors.transparent,
         extendBody: true,
@@ -116,4 +119,7 @@ class _LibraryState extends ConsumerState<Library> with TickerProviderStateMixin
       ),
     );
   }
+  
+  @override
+  bool get wantKeepAlive => true;
 }

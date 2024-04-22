@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glass_kit/glass_kit.dart';
 import 'package:muix_player/presentation/widgets/custom_carousel_indicator.dart';
+import 'package:muix_player/presentation/widgets/load_artwork.dart';
 import 'package:muix_player/theme/app_muix_theme.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
@@ -79,12 +80,11 @@ const CustomCarouselItem(
                       ),
                       borderWidth: 1.2,
                       borderRadius: BorderRadius.circular(20),
-                      child: QueryArtworkWidget(
+                      child: LoadArtwork(
                         id: e.id, 
-                        type: ArtworkType.AUDIO,
-                        artworkBorder: BorderRadius.zero,
-                        keepOldArtwork: true,
+                        artworkType: ArtworkType.AUDIO,
                         size: 1800,
+                        quality: FilterQuality.high,
                       ),
                     ),
                     Positioned(

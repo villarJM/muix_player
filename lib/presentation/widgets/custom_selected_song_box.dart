@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:glass_kit/glass_kit.dart';
-import 'package:muix_player/domain/usecases/audio_context_manager.dart';
-import 'package:muix_player/presentation/widgets/loard_artwork.dart';
 
 class CustomSelectedSongBox extends StatelessWidget {
   final int id;

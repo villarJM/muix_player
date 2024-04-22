@@ -11,9 +11,9 @@ class DominateColor {
   final color = ValueNotifier<Color>(const Color.fromARGB(255, 228, 211, 182));
   final offlineSongLocal = getIt<OfflineSongLocal>();
 
-  Future<Color> getDominantingColorImage(int id, ArtworkType artworkType) async {
+  Future<Color> getDominantingColorImage(int id, ArtworkType artworkType, int size) async {
     Color color = const Color.fromARGB(255, 228, 211, 182);
-    final uint8list = await offlineSongLocal.getArtwork(id, artworkType);
+    final uint8list = await offlineSongLocal.getArtwork(id, artworkType, size);
       ui.decodeImageFromList(uint8list, (result) async { 
         final PaletteGenerator generator = await PaletteGenerator.fromImage(result);
           final colorImage = generator.dominantColor!.color;

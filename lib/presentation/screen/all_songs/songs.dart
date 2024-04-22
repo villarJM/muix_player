@@ -7,6 +7,7 @@ import 'package:muix_player/helper/icons.dart';
 import 'package:muix_player/presentation/providers/color_state.dart';
 import 'package:muix_player/presentation/providers/dominate_color.dart';
 import 'package:muix_player/presentation/widgets/list_item.dart';
+import 'package:muix_player/presentation/widgets/load_artwork.dart';
 import 'package:muix_player/services/audio_manager.dart';
 import 'package:muix_player/theme/app_muix_theme.dart';
 import 'package:on_audio_query/on_audio_query.dart';
@@ -22,7 +23,7 @@ const Songs({ Key? key }) : super(key: key);
   ConsumerState<Songs> createState() => _SongsState();
 }
 
-class _SongsState extends ConsumerState<Songs> {
+class _SongsState extends ConsumerState<Songs> with AutomaticKeepAliveClientMixin {
 
   SampleItem? selectedItem;
   ScrollController scrollController = ScrollController();
@@ -30,13 +31,8 @@ class _SongsState extends ConsumerState<Songs> {
   final dominateColor = DominateColor();
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-
-  @override
   Widget build(BuildContext context){
+    super.build(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: ValueListenableBuilder<List<MediaItem>>(
@@ -48,34 +44,29 @@ class _SongsState extends ConsumerState<Songs> {
                 primary: true,
                 scrollDirection: Axis.vertical,
                 itemCount: playlistSongs.length,
+                addAutomaticKeepAlives: true,
                 itemBuilder: (context, index) {
                   final songs = playlistSongs[index];
                   return ListItem(
                     height: orientation == Orientation.portrait ? 45.h : 50.h,
                     title: Text(songs.title, maxLines: 1, style: AppMuixTheme.textTitleUrbanistRegular16,),
                     subtitle: Text(songs.artist ?? "", maxLines: 1, style: AppMuixTheme.textUrbanistBold16,),
-                    artwork: QueryArtworkWidget(
-                      id: int.parse(songs.id),
-                      type: ArtworkType.AUDIO,
-                      keepOldArtwork: true,
-                      artworkBorder: BorderRadius.circular(0),
-                      artworkFit: BoxFit.cover,
-                      artworkHeight: 100.h,
+                    artwork: LoadArtwork(
+                      id: int.parse(songs.id), 
+                      artworkType: ArtworkType.AUDIO,
+                      height: 100.h,
                       frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
                         if (wasSynchronouslyLoaded) return child;
                         return AnimatedOpacity(
                           opacity: frame == null ? 0 : 1,
-                          duration: const Duration(seconds: 1),
+                          duration: const Duration(milliseconds: 500),
                           curve: Curves.easeOut,
                           child: child,
                         );
                       },
-                      nullArtworkWidget: Image.asset(
-                        'assets/images/placeholder_song.png'
-                      ),
                     ),
                     onTap: () {
-                      ref.watch(colorStateProvider.notifier).getDominantingColorImage(int.parse(songs.id), ArtworkType.AUDIO);
+                      ref.watch(colorStateProvider.notifier).getDominantingColorImage(int.parse(songs.id), ArtworkType.AUDIO, 200);
                       audioManager..skipToNextQueueItem(index)..play();
                     },
                     icon: PopupMenuButton<SampleItem>(
@@ -233,11 +224,11 @@ class _SongsState extends ConsumerState<Songs> {
                         bottomLeft: index % 2 == 0 ? Radius.zero : const Radius.circular(20),
                         bottomRight: index % 2 == 0 ? const Radius.circular(20) : Radius.zero,
                       ),
-                      gradient: const LinearGradient(
-                        colors: [Color.fromARGB(255, 5, 23, 39), Color.fromARGB(200, 228, 211, 182),Color.fromARGB(255, 228, 211, 182),],
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                      )
+                      // gradient: const LinearGradient(
+                      //   colors: [Color.fromARGB(255, 5, 23, 39), Color.fromARGB(200, 228, 211, 182),Color.fromARGB(255, 228, 211, 182),],
+                      //   begin: Alignment.centerLeft,
+                      //   end: Alignment.centerRight,
+                      // )
                     ),
                     imageBorderRadius: BorderRadius.only(
                       topLeft: index % 2 == 0 ? const Radius.circular(19) : Radius.zero,
@@ -255,4 +246,7 @@ class _SongsState extends ConsumerState<Songs> {
       ) 
     );
   }
+  
+  @override
+  bool get wantKeepAlive => true;
 }

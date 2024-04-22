@@ -158,7 +158,7 @@ class CustomNavigationState extends ConsumerState<CustomNavigation> {
                           InkWell(
                             onDoubleTap: () => setState(() {isClic = true;}),
                             onTap: () async {
-                              dominateColor.color.value = await dominateColor.getDominantingColorImage(int.parse(songs.id), ArtworkType.AUDIO);
+                              dominateColor.color.value = await dominateColor.getDominantingColorImage(int.parse(songs.id), ArtworkType.AUDIO, 200);
                               audioManager..skipToNextQueueItem(index)..play;
                             },
                             child: QueryArtworkWidget(
