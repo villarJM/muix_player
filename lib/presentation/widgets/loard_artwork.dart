@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:muix_player/helper/offline_song_local.dart';
-import 'package:muix_player/presentation/widgets/cache_imagen_provider.dart';
+import 'package:muix_player/services/service_locator.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class LoardArtwork extends StatelessWidget {
@@ -24,8 +24,9 @@ class LoardArtwork extends StatelessWidget {
 
   @override
   Widget build(BuildContext context){
+    final offlineSongLocal =  getIt<OfflineSongLocal>();
     return FutureBuilder(
-      future: OfflineSongLocal().getArtwork(id, artworkType), 
+      future: offlineSongLocal.getArtwork(id, artworkType),  
       builder: (context, snapshot) {
         final imageUint8List = snapshot.data;
         if (snapshot.hasData && imageUint8List != null) {

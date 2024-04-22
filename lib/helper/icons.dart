@@ -6,6 +6,7 @@ export 'package:iconify_flutter/icons/ic.dart';
 export 'package:iconify_flutter/icons/icon_park_outline.dart';
 export 'package:iconify_flutter/icons/jam.dart';
 export 'package:iconify_flutter/icons/material_symbols.dart';
+export 'package:iconify_flutter/icons/mdi.dart';
 export 'package:iconify_flutter/icons/mingcute.dart';
 export 'package:iconify_flutter/icons/ph.dart';
 export 'package:iconify_flutter/icons/ri.dart';
