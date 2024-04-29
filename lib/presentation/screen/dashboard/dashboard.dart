@@ -20,71 +20,83 @@ const Dashboard({ Key? key }) : super(key: key);
         children: [
 
           const SizedBox(height: 20,),
-          ValueListenableBuilder<List<SongModel>>(
-            valueListenable: audioManager.recentlyListNotifier,
-            builder: (_, recentlySong, __) {
-              return CustomCarouselItem(
-                borderRadiusGeometry: BorderRadius.circular(20),
-                alignmentL: Alignment.topLeft,
-                alignmentR: Alignment.topRight,
-                viewportFraction: 1.0,
-                listItem: recentlySong,
-              );
-            }
-          ),
+          carouselRecentlySongs(audioManager),
           
           const SizedBox(height: 20,),
-          ValueListenableBuilder<List<SongModel>>(
-            valueListenable: audioManager.recentlyListNotifier,
-            builder: (_, recentlySong, __) {
-              return CustomCarouselItem(
-                labelL:  Text('New Albums', textAlign: TextAlign.center, style:AppMuixTheme.textUrbanistMediumPrimary12),
-                labelR: Text('View All', textAlign: TextAlign.center, style: AppMuixTheme.textUrbanistMediumPrimary12),
-                enableIndicator: true,
-                borderRadiusGeometry: BorderRadius.circular(20),
-                alignmentL: Alignment.centerLeft,
-                alignmentR: Alignment.centerRight,
-                borderRadiusGeometryIndicatorL: const BorderRadius.only(
-                  topRight: Radius.circular(10.0),
-                  bottomLeft: Radius.circular(10.0) 
-                ),
-                borderRadiusGeometryIndicatorR: const BorderRadius.only(
-                  topLeft: Radius.circular(10.0),
-                  bottomRight: Radius.circular(10.0) 
-                ),
-                viewportFraction: 0.5,
-                listItem: recentlySong,
-              );
-            }
-          ),
+          carouselNewAlbums(audioManager),
 
           const SizedBox(height: 5,),
-          ValueListenableBuilder<List<SongModel>>(
-            valueListenable: audioManager.recentlyListNotifier,
-            builder: (_, recentlySong, __) {
-              return CustomCarouselItem(
-                labelL: Text('Playlist', textAlign: TextAlign.center, style: AppMuixTheme.textUrbanistMediumPrimary12),
-                labelR: Text('View All', textAlign: TextAlign.center, style: AppMuixTheme.textUrbanistMediumPrimary12),
-                enableIndicator: true,
-                borderRadiusGeometry: BorderRadius.circular(20),
-                alignmentL: Alignment.centerLeft,
-                alignmentR: Alignment.centerRight,
-                borderRadiusGeometryIndicatorL: const BorderRadius.only(
-                  topRight: Radius.circular(10.0),
-                  bottomLeft: Radius.circular(10.0) 
-                ),
-                borderRadiusGeometryIndicatorR: const BorderRadius.only(
-                  topLeft: Radius.circular(10.0),
-                  bottomRight: Radius.circular(10.0) 
-                ),
-                viewportFraction: 0.5,
-                listItem: recentlySong,
-              );
-            }
-          ),
+          carouselPlaylist(audioManager),
           SizedBox(height: 70.h,),
         ],
       ),
     );
+  }
+
+  ValueListenableBuilder<List<SongModel>> carouselPlaylist(AudioManager audioManager) {
+    return ValueListenableBuilder<List<SongModel>>(
+          valueListenable: audioManager.recentlyListNotifier,
+          builder: (_, recentlySong, __) {
+            return CustomCarouselItem(
+              labelL: Text('Playlist', textAlign: TextAlign.center, style: AppMuixTheme.textUrbanistMediumPrimary12),
+              labelR: Text('View All', textAlign: TextAlign.center, style: AppMuixTheme.textUrbanistMediumPrimary12),
+              enableIndicator: true,
+              borderRadiusGeometry: BorderRadius.circular(20),
+              alignmentL: Alignment.centerLeft,
+              alignmentR: Alignment.centerRight,
+              borderRadiusGeometryIndicatorL: const BorderRadius.only(
+                topRight: Radius.circular(10.0),
+                bottomLeft: Radius.circular(10.0) 
+              ),
+              borderRadiusGeometryIndicatorR: const BorderRadius.only(
+                topLeft: Radius.circular(10.0),
+                bottomRight: Radius.circular(10.0) 
+              ),
+              viewportFraction: 0.5,
+              listItem: recentlySong,
+            );
+          }
+        );
+  }
+
+  ValueListenableBuilder<List<SongModel>> carouselNewAlbums(AudioManager audioManager) {
+    return ValueListenableBuilder<List<SongModel>>(
+          valueListenable: audioManager.recentlyListNotifier,
+          builder: (_, recentlySong, __) {
+            return CustomCarouselItem(
+              labelL:  Text('New Albums', textAlign: TextAlign.center, style:AppMuixTheme.textUrbanistMediumPrimary12),
+              labelR: Text('View All', textAlign: TextAlign.center, style: AppMuixTheme.textUrbanistMediumPrimary12),
+              enableIndicator: true,
+              borderRadiusGeometry: BorderRadius.circular(20),
+              alignmentL: Alignment.centerLeft,
+              alignmentR: Alignment.centerRight,
+              borderRadiusGeometryIndicatorL: const BorderRadius.only(
+                topRight: Radius.circular(10.0),
+                bottomLeft: Radius.circular(10.0) 
+              ),
+              borderRadiusGeometryIndicatorR: const BorderRadius.only(
+                topLeft: Radius.circular(10.0),
+                bottomRight: Radius.circular(10.0) 
+              ),
+              viewportFraction: 0.5,
+              listItem: recentlySong,
+            );
+          }
+        );
+  }
+
+  ValueListenableBuilder<List<SongModel>> carouselRecentlySongs(AudioManager audioManager) {
+    return ValueListenableBuilder<List<SongModel>>(
+          valueListenable: audioManager.recentlyListNotifier,
+          builder: (_, recentlySong, __) {
+            return CustomCarouselItem(
+              borderRadiusGeometry: BorderRadius.circular(20),
+              alignmentL: Alignment.topLeft,
+              alignmentR: Alignment.topRight,
+              viewportFraction: 1.0,
+              listItem: recentlySong,
+            );
+          }
+        );
   }
 }
