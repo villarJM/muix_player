@@ -91,6 +91,7 @@ class CustomNavigationState extends ConsumerState<CustomNavigation> {
                     valueListenable: dominateColor.color,
                     builder: (_, color, __) {
                       return ListItem(
+                        height: 50.h,
                         title: Text(currentSong.title, maxLines: 1, style: ThemeData.estimateBrightnessForColor(ref.watch(colorStateProvider)) == Brightness.light ? AppMuixTheme.textTitleUrbanistRegular16 : AppMuixTheme.textTitleUrbanistRegular16White,),
                         subtitle: Text(currentSong.artist ?? "", maxLines: 1, style: ThemeData.estimateBrightnessForColor(ref.watch(colorStateProvider)) == Brightness.light ? AppMuixTheme.textUrbanistBold16 : AppMuixTheme.textUrbanistBold16White,),
                         artwork: currentSong.id.isEmpty ? 
@@ -119,17 +120,18 @@ class CustomNavigationState extends ConsumerState<CustomNavigation> {
                           icon: Iconify(IconParkOutline.music_menu, color: ThemeData.estimateBrightnessForColor(ref.watch(colorStateProvider)) == Brightness.light ? AppMuixTheme.primary : Colors.white,)
                         ),
                         enableIconQueue: true,
-                        boxDecoration: BoxDecoration(
-                          color: ref.watch(colorStateProvider),
-                          border: Border.all(
-                            color: Colors.white
-                          ),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
+                        
+                        borderRadius: BorderRadius.circular(10),
+                        
                         imageBorderRadius: const BorderRadius.horizontal(
                           left: Radius.circular(10), 
                           right: Radius.zero
-                        )
+                        ),
+                        gradient: LinearGradient(
+                          colors: [ref.watch(colorStateProvider).withOpacity(0.40), ref.watch(colorStateProvider)],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
                       );
                     }
                   );

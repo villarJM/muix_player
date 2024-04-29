@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:glass_kit/glass_kit.dart';
  class ListItem extends StatelessWidget {
   final double height;
   final Text title;
@@ -8,8 +9,11 @@ import 'package:flutter/material.dart';
   final Widget icon;
   final Widget? iconQueue;
   final bool enableIconQueue;
-  final BoxDecoration boxDecoration;
+  final BorderRadius borderRadius;
   final BorderRadiusGeometry imageBorderRadius;
+  final Gradient? gradient;
+  final Gradient? borderGradient;
+  final bool isGlass;
 
  const ListItem({ Key? key, 
   this.height = 45,
@@ -20,18 +24,35 @@ import 'package:flutter/material.dart';
   required this.icon,
   this.iconQueue,
   this.enableIconQueue = false,
-  this.boxDecoration = const BoxDecoration(color: Colors.white),
+  this.borderRadius = BorderRadius.zero,
   this.imageBorderRadius = BorderRadius.zero,
+  this.gradient = const LinearGradient(
+    colors: [Colors.white38, Colors.white10],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  ),
+  this.borderGradient = const LinearGradient(
+      colors: [Colors.white60, Colors.white10, Colors.white10, Colors.white60],
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      stops: [0.0, 0.39, 0.40, 1.0],
+    ),
+  this.isGlass = false,
   }) : super(key: key);
  
    @override
    Widget build(BuildContext context){
      return InkWell(
       onTap: onTap,
-       child: Container(
-        margin: const EdgeInsets.only(top: 3),  
+       child: GlassContainer(
         height: height,
-        decoration: boxDecoration,
+        width: double.infinity,
+        blur: 5,
+        gradient: gradient,
+        borderGradient: borderGradient,
+        borderWidth: 1.2,
+        margin: const EdgeInsets.only(top: 3),
+        borderRadius: borderRadius,
         child: Row(
           children: [
             ClipRRect(

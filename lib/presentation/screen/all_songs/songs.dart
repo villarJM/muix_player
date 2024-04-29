@@ -72,30 +72,8 @@ class _SongsState extends ConsumerState<Songs> with AutomaticKeepAliveClientMixi
                   ref.watch(colorStateProvider.notifier).getDominantingColorImage(int.parse(songs.id), ArtworkType.AUDIO, 200);
                   audioManager..skipToNextQueueItem(index)..play();
                 },
-                icon: popupMenuButton(context, int.parse(songs.id)), 
-                  
-                boxDecoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.white
-                  ),
-                  borderRadius: BorderRadius.only(
-                    topLeft: index % 2 == 0 ? const Radius.circular(20) : Radius.zero,
-                    topRight: index % 2 == 0 ? Radius.zero : const Radius.circular(20),
-                    bottomLeft: index % 2 == 0 ? Radius.zero : const Radius.circular(20),
-                    bottomRight: index % 2 == 0 ? const Radius.circular(20) : Radius.zero,
-                  ),
-                  // gradient: const LinearGradient(
-                  //   colors: [Color.fromARGB(255, 5, 23, 39), Color.fromARGB(200, 228, 211, 182),Color.fromARGB(255, 228, 211, 182),],
-                  //   begin: Alignment.centerLeft,
-                  //   end: Alignment.centerRight,
-                  // )
-                ),
-                imageBorderRadius: BorderRadius.only(
-                  topLeft: index % 2 == 0 ? const Radius.circular(19) : Radius.zero,
-                  topRight: index % 2 == 0 ? Radius.zero : const Radius.circular(19),
-                  bottomLeft: index % 2 == 0 ? Radius.zero : const Radius.circular(19),
-                  bottomRight: index % 2 == 0 ? const Radius.circular(19) : Radius.zero,
-                ),
+                icon: popupMenuButton(context, int.parse(songs.id)),
+                borderRadius: BorderRadius.circular(10.0),
               );
               
             },

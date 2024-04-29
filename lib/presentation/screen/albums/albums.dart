@@ -52,7 +52,7 @@ class _AlbumsState extends ConsumerState<Albums> {
                 itemBuilder: (context, index) => InkWell(
                   onTap: () {
                     final songs = songList.where((item) => item.album == albumList[index].album).toList();
-                    Navigator.pushReplacement(context, MaterialPageRoute(
+                    Navigator.push(context, MaterialPageRoute(
                         builder: (context) => AlbumsDetailScreen(albumList[index].getMap, songs),
                       )
                     );

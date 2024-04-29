@@ -132,21 +132,12 @@ class _ArtistsDetailScreenState extends State<ArtistsDetailScreen> {
                         audioManager..skipToNextQueueItem(index)..play();
                       },
                       icon: IconButton(onPressed: (){}, icon: const Icon(Icons.more_vert)),
-                      boxDecoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.white
-                        ),
-                        borderRadius: BorderRadius.only(
-                          topLeft: index % 2 == 0 ? const Radius.circular(20) : Radius.zero,
-                          topRight: index % 2 == 0 ? Radius.zero : const Radius.circular(20),
-                          bottomLeft: index % 2 == 0 ? Radius.zero : const Radius.circular(20),
-                          bottomRight: index % 2 == 0 ? const Radius.circular(20) : Radius.zero,
-                        ),
-                        gradient: const LinearGradient(
-                          colors: [Color.fromARGB(255, 5, 23, 39), Color.fromARGB(200, 228, 211, 182),Color.fromARGB(255, 228, 211, 182),],
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                        )
+                      
+                      borderRadius: BorderRadius.only(
+                        topLeft: index % 2 == 0 ? const Radius.circular(20) : Radius.zero,
+                        topRight: index % 2 == 0 ? Radius.zero : const Radius.circular(20),
+                        bottomLeft: index % 2 == 0 ? Radius.zero : const Radius.circular(20),
+                        bottomRight: index % 2 == 0 ? const Radius.circular(20) : Radius.zero,
                       ),
                       imageBorderRadius: BorderRadius.only(
                         topLeft: index % 2 == 0 ? const Radius.circular(19) : Radius.zero,
