@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:flutter/services.dart';
 import 'package:muix_player/util/util.dart';
 import 'package:on_audio_query/on_audio_query.dart';
@@ -43,6 +41,14 @@ class OfflineSongLocal extends OnAudioQuery{
 
   Future<bool> createPlayList(String namePlaylist) async {
     return onAudioQuery.createPlaylist(namePlaylist);
+  }
+
+  Future<bool> renamePlayList(int playlistId, String newName) async {
+    return onAudioQuery.renamePlaylist(playlistId, newName);
+  }
+
+  Future<bool> deletePlayList(int playlistId) async {
+    return onAudioQuery.removePlaylist(playlistId);
   }
 
   Future<List<SongModel>> getRecentlyAddedSongsLocal() async {

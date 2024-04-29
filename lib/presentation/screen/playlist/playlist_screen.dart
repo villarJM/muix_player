@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glass_kit/glass_kit.dart';
+import 'package:muix_player/config/menu/popup_menu_items_playlist.dart';
 import 'package:muix_player/helper/icons.dart';
 import 'package:muix_player/helper/offline_song_local.dart';
+import 'package:muix_player/presentation/widgets/load_artwork.dart';
+import 'package:muix_player/presentation/widgets/modal_delete.dart';
+import 'package:muix_player/presentation/widgets/modal_input.dart';
 import 'package:muix_player/services/audio_manager.dart';
 import 'package:muix_player/services/service_locator.dart';
 import 'package:muix_player/theme/app_muix_theme.dart';
+import 'package:muix_player/util/sample_item.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class PlaylistScreen extends StatefulWidget {
@@ -19,7 +24,9 @@ class PlaylistScreenState extends State<PlaylistScreen> {
 
   final offlineSongLocal = getIt<OfflineSongLocal>();
   final audioManager = getIt<AudioManager>();
+  SampleItem? selectedItem;
 
+  final textCUController = TextEditingController();
   late ScrollController scrollController;
 
   @override
@@ -34,15 +41,21 @@ class PlaylistScreenState extends State<PlaylistScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: ValueListenableBuilder<List<PlaylistModel>>(
         valueListenable: audioManager.playlistListNotifier,
-        builder: (_, playlist, __) {
+        builder: ( context, playlist, __) {
           return Column(
             children: [
-              Row(
-                children: [
-                  IconButton(onPressed: (){}, icon: const Iconify(MaterialSymbols.playlist_add_rounded, size: 35,)),
-                  IconButton(onPressed: (){}, icon: const Iconify(MaterialSymbols.playlist_remove_rounded, size: 35,)),
-                  IconButton(onPressed: (){}, icon: const Iconify(Mdi.playlist_edit, size: 35,)),
-                ],
+              IconButton(
+                onPressed: () => modalInput(
+                context: context, 
+                controller: textCUController,
+                onPressed: () {
+                  offlineSongLocal.createPlayList(textCUController.text);
+                  textCUController.clear();
+                  audioManager.loadPlaylists();
+                  Navigator.of(context).pop();
+                },
+              ), 
+              icon: const Iconify(Ic.round_playlist_add),
               ),
               Flexible(
                 child: GridView.builder(
@@ -53,74 +66,122 @@ class PlaylistScreenState extends State<PlaylistScreen> {
                     mainAxisSpacing: 7,
                     childAspectRatio: 0.8,
                   ),
-                  
                   controller: scrollController,
                   itemBuilder: (context, index) => InkWell(
-                    onTap: () {
-                      
-                      // Navigator.pushReplacement(context, MaterialPageRoute(
-                      //     builder: (context) => AlbumsDetailScreen(albumList[index].getMap, songs),
-                      //   )
-                      // );
-                    },
-                    onLongPress: () {
-                      
-                    },
-                    child: GlassContainer(
-                      height: 260.h,
-                      width: double.infinity,
-                      blur: 5,
-                      gradient: LinearGradient(
-                        colors: [Colors.white.withOpacity(0.40), Colors.white.withOpacity(0.10)],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      borderGradient: LinearGradient(
-                        colors: [Colors.white.withOpacity(0.60), Colors.white.withOpacity(0.10), Colors.white.withOpacity(0.05), Colors.white.withOpacity(0.6)],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        stops: const [0.0, 0.39, 0.40, 1.0],
-                      ),
-                      borderWidth: 1.2,
-                      borderRadius: BorderRadius.circular(10),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          QueryArtworkWidget(
-                            id: playlist[index].id,
-                            type: ArtworkType.PLAYLIST,
-                            artworkBorder: BorderRadius.circular(10),
-                            artworkQuality: FilterQuality.high,
-                            artworkFit: BoxFit.cover,
-                            quality: 100,
-                            artworkWidth: double.infinity,
-                            artworkHeight: 120.h,
-                            size: 1000,
+                    onTap: () {},
+                    child: Stack(
+                      children: [
+                        GlassContainer(
+                          height: 260.h,
+                          width: double.infinity,
+                          blur: 5,
+                          gradient: LinearGradient(
+                            colors: [Colors.white.withOpacity(0.40), Colors.white.withOpacity(0.10)],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                            child: Align(
-                              alignment: Alignment.bottomCenter,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text(playlist[index].playlist, maxLines: 1, overflow: TextOverflow.fade, style: AppMuixTheme.textUrbanistMediumPrimary12,),
-                                  Text('${playlist[index].numOfSongs} Songs', style: AppMuixTheme.textUrbanistMediumPrimary12,)
-                                ],
+                          borderGradient: LinearGradient(
+                            colors: [Colors.white.withOpacity(0.60), Colors.white.withOpacity(0.10), Colors.white.withOpacity(0.05), Colors.white.withOpacity(0.6)],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            stops: const [0.0, 0.39, 0.40, 1.0],
+                          ),
+                          borderWidth: 1.2,
+                          borderRadius: BorderRadius.circular(10),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              LoadArtwork(
+                                id: playlist[index].id,
+                                artworkType: ArtworkType.PLAYLIST,
+                                quality: FilterQuality.high,
+                                width: double.infinity,
+                                height: 120.h,
+                                size: 1800,
                               ),
-                            ),
-                          )
-                        ],
-                      ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                child: Align(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Text('${playlist[index].playlist}: ${playlist[index].numOfSongs} Songs', style: AppMuixTheme.textUrbanistMediumPrimary12,)
+                                    ],
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        popupMenuButton(playlist[index]),
+                      ],
                     ),
                   ),       
                 ),
               ),
+              SizedBox(height: 60.h,),
             ],
           );
         }
       ),
+    );
+  }
+
+  Positioned popupMenuButton(PlaylistModel playlist) {
+    return Positioned(
+      child: PopupMenuButton<SampleItem>(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20.0),
+          topRight: Radius.circular(0),
+          bottomLeft: Radius.circular(20.0),
+          bottomRight: Radius.circular(20.0)
+        )
+      ),
+        initialValue: selectedItem,
+        onSelected: (SampleItem item) {
+          switch (item) {
+            case SampleItem.itemOne:
+              modalInput(
+                context: context, 
+                controller: textCUController,
+                onPressed: () {
+                  offlineSongLocal.createPlayList(textCUController.text);
+                  textCUController.clear();
+                  audioManager.loadPlaylists();
+                  Navigator.of(context).pop();
+                },
+              );
+              break;
+            case SampleItem.itemTwo:
+              setState(() => textCUController.text = playlist.playlist);
+              modalInput(
+                context: context,
+                controller: textCUController,
+                onPressed: () {
+                  offlineSongLocal.renamePlayList( playlist.id, textCUController.text);
+                  textCUController.clear();
+                  audioManager.loadPlaylists();
+                  Navigator.of(context).pop();
+                },
+              );
+              break;
+            case SampleItem.itemThree:
+              modalDelete(
+                context: context,
+                onPressed: () {
+                  offlineSongLocal.deletePlayList(playlist.id);
+                  audioManager.loadPlaylists();
+                  Navigator.of(context).pop();
+                },
+              );
+              break;
+            default:
+          }
+        },
+        itemBuilder: (context) => popupItems
+      ), 
     );
   }
 }

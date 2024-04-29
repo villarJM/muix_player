@@ -35,7 +35,7 @@ class AudioManager {
     await _loadAlbumList();
     await _loadArtistList();
     await _loadGenreList();
-    await _loadPlaylists();
+    await loadPlaylists();
     await _loadRecentlyAddedSongs();
     _listenToChangesInPlaylist();
     _listenToPlaybackState();
@@ -76,7 +76,7 @@ class AudioManager {
     albumListNotifier.value = albumList;
   }
 
-  Future<void> _loadPlaylists() async {
+  Future<void> loadPlaylists() async {
       final albumList = await offlineSongLocal.getPlaylists();
       playlistListNotifier.value = albumList;
   }

@@ -152,6 +152,13 @@ class AppMuixTheme extends ChangeNotifier{
     fontWeight: FontWeight.w800
   );
   // Texto normal Medium
+  static TextStyle get textUrbanistMedium15White => TextStyle(
+    fontFamily: 'Urbanist',
+    color: Colors.white,
+    fontSize: 15.sp,
+    fontWeight: FontWeight.normal
+  );
+
   static TextStyle get textUrbanistMedium12 => TextStyle(
     fontFamily: 'Urbanist',
     color: Colors.white,
