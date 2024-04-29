@@ -7,7 +7,7 @@ import 'package:muix_player/presentation/widgets/load_artwork.dart';
 import 'package:muix_player/theme/app_muix_theme.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
-class CustomCarouselItem extends StatelessWidget {
+class CustomCarouselItem extends StatefulWidget {
 
   final bool enableIndicator;
   final double angleL; 
@@ -43,7 +43,13 @@ const CustomCarouselItem(
 }) : super(key: key);
 
   @override
+  State<CustomCarouselItem> createState() => _CustomCarouselItemState();
+}
+
+class _CustomCarouselItemState extends State<CustomCarouselItem> with AutomaticKeepAliveClientMixin {
+  @override
   Widget build(BuildContext context){
+    super.build(context);
     return Stack(
       children: [
         Padding(
@@ -53,12 +59,12 @@ const CustomCarouselItem(
               padEnds: false,
               enableInfiniteScroll: false,
               height: 160.h,
-              viewportFraction: viewportFraction,
+              viewportFraction: widget.viewportFraction,
             ),
-            items: listItem.map((e) => Padding(
+            items: widget.listItem.map((e) => Padding(
               padding: const EdgeInsets.only(right: 5),
               child: ClipRRect(
-                borderRadius: borderRadiusGeometry,
+                borderRadius: widget.borderRadiusGeometry,
                 child: Stack(
                   alignment: Alignment.bottomCenter,
                   fit: StackFit.expand,
@@ -104,30 +110,30 @@ const CustomCarouselItem(
           ),
         ),
 
-        enableIndicator == true ?
+        widget.enableIndicator == true ?
         Positioned.fill(
-          left: left,
+          left: widget.left,
           child: Align(
-            alignment: alignmentL,
+            alignment: widget.alignmentL,
             child: Transform.rotate(
-              angle: angleL,
+              angle: widget.angleL,
               child: CustomCarouselIndicator(
-                text: labelL,
-                borderRadiusGeometry: borderRadiusGeometryIndicatorL,
+                text: widget.labelL,
+                borderRadiusGeometry: widget.borderRadiusGeometryIndicatorL,
               ),
             ),
           )
         ) : Container(),
-        enableIndicator == true ?
+        widget.enableIndicator == true ?
         Positioned.fill(
-          right: right,
+          right: widget.right,
           child: Align(
-            alignment: alignmentR,
+            alignment: widget.alignmentR,
             child: Transform.rotate(
-              angle: angleR,
+              angle: widget.angleR,
               child: CustomCarouselIndicator(
-                text: labelR,
-                borderRadiusGeometry: borderRadiusGeometryIndicatorR,
+                text: widget.labelR,
+                borderRadiusGeometry: widget.borderRadiusGeometryIndicatorR,
               ),
             ),
           )
@@ -135,4 +141,7 @@ const CustomCarouselItem(
       ],
     );
   }
+  
+  @override
+  bool get wantKeepAlive => true;
 }
