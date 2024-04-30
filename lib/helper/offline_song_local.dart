@@ -39,6 +39,10 @@ class OfflineSongLocal extends OnAudioQuery{
     return onAudioQuery.queryPlaylists();
   }
 
+  Future<List<SongModel>> getAudiosFrom(AudiosFromType audiosFromType, Object where) async {
+    return onAudioQuery.queryAudiosFrom(audiosFromType, where);
+  }
+
   Future<bool> createPlayList(String namePlaylist) async {
     return onAudioQuery.createPlaylist(namePlaylist);
   }

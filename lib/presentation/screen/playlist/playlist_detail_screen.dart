@@ -1,5 +1,4 @@
 import 'package:anim_search_app_bar/anim_search_app_bar.dart';
-import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glass_kit/glass_kit.dart';
@@ -10,19 +9,19 @@ import 'package:muix_player/presentation/widgets/popup_menu_button_songs.dart';
 import 'package:muix_player/theme/app_muix_theme.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
-class ArtistsDetailScreen extends StatefulWidget {
-  final List<MediaItem> songList;
-  const ArtistsDetailScreen({ Key? key, required this.songList }) : super(key: key);
+class PlaylistDetailScreen extends StatefulWidget {
+  final List<SongModel> songList;
+  const PlaylistDetailScreen({ Key? key, required this.songList }) : super(key: key);
 
   @override
-  ArtistsDetailScreenState createState() => ArtistsDetailScreenState();
+  PlaylistDetailScreenState createState() => PlaylistDetailScreenState();
 }
 
-class ArtistsDetailScreenState extends State<ArtistsDetailScreen> {
+class PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
 
   final TextEditingController searchController = TextEditingController();
 
-  List<MediaItem> songItems = [];
+  List<SongModel> songItems = [];
   
   void filterSearchResult(String query) {
     setState(() {
@@ -122,7 +121,7 @@ class ArtistsDetailScreenState extends State<ArtistsDetailScreen> {
                               child: Column(
                                 children: [
                                   LoadArtwork(
-                                    id: int.parse(widget.songList[index].id), 
+                                    id: widget.songList[index].id, 
                                     artworkType: ArtworkType.AUDIO,
                                     height: 120.h,
                                     width: 150.h,
@@ -174,7 +173,7 @@ class ArtistsDetailScreenState extends State<ArtistsDetailScreen> {
                         title: Text(songItems[index].title, maxLines: 1,),
                         subtitle: Text(songItems[index].artist ?? "", maxLines: 1,),
                         artwork: LoadArtwork(
-                          id: int.parse(songItems[index].id), 
+                          id: songItems[index].id, 
                           artworkType: ArtworkType.AUDIO,
                           height: 100.h,
                           frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
@@ -190,7 +189,7 @@ class ArtistsDetailScreenState extends State<ArtistsDetailScreen> {
                         onTap: () async {
                           audioManager..skipToNextQueueItem(index)..play();
                         },
-                        icon: popupMenuButtonSongs(context, int.parse(songItems[index].id)),
+                        icon: popupMenuButtonSongs(context, songItems[index].id),
                         
                         borderRadius: BorderRadius.circular(10.0),
                       );

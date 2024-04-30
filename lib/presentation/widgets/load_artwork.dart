@@ -70,7 +70,10 @@ class LoadArtwork extends StatelessWidget {
           );
         }
         return Image.asset(
-          'assets/images/placeholder_song.png'
+          'assets/images/placeholder_song.png',
+          height: height,
+          width: width,
+          fit: BoxFit.cover,
         );
       },
     );

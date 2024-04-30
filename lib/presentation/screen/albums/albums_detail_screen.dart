@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glass_kit/glass_kit.dart';
-import 'package:muix_player/helper/icons.dart';
-import 'package:muix_player/helper/offline_song_local.dart';
+import 'package:muix_player/presentation/screen/widgets/background.dart';
 import 'package:muix_player/presentation/widgets/list_item.dart';
-import 'package:muix_player/services/audio_manager.dart';
-import 'package:muix_player/services/service_locator.dart';
+import 'package:muix_player/presentation/widgets/load_artwork.dart';
+import 'package:muix_player/presentation/widgets/popup_menu_button_songs.dart';
+import 'package:muix_player/theme/app_muix_theme.dart';
 import 'package:on_audio_query/on_audio_query.dart';
-import 'package:super_cupertino_navigation_bar/super_cupertino_navigation_bar.dart';
+import 'package:anim_search_app_bar/anim_search_app_bar.dart';
 
 class AlbumsDetailScreen extends ConsumerStatefulWidget {
   final Map<dynamic, dynamic> albumModel;
@@ -22,117 +22,170 @@ const AlbumsDetailScreen(this.albumModel, this.songList, { Key? key }) : super(k
 
 class _AlbumsDetailScreenState extends ConsumerState<AlbumsDetailScreen>{
 
-  final offlineSongLocal = getIt<OfflineSongLocal>();
-  final audioManager = getIt<AudioManager>();
+  final TextEditingController searchController = TextEditingController();
+
+  List<MediaItem> songItems = [];
   
+  void filterSearchResult(String query) {
+    setState(() {
+      songItems = widget.songList.where((item) => item.title.toLowerCase().contains(query.toLowerCase())).toList();
+    });
+  }
 
   @override
+  void initState() {
+    songItems = widget.songList;
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+     // ignore: empty_catches
+     try { searchController.dispose(); } catch (e) {}
+    
+    audioManager.dispose();
+    super.dispose();
+  }
+  
+  @override
   Widget build(BuildContext context){
-    return SuperScaffold(
-      appBar: SuperAppBar(
-        leading: Container(
-          margin: EdgeInsets.symmetric(vertical: 6.h, horizontal: 10),
-          height: 35.w,
-          width: 35.w,
-          decoration: BoxDecoration(
-            color: const Color.fromARGB(255, 228, 211, 182),
-            border: Border.all(color: Colors.white),
-            borderRadius: BorderRadius.circular(10)
-          ),
-           child: IconButton(onPressed: () => Navigator.pop(context), icon: const Iconify(Jam.chevron_left)),
-        ),
-      ),
-      body: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-          child: Column(
-            children: [
-              GlassContainer(
-                height: 100.h,
-                width: double.infinity,
-                blur: 5,
-                gradient: LinearGradient(
-                  colors: [Colors.white.withOpacity(0.40), Colors.white.withOpacity(0.10)],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderGradient: LinearGradient(
-                  colors: [Colors.white.withOpacity(0.60), Colors.white.withOpacity(0.10), Colors.white.withOpacity(0.05), Colors.white.withOpacity(0.6)],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  stops: const [0.0, 0.39, 0.40, 1.0],
-                ),
-                borderRadius: BorderRadius.circular(10),
-                child: Row(
-                  children: [
-                    QueryArtworkWidget(
-                      id: widget.albumModel['_id'], 
-                      type: ArtworkType.ALBUM,
-                      artworkHeight: 100.h,
-                      artworkWidth: 100.h,
-                      artworkBorder: BorderRadius.zero,
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Text(widget.albumModel['album'], maxLines: 1, overflow: TextOverflow.clip,),
-                            Text(widget.albumModel['artist'] ?? '', maxLines: 1, overflow: TextOverflow.clip,),
-                            Text('Track: ${widget.albumModel['numsongs_by_artist']}'),
-                            const Text('Duration: 4 minutos'),
-                          ],
-                        ),
+    return Stack(
+      children: [
+        const Background(),
+        Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Column(
+              children: [
+                AnimSearchAppBar(
+                  cancelButtonText: "Cancel",
+                  hintText: 'Search',
+                  cSearch: searchController,
+                  backgroundColor: Colors.transparent,
+                  decoration: InputDecoration(
+                    enabledBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      borderSide: BorderSide(
+                        color: Colors.white,
+                        width: 2.0
                       ),
-                    )
-                  ],
-                ),
-              ),
-          
-              Expanded(
-                child: ListView.builder(
-                  itemCount: widget.songList.length,
-                  itemBuilder: (context, index) {
-                    return ListItem(
-                      title: Text(widget.songList[index].title, maxLines: 1,),
-                      subtitle: Text(widget.songList[index].artist ?? "", maxLines: 1,),
-                      artwork: QueryArtworkWidget(
-                        id: int.parse(widget.songList[index].id),
-                        type: ArtworkType.AUDIO,
-                        keepOldArtwork: true,
-                        artworkBorder: BorderRadius.circular(0),
-                        artworkFit: BoxFit.cover,
-                        artworkHeight: 100,
-                      ),
-                      onTap: () async {
-                        audioManager..skipToNextQueueItem(index)..play();
-                      },
-                      icon: IconButton(onPressed: (){}, icon: const Icon(Icons.more_vert)),
-                     
-                      borderRadius: BorderRadius.only(
-                        topLeft: index % 2 == 0 ? const Radius.circular(20) : Radius.zero,
-                        topRight: index % 2 == 0 ? Radius.zero : const Radius.circular(20),
-                        bottomLeft: index % 2 == 0 ? Radius.zero : const Radius.circular(20),
-                        bottomRight: index % 2 == 0 ? const Radius.circular(20) : Radius.zero,
-                      ),
-                      imageBorderRadius: BorderRadius.only(
-                        topLeft: index % 2 == 0 ? const Radius.circular(19) : Radius.zero,
-                        topRight: index % 2 == 0 ? Radius.zero : const Radius.circular(19),
-                        bottomLeft: index % 2 == 0 ? Radius.zero : const Radius.circular(19),
-                        bottomRight: index % 2 == 0 ? const Radius.circular(19) : Radius.zero,
-                      ),
-                    );
-                    
                       
+                    ),
+                    contentPadding: const EdgeInsets.all(10),
+                    hintMaxLines: 1,
+                    hintText: 'Search',
+                    filled: true,
+                    fillColor: AppMuixTheme.background,
+                    focusedBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      borderSide: BorderSide(
+                        color: Colors.white,
+                        width: 2.0
+                      ),
+                    ),
+                    
+                  ),
+                  onChanged: (value) {
+                    filterSearchResult(value);
                   },
+                  appBar: AppBar(
+                    title: const Text('Search'),
+                    backgroundColor: Colors.transparent,
+                  )
                 ),
-              ),
-            ],
+                GlassContainer(
+                  height: 100.h,
+                  width: double.infinity,
+                  blur: 5,
+                  gradient: LinearGradient(
+                    colors: [Colors.white.withOpacity(0.40), Colors.white.withOpacity(0.10)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderGradient: LinearGradient(
+                    colors: [Colors.white.withOpacity(0.60), Colors.white.withOpacity(0.10), Colors.white.withOpacity(0.05), Colors.white.withOpacity(0.6)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    stops: const [0.0, 0.39, 0.40, 1.0],
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                  margin: const EdgeInsets.only(top: 10.0),
+                  child: Row(
+                    children: [
+                      LoadArtwork(
+                        id: widget.albumModel['_id'], 
+                        artworkType: ArtworkType.AUDIO,
+                        height: 100.h,
+                        width: 100.h,
+                        frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                          if (wasSynchronouslyLoaded) return child;
+                          return AnimatedOpacity(
+                            opacity: frame == null ? 0 : 1,
+                            duration: const Duration(milliseconds: 500),
+                            curve: Curves.easeOut,
+                            child: child,
+                          );
+                        },
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(widget.albumModel['album'], maxLines: 1, overflow: TextOverflow.clip,),
+                              Text(widget.albumModel['artist'] ?? '', maxLines: 1, overflow: TextOverflow.clip,),
+                              Text('Track: ${widget.albumModel['numsongs_by_artist']}'),
+                              const Text('Duration: 4 minutos'),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+            
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: songItems.length,
+                    itemBuilder: (context, index) {
+                      return ListItem(
+                        height: 45.h,
+                        title: Text(songItems[index].title, maxLines: 1,),
+                        subtitle: Text(songItems[index].artist ?? "", maxLines: 1,),
+                        artwork: LoadArtwork(
+                          id: int.parse(songItems[index].id), 
+                          artworkType: ArtworkType.AUDIO,
+                          height: 100.h,
+                          frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                            if (wasSynchronouslyLoaded) return child;
+                            return AnimatedOpacity(
+                              opacity: frame == null ? 0 : 1,
+                              duration: const Duration(milliseconds: 500),
+                              curve: Curves.easeOut,
+                              child: child,
+                            );
+                          },
+                        ), 
+                        onTap: () async {
+                          audioManager..skipToNextQueueItem(index)..play();
+                        },
+                        icon: popupMenuButtonSongs(context, int.parse(songItems[index].id)),
+                        
+                        borderRadius: BorderRadius.circular(10.0),
+                      );
+                      
+                        
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
-      ),
+      ],
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:muix_player/presentation/screen/artists/artists_detail_screen.dart';
+import 'package:muix_player/presentation/widgets/load_artwork.dart';
 import 'package:muix_player/services/audio_manager.dart';
 import 'package:muix_player/services/service_locator.dart';
 import 'package:muix_player/theme/app_muix_theme.dart';
@@ -94,11 +95,20 @@ class ArtistState extends State<Artist> {
           child: CircleAvatar(
             radius: 60,
             child: ClipOval(
-              child: QueryArtworkWidget(
+              child: LoadArtwork(
                 id: int.parse(songListArtist[0].id), 
-                type: ArtworkType.AUDIO,
-                artworkHeight: 100.h,
-                artworkWidth: 100.h,
+                artworkType: ArtworkType.AUDIO,
+                height: 100.h,
+                width: 100.h,
+                frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                  if (wasSynchronouslyLoaded) return child;
+                  return AnimatedOpacity(
+                    opacity: frame == null ? 0 : 1,
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeOut,
+                    child: child,
+                  );
+                },
               ),
             ),
           ),
@@ -112,11 +122,20 @@ class ArtistState extends State<Artist> {
             child: CircleAvatar(
               radius: 60,
               child: ClipOval(
-                child: QueryArtworkWidget(
-                  id: int.parse(songListArtist.length == 1 ? songListArtist[0].id : songListArtist[1].id), 
-                  type: ArtworkType.AUDIO,
-                  artworkHeight: 100.h,
-                  artworkWidth: 100.h,
+                child: LoadArtwork(
+                 id: int.parse(songListArtist.length == 1 ? songListArtist[0].id : songListArtist[1].id),  
+                  artworkType: ArtworkType.AUDIO,
+                  height: 100.h,
+                  width: 100.h,
+                  frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                    if (wasSynchronouslyLoaded) return child;
+                    return AnimatedOpacity(
+                      opacity: frame == null ? 0 : 1,
+                      duration: const Duration(milliseconds: 500),
+                      curve: Curves.easeOut,
+                      child: child,
+                    );
+                  },
                 ),
               ),
             ),
@@ -131,11 +150,20 @@ class ArtistState extends State<Artist> {
           child: CircleAvatar(
             radius: 60,
             child: ClipOval(
-              child: QueryArtworkWidget(
-                id: int.parse((songListArtist.length == 1 || songListArtist.length == 2) ? songListArtist[0].id : songListArtist[2].id), 
-                type: ArtworkType.AUDIO,
-                artworkHeight: 100.h,
-                artworkWidth: 100.h,
+              child: LoadArtwork(
+                id: int.parse((songListArtist.length == 1 || songListArtist.length == 2) ? songListArtist[0].id : songListArtist[2].id),  
+                artworkType: ArtworkType.AUDIO,
+                height: 100.h,
+                width: 100.h,
+                frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                  if (wasSynchronouslyLoaded) return child;
+                  return AnimatedOpacity(
+                    opacity: frame == null ? 0 : 1,
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeOut,
+                    child: child,
+                  );
+                },
               ),
             ),
           ),

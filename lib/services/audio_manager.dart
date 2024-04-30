@@ -19,6 +19,7 @@ class AudioManager {
   final songsArtistListNotifier = ValueNotifier<List<SongModel>>([]);
   final genreListNotifier = ValueNotifier<List<GenreModel>>([]);
   final playlistListNotifier = ValueNotifier<List<PlaylistModel>>([]);
+  final playlistCustomNotifier = ValueNotifier<List<SongModel>>([]);
   final recentlyListNotifier = ValueNotifier<List<SongModel>>([]);
   final progressNotifier = ProgressNotifier();
   final repeatButtonNotifier = RepeatButtonNotifier();
@@ -53,6 +54,7 @@ class AudioManager {
       album: song.album,
       title: song.title,
       artist: song.artist,
+      genre: song.genre,
       extras: {
         'url': song.data,
       },
@@ -77,9 +79,15 @@ class AudioManager {
   }
 
   Future<void> loadPlaylists() async {
-      final albumList = await offlineSongLocal.getPlaylists();
-      playlistListNotifier.value = albumList;
+      final playlist = await offlineSongLocal.getPlaylists();
+      playlistListNotifier.value = playlist;
   }
+
+  Future<void> loadPlaylist(AudiosFromType audiosFromType, Object where) async {
+      final songList = await offlineSongLocal.getAudiosFrom(audiosFromType, where);
+      playlistCustomNotifier.value = songList;
+  }
+
   // ignore: unused_element
   Future<void> loadSongsForAlbums(String album) async {
     songsAlbumListNotifier.value = await offlineSongLocal.getSongsForAlbums(album);

@@ -10,15 +10,15 @@ import 'package:muix_player/presentation/widgets/popup_menu_button_songs.dart';
 import 'package:muix_player/theme/app_muix_theme.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
-class ArtistsDetailScreen extends StatefulWidget {
+class GenresDetailScreen extends StatefulWidget {
   final List<MediaItem> songList;
-  const ArtistsDetailScreen({ Key? key, required this.songList }) : super(key: key);
+  const GenresDetailScreen({ Key? key, required this.songList }) : super(key: key);
 
   @override
-  ArtistsDetailScreenState createState() => ArtistsDetailScreenState();
+  GenresDetailScreenState createState() => GenresDetailScreenState();
 }
 
-class ArtistsDetailScreenState extends State<ArtistsDetailScreen> {
+class GenresDetailScreenState extends State<GenresDetailScreen> {
 
   final TextEditingController searchController = TextEditingController();
 
@@ -126,6 +126,7 @@ class ArtistsDetailScreenState extends State<ArtistsDetailScreen> {
                                     artworkType: ArtworkType.AUDIO,
                                     height: 120.h,
                                     width: 150.h,
+                                    size: 1800,
                                     frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
                                       if (wasSynchronouslyLoaded) return child;
                                       return AnimatedOpacity(

@@ -4,6 +4,7 @@ import 'package:glass_kit/glass_kit.dart';
 import 'package:muix_player/config/menu/popup_menu_items_playlist.dart';
 import 'package:muix_player/helper/icons.dart';
 import 'package:muix_player/helper/offline_song_local.dart';
+import 'package:muix_player/presentation/screen/playlist/playlist_detail_screen.dart';
 import 'package:muix_player/presentation/widgets/load_artwork.dart';
 import 'package:muix_player/presentation/widgets/modal_delete.dart';
 import 'package:muix_player/presentation/widgets/modal_input.dart';
@@ -36,6 +37,12 @@ class PlaylistScreenState extends State<PlaylistScreen> {
   }
   
   @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -67,56 +74,66 @@ class PlaylistScreenState extends State<PlaylistScreen> {
                     childAspectRatio: 0.8,
                   ),
                   controller: scrollController,
-                  itemBuilder: (context, index) => InkWell(
-                    onTap: () {},
-                    child: Stack(
-                      children: [
-                        GlassContainer(
-                          height: 260.h,
-                          width: double.infinity,
-                          blur: 5,
-                          gradient: LinearGradient(
-                            colors: [Colors.white.withOpacity(0.40), Colors.white.withOpacity(0.10)],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          borderGradient: LinearGradient(
-                            colors: [Colors.white.withOpacity(0.60), Colors.white.withOpacity(0.10), Colors.white.withOpacity(0.05), Colors.white.withOpacity(0.6)],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            stops: const [0.0, 0.39, 0.40, 1.0],
-                          ),
-                          borderWidth: 1.2,
-                          borderRadius: BorderRadius.circular(10),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              LoadArtwork(
-                                id: playlist[index].id,
-                                artworkType: ArtworkType.PLAYLIST,
-                                quality: FilterQuality.high,
-                                width: double.infinity,
-                                height: 120.h,
-                                size: 1800,
+                  itemBuilder: (context, index) => ValueListenableBuilder<List<SongModel>>(
+                    valueListenable: audioManager.playlistCustomNotifier,
+                    builder: ( context, songList, __) {
+                      return InkWell(
+                        onTap: () async {
+                          
+                          await audioManager.loadPlaylist(AudiosFromType.PLAYLIST, playlist[index].playlist);
+                          // ignore: use_build_context_synchronously
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => PlaylistDetailScreen(songList: audioManager.playlistCustomNotifier.value),));
+                        },
+                        child: Stack(
+                          children: [
+                            GlassContainer(
+                              height: 260.h,
+                              width: double.infinity,
+                              blur: 5,
+                              gradient: LinearGradient(
+                                colors: [Colors.white.withOpacity(0.40), Colors.white.withOpacity(0.10)],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
                               ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                                child: Align(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Text('${playlist[index].playlist}: ${playlist[index].numOfSongs} Songs', style: AppMuixTheme.textUrbanistMediumPrimary12,)
-                                    ],
+                              borderGradient: LinearGradient(
+                                colors: [Colors.white.withOpacity(0.60), Colors.white.withOpacity(0.10), Colors.white.withOpacity(0.05), Colors.white.withOpacity(0.6)],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                stops: const [0.0, 0.39, 0.40, 1.0],
+                              ),
+                              borderWidth: 1.2,
+                              borderRadius: BorderRadius.circular(10),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  LoadArtwork(
+                                    id: playlist[index].id,
+                                    artworkType: ArtworkType.PLAYLIST,
+                                    quality: FilterQuality.high,
+                                    width: double.infinity,
+                                    height: 120.h,
+                                    size: 1800,
                                   ),
-                                ),
-                              )
-                            ],
-                          ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                    child: Align(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        children: [
+                                          Text('${playlist[index].playlist}: ${playlist[index].numOfSongs} Songs', style: AppMuixTheme.textUrbanistMediumPrimary12,)
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            popupMenuButton(playlist[index]),
+                          ],
                         ),
-                        popupMenuButton(playlist[index]),
-                      ],
-                    ),
+                      );
+                    }
                   ),       
                 ),
               ),
