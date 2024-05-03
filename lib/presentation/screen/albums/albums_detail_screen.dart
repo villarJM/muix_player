@@ -90,7 +90,7 @@ class _AlbumsDetailScreenState extends ConsumerState<AlbumsDetailScreen>{
                     filterSearchResult(value);
                   },
                   appBar: AppBar(
-                    title: const Text('Search'),
+                    title: Text(widget.albumModel['album']),
                     backgroundColor: Colors.transparent,
                   )
                 ),
@@ -114,7 +114,7 @@ class _AlbumsDetailScreenState extends ConsumerState<AlbumsDetailScreen>{
                   child: Row(
                     children: [
                       LoadArtwork(
-                        id: widget.albumModel['_id'], 
+                        id: widget.albumModel['id'], 
                         artworkType: ArtworkType.AUDIO,
                         height: 100.h,
                         width: 100.h,
@@ -137,7 +137,7 @@ class _AlbumsDetailScreenState extends ConsumerState<AlbumsDetailScreen>{
                             children: [
                               Text(widget.albumModel['album'], maxLines: 1, overflow: TextOverflow.clip,),
                               Text(widget.albumModel['artist'] ?? '', maxLines: 1, overflow: TextOverflow.clip,),
-                              Text('Track: ${widget.albumModel['numsongs_by_artist']}'),
+                              Text('Track: ${widget.albumModel['numOfSong']}'),
                               const Text('Duration: 4 minutos'),
                             ],
                           ),

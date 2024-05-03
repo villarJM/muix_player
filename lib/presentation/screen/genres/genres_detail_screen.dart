@@ -11,8 +11,9 @@ import 'package:muix_player/theme/app_muix_theme.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class GenresDetailScreen extends StatefulWidget {
-  final List<MediaItem> songList;
-  const GenresDetailScreen({ Key? key, required this.songList }) : super(key: key);
+  final List<SongModel> songList;
+  final List<AlbumModel> albumList;
+  const GenresDetailScreen({ Key? key, required this.songList, required this.albumList }) : super(key: key);
 
   @override
   GenresDetailScreenState createState() => GenresDetailScreenState();
@@ -22,7 +23,7 @@ class GenresDetailScreenState extends State<GenresDetailScreen> {
 
   final TextEditingController searchController = TextEditingController();
 
-  List<MediaItem> songItems = [];
+  List<SongModel> songItems = [];
   
   void filterSearchResult(String query) {
     setState(() {
@@ -102,64 +103,95 @@ class GenresDetailScreenState extends State<GenresDetailScreen> {
                       itemBuilder: (context, index) {
                         return Container(
                           margin: const EdgeInsets.only(right: 5),
-                          child: GlassContainer(
-                              height: 200.h,
-                              width: 172.w,
-                              blur: 5,
-                              gradient: LinearGradient(
-                                colors: [Colors.white.withOpacity(0.40), Colors.white.withOpacity(0.10)],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                              ),
-                              borderGradient: LinearGradient(
-                                colors: [Colors.white.withOpacity(0.60), Colors.white.withOpacity(0.10), Colors.white.withOpacity(0.05), Colors.white.withOpacity(0.6)],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                                stops: const [0.0, 0.39, 0.40, 1.0],
-                              ),
-                              borderWidth: 1.2,
-                              borderRadius: BorderRadius.circular(10),
-                              child: Column(
-                                children: [
-                                  LoadArtwork(
-                                    id: int.parse(widget.songList[index].id), 
-                                    artworkType: ArtworkType.AUDIO,
-                                    height: 120.h,
-                                    width: 150.h,
-                                    size: 1800,
-                                    frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-                                      if (wasSynchronouslyLoaded) return child;
-                                      return AnimatedOpacity(
-                                        opacity: frame == null ? 0 : 1,
-                                        duration: const Duration(milliseconds: 500),
-                                        curve: Curves.easeOut,
-                                        child: child,
-                                      );
-                                    },
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                                    child: Align(
-                                      alignment: Alignment.bottomCenter,
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.end,
-                                        children: [
-                                          Text('${widget.songList[index].album}', maxLines: 1, overflow: TextOverflow.fade, style: AppMuixTheme.textUrbanistMediumPrimary12,),
-                                          Row(
-                                            children: [
-                                              Expanded(child: Text(widget.songList[index].artist ?? "", maxLines: 1, overflow: TextOverflow.clip, style: AppMuixTheme.textUrbanistMediumPrimary12,),),
-                                              Text(' | 2023', maxLines: 1, overflow: TextOverflow.fade, textAlign: TextAlign.end, style: AppMuixTheme.textUrbanistMediumPrimary12,),
-                                            ],
+                          child: ValueListenableBuilder<List<MediaItem>>(
+                            valueListenable: audioManager.playlistNotifier,
+                            builder: (_, songList, __) {
+                              return ValueListenableBuilder<List<AlbumModel>>(
+                                valueListenable: audioManager.albumListNotifier,
+                                builder: (context, albumList,_) {
+                                  return ValueListenableBuilder<List<GenreModel>>(
+                                    valueListenable: audioManager.genreListNotifier,
+                                    builder: (context, genreList,_) {
+                                      return InkWell(
+                                        onTap: () {
+                                          // Map<dynamic, dynamic> album = {
+                                          //   'id': widget.albumList[index].id,
+                                          //   'album': widget.albumList[index].album,
+                                          //   'artist': widget.albumList[index].artist,
+                                          //   'numOfSong': widget.albumList[index].numOfSongs,
+                                          // };
+                                          // final albums = songList.where((item) => item.album == albumList[index].album).toList();
+                                          
+                                          // Navigator.push(context, MaterialPageRoute(
+                                          //     builder: (context) => AlbumsDetailScreen(album, albums),
+                                          //   )
+                                          // );
+                                        },
+                                        child: GlassContainer(
+                                            height: 200.h,
+                                            width: 172.w,
+                                            blur: 5,
+                                            gradient: LinearGradient(
+                                              colors: [Colors.white.withOpacity(0.40), Colors.white.withOpacity(0.10)],
+                                              begin: Alignment.topLeft,
+                                              end: Alignment.bottomRight,
+                                            ),
+                                            borderGradient: LinearGradient(
+                                              colors: [Colors.white.withOpacity(0.60), Colors.white.withOpacity(0.10), Colors.white.withOpacity(0.05), Colors.white.withOpacity(0.6)],
+                                              begin: Alignment.topLeft,
+                                              end: Alignment.bottomRight,
+                                              stops: const [0.0, 0.39, 0.40, 1.0],
+                                            ),
+                                            borderWidth: 1.2,
+                                            borderRadius: BorderRadius.circular(10),
+                                            child: Column(
+                                              children: [
+                                                LoadArtwork(
+                                                  id: widget.songList[index].id, 
+                                                  artworkType: ArtworkType.AUDIO,
+                                                  height: 120.h,
+                                                  width: 150.h,
+                                                  size: 1800,
+                                                  frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                                                    if (wasSynchronouslyLoaded) return child;
+                                                    return AnimatedOpacity(
+                                                      opacity: frame == null ? 0 : 1,
+                                                      duration: const Duration(milliseconds: 500),
+                                                      curve: Curves.easeOut,
+                                                      child: child,
+                                                    );
+                                                  },
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                                  child: Align(
+                                                    alignment: Alignment.bottomCenter,
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      mainAxisAlignment: MainAxisAlignment.end,
+                                                      children: [
+                                                        Text('${widget.songList[index].album}', maxLines: 1, overflow: TextOverflow.fade, style: AppMuixTheme.textUrbanistMediumPrimary12,),
+                                                        Row(
+                                                          children: [
+                                                            Expanded(child: Text(widget.songList[index].artist ?? "", maxLines: 1, overflow: TextOverflow.clip, style: AppMuixTheme.textUrbanistMediumPrimary12,),),
+                                                            Text(' | 2023', maxLines: 1, overflow: TextOverflow.fade, textAlign: TextAlign.end, style: AppMuixTheme.textUrbanistMediumPrimary12,),
+                                                          ],
+                                                        ),
+                                                        Text('Songs', style: AppMuixTheme.textUrbanistMediumPrimary12,)
+                                                      ],
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
                                           ),
-                                          Text('Songs', style: AppMuixTheme.textUrbanistMediumPrimary12,)
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
+                                      );
+                                    }
+                                  );
+                                }
+                              );
+                            }
+                          ),
                         );
                       },
                     ),
@@ -175,7 +207,7 @@ class GenresDetailScreenState extends State<GenresDetailScreen> {
                         title: Text(songItems[index].title, maxLines: 1,),
                         subtitle: Text(songItems[index].artist ?? "", maxLines: 1,),
                         artwork: LoadArtwork(
-                          id: int.parse(songItems[index].id), 
+                          id: songItems[index].id, 
                           artworkType: ArtworkType.AUDIO,
                           height: 100.h,
                           frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
@@ -191,7 +223,7 @@ class GenresDetailScreenState extends State<GenresDetailScreen> {
                         onTap: () async {
                           audioManager..skipToNextQueueItem(index)..play();
                         },
-                        icon: popupMenuButtonSongs(context, int.parse(songItems[index].id)),
+                        icon: popupMenuButtonSongs(context, songItems[index].id),
                         
                         borderRadius: BorderRadius.circular(10.0),
                       );

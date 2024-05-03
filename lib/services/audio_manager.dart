@@ -13,6 +13,7 @@ class AudioManager {
   // Listeners: Updates going to the UI
   final currentSongTitleNotifier = ValueNotifier<MediaItem>(const MediaItem(id: '', title: ''));
   final playlistNotifier = ValueNotifier<List<MediaItem>>([]);
+  final songListNotifier = ValueNotifier<List<SongModel>>([]);
   final albumListNotifier = ValueNotifier<List<AlbumModel>>([]);
   final songsAlbumListNotifier = ValueNotifier<List<SongModel>>([]);
   final artistListNotifier = ValueNotifier<List<ArtistModel>>([]);
@@ -61,6 +62,7 @@ class AudioManager {
     )).toList();
     _audioHandler.addQueueItems(mediaItems);
     playlistNotifier.value = mediaItems;
+    songListNotifier.value = playlist;
   }
 
   Future<void> _loadArtistList() async {

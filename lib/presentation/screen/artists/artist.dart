@@ -30,52 +30,58 @@ class ArtistState extends State<Artist> {
       child: ValueListenableBuilder<List<MediaItem>>(
         valueListenable: audioManager.playlistNotifier,
         builder: (_, songList, __) {
-          return ValueListenableBuilder<List<ArtistModel>>(
-            valueListenable: audioManager.artistListNotifier,
-            builder: (_, artistList, __) {
-              return ListView.builder(
-                itemCount: artistList.length,
-                itemBuilder: (context, index) {
-                  final songListArtist = songList.where((item) => item.artist == artistList[index].artist).toList();
-                  return InkWell(
-                    onTap: () {
-                    Navigator.push(context, MaterialPageRoute(
-                        builder: (context) => ArtistsDetailScreen(songList: songListArtist),
-                      )
-                    );
-                    },
-                    child: Column(
-                      children: [
-                        Row(
+          return ValueListenableBuilder<List<AlbumModel>>(
+            valueListenable: audioManager.albumListNotifier,
+            builder: (_, albumList, __) {
+              return ValueListenableBuilder<List<ArtistModel>>(
+                valueListenable: audioManager.artistListNotifier,
+                builder: (_, artistList, __) {
+                  return ListView.builder(
+                    itemCount: artistList.length,
+                    itemBuilder: (context, index) {
+                      final songListArtist = songList.where((item) => item.artist == artistList[index].artist).toList();
+                      return InkWell(
+                        onTap: () {
+                          final songListAlbum = albumList.where((item) => item.artist == artistList[index].artist).toList();
+                          Navigator.push(context, MaterialPageRoute(
+                              builder: (context) => ArtistsDetailScreen(songList: songListArtist, albumList: songListAlbum,),
+                            )
+                          );
+                        },
+                        child: Column(
                           children: [
-                            Expanded(
-                              child: Container(
-                                margin: EdgeInsets.symmetric(vertical: 5.h),
-                                child: stackImage(songListArtist.take(3).toList(), artistList, index),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-                          child: Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            Row(
                               children: [
-                                Expanded(child: Text(artistList[index].artist, maxLines: 1, overflow: TextOverflow.clip, style: AppMuixTheme.textUrbanistMediumPrimary12,)),
-                                Expanded(child: Text('Albums: ${artistList[index].numberOfAlbums}')),
-                                Text('Tracks: ${artistList[index].numberOfTracks}'),
+                                Expanded(
+                                  child: Container(
+                                    margin: EdgeInsets.symmetric(vertical: 5.h),
+                                    child: stackImage(songListArtist.take(3).toList(), artistList, index),
+                                  ),
+                                ),
                               ],
                             ),
-                          ),
-                        )
-                      ],
-                    ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                              child: Align(
+                                alignment: Alignment.bottomCenter,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(child: Text(artistList[index].artist, maxLines: 1, overflow: TextOverflow.clip, style: AppMuixTheme.textUrbanistMediumPrimary12,)),
+                                    Expanded(child: Text('Albums: ${artistList[index].numberOfAlbums}')),
+                                    Text('Tracks: ${artistList[index].numberOfTracks}'),
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    
+                    },
                   );
-                
-                },
+                }
               );
             }
           );

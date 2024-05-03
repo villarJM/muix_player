@@ -51,9 +51,16 @@ class _AlbumsState extends ConsumerState<Albums> {
                 controller: scrollController,
                 itemBuilder: (context, index) => InkWell(
                   onTap: () {
+                    
+                    Map<dynamic, dynamic> album = {
+                      'id': albumList[index].id,
+                      'album': albumList[index].album,
+                      'artist': albumList[index].artist,
+                      'numOfSong': albumList[index].numOfSongs
+                    };
                     final songs = songList.where((item) => item.album == albumList[index].album).toList();
                     Navigator.push(context, MaterialPageRoute(
-                        builder: (context) => AlbumsDetailScreen(albumList[index].getMap, songs),
+                        builder: (context) => AlbumsDetailScreen(album, songs),
                       )
                     );
                   },
