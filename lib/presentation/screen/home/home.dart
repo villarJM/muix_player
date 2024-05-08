@@ -3,10 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:muix_player/helper/icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:muix_player/presentation/widgets/custom_box_activity.dart';
-import 'package:muix_player/presentation/widgets/custom_carousel_indicator.dart';
-import 'package:muix_player/presentation/widgets/image_filtered_linear_gradient_blur.dart';
-import 'package:muix_player/presentation/widgets/image_filtered_linear_gradient_opacity.dart';
+import 'package:muix_player/presentation/widgets/widgets.dart';
 import 'package:super_cupertino_navigation_bar/super_cupertino_navigation_bar.dart';
 import 'package:muix_player/theme/app_muix_theme.dart';
 

@@ -4,9 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:muix_player/presentation/providers/color_state.dart';
 import 'package:muix_player/presentation/providers/dominate_color.dart';
-import 'package:muix_player/presentation/widgets/list_item.dart';
-import 'package:muix_player/presentation/widgets/load_artwork.dart';
-import 'package:muix_player/presentation/widgets/popup_menu_button_songs.dart';
+import 'package:muix_player/presentation/widgets/widgets.dart';
 import 'package:muix_player/theme/app_muix_theme.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:muix_player/presentation/widgets/custom_carousel_item.dart';
-import 'package:muix_player/services/audio_manager.dart';
-import 'package:muix_player/services/service_locator.dart';
+import 'package:muix_player/presentation/widgets/widgets.dart';
+import 'package:muix_player/services/services.dart';
 import 'package:muix_player/theme/app_muix_theme.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 

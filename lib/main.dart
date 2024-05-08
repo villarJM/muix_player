@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:muix_player/presentation/screen/widgets/custom_navigation.dart';
-import 'package:muix_player/services/audio_manager.dart';
-import 'package:muix_player/services/service_locator.dart';
+import 'package:muix_player/presentation/widgets/widgets.dart';
+import 'package:muix_player/services/services.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 void main() async {
@@ -62,7 +61,7 @@ class _MyAppState extends State<MyApp> {
       builder: (context, child) {
         return Consumer(
           builder: (context, ref, child) {
-            return MaterialApp(
+            return const MaterialApp(
             
             debugShowCheckedModeBanner: false,
             home: CustomNavigation(),

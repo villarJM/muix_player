@@ -1,14 +1,11 @@
 import 'package:audio_service/audio_service.dart';
+import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:muix_player/helper/icons.dart';
 import 'package:muix_player/notifiers/progress_notifier.dart';
-import 'package:muix_player/presentation/screen/widgets/background.dart';
-import 'package:muix_player/presentation/widgets/player_control.dart';
-import 'package:muix_player/presentation/widgets/top_figure_painter.dart';
-import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
-import 'package:muix_player/services/audio_manager.dart';
-import 'package:muix_player/services/service_locator.dart';
+import 'package:muix_player/presentation/widgets/widgets.dart';
+import 'package:muix_player/services/services.dart';
 import 'package:muix_player/theme/app_muix_theme.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:text_scroll/text_scroll.dart';

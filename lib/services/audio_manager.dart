@@ -4,10 +4,8 @@ import 'package:muix_player/notifiers/play_button_notifier.dart';
 import 'package:muix_player/notifiers/progress_notifier.dart';
 import 'package:muix_player/notifiers/repeat_button_notifier.dart';
 import 'package:audio_service/audio_service.dart';
-import 'package:muix_player/services/service_locator.dart';
+import 'package:muix_player/services/services.dart';
 import 'package:on_audio_query/on_audio_query.dart';
-// import 'package:muix_player/services/playlist_repository.dart';
-// import 'package:muix_player/services/service_locator.dart';
 
 class AudioManager {
   // Listeners: Updates going to the UI

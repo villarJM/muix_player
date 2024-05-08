@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glass_kit/glass_kit.dart';
 import 'package:muix_player/presentation/screen/albums/albums_detail_screen.dart';
-import 'package:muix_player/presentation/screen/widgets/background.dart';
+import 'package:muix_player/presentation/widgets/background.dart';
 import 'package:muix_player/presentation/widgets/list_item.dart';
 import 'package:muix_player/presentation/widgets/load_artwork.dart';
 import 'package:muix_player/presentation/widgets/popup_menu_button_songs.dart';

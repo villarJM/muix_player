@@ -4,9 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glass_kit/glass_kit.dart';
 import 'package:muix_player/helper/offline_song_local.dart';
-import 'package:muix_player/presentation/screen/albums/albums_detail_screen.dart';
-import 'package:muix_player/services/audio_manager.dart';
-import 'package:muix_player/services/service_locator.dart';
+import 'package:muix_player/presentation/screen/albums/album.dart';
+import 'package:muix_player/services/services.dart';
 import 'package:muix_player/theme/app_muix_theme.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
