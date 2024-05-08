@@ -1,10 +1,7 @@
-import 'dart:typed_data';
-
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:muix_player/data/models/song_local_model.dart';
-import 'package:muix_player/domain/entities/song_post.dart';
 import 'package:muix_player/presentation/providers/current_audio_info_notifier_provider.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 

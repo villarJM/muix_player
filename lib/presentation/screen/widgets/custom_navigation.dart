@@ -11,7 +11,7 @@ import 'package:muix_player/presentation/providers/dominate_color.dart';
 import 'package:muix_player/presentation/screen/home/home.dart';
 import 'package:muix_player/presentation/screen/library/library.dart';
 import 'package:muix_player/presentation/screen/playing_now/playing_screen.dart';
-import 'package:muix_player/presentation/screen/search/search.dart';
+import 'package:muix_player/presentation/screen/search/search_screen.dart';
 import 'package:muix_player/presentation/screen/widgets/background.dart';
 import 'package:muix_player/presentation/widgets/list_item.dart';
 import 'package:muix_player/services/audio_manager.dart';
@@ -74,7 +74,7 @@ class CustomNavigationState extends ConsumerState<CustomNavigation> {
             ),
             body: [
               const Home(),
-              const Search(),
+              const SearchScreen(),
               const Library(),
             ][currentPageIndex],
           ),
