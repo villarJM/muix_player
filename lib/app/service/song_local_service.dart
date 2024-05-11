@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:muix_player/data/models/song_local_model.dart';
 import 'package:muix_player/provider/song_local_provider.dart';
@@ -81,7 +82,7 @@ class SongLocalService {
 
   Future<void> next(Map<int, SongLocalModel> listPositions) async {
     if (index < listPositions.length) {
-      print('next');
+      debugPrint('next');
       getSongForID(listPositions[index]!.id);
     }
     index++;
@@ -89,7 +90,7 @@ class SongLocalService {
 
   Future<void> preview(Map<int, SongLocalModel> listPositions) async {
     if (index > 0) {
-      print('preview');
+      debugPrint('preview');
       getSongForID(listPositions[index]!.id);
     }
     index--;

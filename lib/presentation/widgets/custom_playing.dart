@@ -23,7 +23,7 @@ class CustomPlaying extends ConsumerState {
               ref.watch(songLocalServiceProvider).updatedSongPosition(index);
             },
           ),
-          items: [],
+          items: const [],
         ),
         Positioned.fill(
           child: GestureDetector(

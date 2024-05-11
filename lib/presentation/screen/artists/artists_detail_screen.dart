@@ -167,7 +167,7 @@ class ArtistsDetailScreenState extends State<ArtistsDetailScreen> {
                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                   mainAxisAlignment: MainAxisAlignment.end,
                                                   children: [
-                                                    Text('${widget.albumList[index].album}', maxLines: 1, overflow: TextOverflow.fade, style: AppMuixTheme.textUrbanistMediumPrimary12,),
+                                                    Text(widget.albumList[index].album, maxLines: 1, overflow: TextOverflow.fade, style: AppMuixTheme.textUrbanistMediumPrimary12,),
                                                     Row(
                                                       children: [
                                                         Expanded(child: Text(widget.albumList[index].artist ?? "", maxLines: 1, overflow: TextOverflow.clip, style: AppMuixTheme.textUrbanistMediumPrimary12,),),

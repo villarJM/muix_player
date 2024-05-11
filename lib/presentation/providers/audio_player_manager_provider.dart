@@ -45,20 +45,6 @@ class SongInfoNotifier extends StateNotifier<SongLocalModel> {
     // _saveSharedPreferencesSongPost(id, title, artist, album, gender, duration, path);
   }
 
-  void _saveSharedPreferencesSongPost(int? id, String? title, String? artist, String? album, String? gender, int? duration, String? path) {
-    
-    Map<String, dynamic> songData = {
-      'id': id,
-      'title': title,
-      'artist': artist,
-      'album': album,
-      'gender': gender ?? '',
-      'path': path,
-      'duration': duration,
-    };
-    
-      shared.saveData(songData);
-  }
 }
 
 final audioPlayerProvider = ChangeNotifierProvider<AudioPlayerNotifier>((ref) {

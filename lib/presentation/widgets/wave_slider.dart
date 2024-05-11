@@ -85,7 +85,7 @@ class WaveSliderState extends State<WaveSlider>
     _slideController.setStateToSliding();
     _updateDragPosition(localOffset);
     _handleChanged(_dragPercentage);
-    print(_dragPercentage);
+    debugPrint(_dragPercentage.toString());
   }
 
   void _onDragEnd(BuildContext context, DragEndDetails end) {

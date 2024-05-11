@@ -8,6 +8,7 @@ class CirclePainter extends CustomPainter {
 
   CirclePainter(this.radius);
 
+  @override
   void paint(Canvas canvas, Size size) {
     double radius = min(size.width / 2, size.height / 2);
     Paint paint = Paint()..color = Colors.white.withOpacity(0.5);

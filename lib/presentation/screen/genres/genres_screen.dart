@@ -12,10 +12,10 @@ class GenresScreen extends StatefulWidget {
   const GenresScreen({ Key? key }) : super(key: key);
 
   @override
-  _GenresScreenState createState() => _GenresScreenState();
+  GenresScreenState createState() => GenresScreenState();
 }
 
-class _GenresScreenState extends State<GenresScreen> {
+class GenresScreenState extends State<GenresScreen> {
 
   final offlineSongLocal = getIt<OfflineSongLocal>();
   final audioManager = getIt<AudioManager>();
@@ -69,7 +69,7 @@ class _GenresScreenState extends State<GenresScreen> {
 
                         Navigator.push(
                           context, MaterialPageRoute(
-                            builder: (context) => GenresDetailScreen(songList: songListGenre, albumList: [],),
+                            builder: (context) => GenresDetailScreen(songList: songListGenre, albumList: const [],),
                           )
                         );
                       },
