@@ -47,6 +47,7 @@ const CustomCarouselItem(
 }
 
 class _CustomCarouselItemState extends State<CustomCarouselItem> with AutomaticKeepAliveClientMixin {
+  List<int> listEmpty = [1, 2, 3, 4, 5];
   @override
   Widget build(BuildContext context){
     super.build(context);
@@ -61,52 +62,9 @@ class _CustomCarouselItemState extends State<CustomCarouselItem> with AutomaticK
               height: 160.h,
               viewportFraction: widget.viewportFraction,
             ),
-            items: widget.listItem.map((e) => Padding(
-              padding: const EdgeInsets.only(right: 5),
-              child: ClipRRect(
-                borderRadius: widget.borderRadiusGeometry,
-                child: Stack(
-                  alignment: Alignment.bottomCenter,
-                  fit: StackFit.expand,
-                  children: [
-                    GlassContainer(
-                      height: 160.h,
-                      width: double.infinity,
-                      blur: 5,
-                      gradient: LinearGradient(
-                        colors: [Colors.white.withOpacity(0.40), Colors.white.withOpacity(0.10)],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      borderGradient: LinearGradient(
-                        colors: [Colors.white.withOpacity(0.60), Colors.white.withOpacity(0.10), Colors.white.withOpacity(0.05), Colors.white.withOpacity(0.6)],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        stops: const [0.0, 0.39, 0.40, 1.0],
-                      ),
-                      borderWidth: 1.2,
-                      borderRadius: BorderRadius.circular(20),
-                      child: LoadArtwork(
-                        id: e.id, 
-                        artworkType: ArtworkType.AUDIO,
-                        size: 1800,
-                        quality: FilterQuality.high,
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 10,
-                      child: SizedBox(
-                        height: 20.h,
-                        child: Text(e.title, style: AppMuixTheme.textUrbanistMedium12, overflow: TextOverflow.fade,)
-                      )
-                    )
-                  ],
-                ),
-              ),
-            ),
-            
-            ).toList(),
-            
+            items: widget.listItem.isNotEmpty ? 
+            widget.listItem.map((e) => viewContainer(e),).toList() : 
+            listEmpty.map((e) => viewContainer(e)).toList()
           ),
         ),
 
@@ -134,11 +92,61 @@ class _CustomCarouselItemState extends State<CustomCarouselItem> with AutomaticK
               child: CustomCarouselIndicator(
                 text: widget.labelR,
                 borderRadiusGeometry: widget.borderRadiusGeometryIndicatorR,
+                indicatorOnTap: () {
+                  
+                },
               ),
             ),
           )
         ) : Container(),
       ],
+    );
+  }
+
+  Padding viewContainer(e) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 5),
+      child: ClipRRect(
+        borderRadius: widget.borderRadiusGeometry,
+        child: Stack(
+          alignment: Alignment.bottomCenter,
+          fit: StackFit.expand,
+          children: [
+            GlassContainer(
+              key: Key(e is int ? '$e' : '${(e as SongModel).id}'),
+              height: 160.h,
+              width: double.infinity,
+              blur: 5,
+              gradient: LinearGradient(
+                colors: [Colors.white.withOpacity(0.40), Colors.white.withOpacity(0.10)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderGradient: LinearGradient(
+                colors: [Colors.white.withOpacity(0.60), Colors.white.withOpacity(0.10), Colors.white.withOpacity(0.05), Colors.white.withOpacity(0.6)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                stops: const [0.0, 0.39, 0.40, 1.0],
+              ),
+              borderWidth: 1.2,
+              borderRadius: BorderRadius.circular(20),
+              child: LoadArtwork(
+                id: (e is int ? e : (e as SongModel).id), 
+                artworkType: ArtworkType.AUDIO,
+                size: 1800,
+                quality: FilterQuality.high,
+              ),
+            ),
+            Positioned(
+              bottom: 10,
+              child: SizedBox(
+                height: 20.h,
+                child: Text(e is int ? "" : (e as SongModel).title, style: AppMuixTheme.textUrbanistMedium12, overflow: TextOverflow.fade,)
+              )
+            )
+          ],
+        ),
+      ),
     );
   }
   

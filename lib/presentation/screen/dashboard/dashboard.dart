@@ -32,30 +32,30 @@ const Dashboard({ Key? key }) : super(key: key);
     );
   }
 
-  ValueListenableBuilder<List<SongModel>> carouselPlaylist(AudioManager audioManager) {
-    return ValueListenableBuilder<List<SongModel>>(
-          valueListenable: audioManager.recentlyListNotifier,
-          builder: (_, recentlySong, __) {
-            return CustomCarouselItem(
-              labelL: Text('Playlist', textAlign: TextAlign.center, style: AppMuixTheme.textUrbanistMediumPrimary12),
-              labelR: Text('View All', textAlign: TextAlign.center, style: AppMuixTheme.textUrbanistMediumPrimary12),
-              enableIndicator: true,
-              borderRadiusGeometry: BorderRadius.circular(20),
-              alignmentL: Alignment.centerLeft,
-              alignmentR: Alignment.centerRight,
-              borderRadiusGeometryIndicatorL: const BorderRadius.only(
-                topRight: Radius.circular(10.0),
-                bottomLeft: Radius.circular(10.0) 
-              ),
-              borderRadiusGeometryIndicatorR: const BorderRadius.only(
-                topLeft: Radius.circular(10.0),
-                bottomRight: Radius.circular(10.0) 
-              ),
-              viewportFraction: 0.5,
-              listItem: recentlySong,
-            );
-          }
+  ValueListenableBuilder<List<PlaylistModel>> carouselPlaylist(AudioManager audioManager) {
+    return ValueListenableBuilder<List<PlaylistModel>>(
+      valueListenable: audioManager.playlistListNotifier,
+      builder: (_, playlistSong, __) {
+        return CustomCarouselItem(
+          labelL: Text('Playlist', textAlign: TextAlign.center, style: AppMuixTheme.textUrbanistMediumPrimary12),
+          labelR: Text('View All', textAlign: TextAlign.center, style: AppMuixTheme.textUrbanistMediumPrimary12),
+          enableIndicator: true,
+          borderRadiusGeometry: BorderRadius.circular(20),
+          alignmentL: Alignment.centerLeft,
+          alignmentR: Alignment.centerRight,
+          borderRadiusGeometryIndicatorL: const BorderRadius.only(
+            topRight: Radius.circular(10.0),
+            bottomLeft: Radius.circular(10.0) 
+          ),
+          borderRadiusGeometryIndicatorR: const BorderRadius.only(
+            topLeft: Radius.circular(10.0),
+            bottomRight: Radius.circular(10.0) 
+          ),
+          viewportFraction: 0.5,
+          listItem: playlistSong,
         );
+      }
+    );
   }
 
   ValueListenableBuilder<List<SongModel>> carouselNewAlbums(AudioManager audioManager) {
