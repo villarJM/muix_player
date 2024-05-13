@@ -21,14 +21,6 @@ const List<Tab> tabs = [
   Tab(text: "Playlist"),
 ];
 
-const List<Widget> tabsView = [
-  Dashboard(),
-  Songs(),
-  Albums(),
-  Artist(),
-  GenresScreen(),
-  PlaylistScreen()
-];
 
 class Library extends ConsumerStatefulWidget {
 const Library({ Key? key }) : super(key: key);
@@ -98,7 +90,14 @@ class _LibraryState extends ConsumerState<Library> with AutomaticKeepAliveClient
         scrollController: scrollController,
         body: TabBarView(
           controller: controller,
-          children: tabsView,
+          children:  [
+            Dashboard(controller: controller,),
+            const Songs(),
+            const Albums(),
+            const Artist(),
+            const GenresScreen(),
+            PlaylistScreen(tabController: controller,)
+          ]
         ),
       ),
     );

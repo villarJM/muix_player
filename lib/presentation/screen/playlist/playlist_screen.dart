@@ -12,7 +12,8 @@ import 'package:muix_player/util/util.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class PlaylistScreen extends StatefulWidget {
-  const PlaylistScreen({ Key? key }) : super(key: key);
+  final TabController tabController;
+  const PlaylistScreen({ Key? key, required this.tabController }) : super(key: key);
 
   @override
   PlaylistScreenState createState() => PlaylistScreenState();

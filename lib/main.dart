@@ -53,20 +53,14 @@ class _MyAppState extends State<MyApp> {
   }
   @override
   Widget build(BuildContext context) {
-
     return ScreenUtilInit(
       designSize: const Size(360, 690),
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return Consumer(
-          builder: (context, ref, child) {
-            return const MaterialApp(
-            
+        return const MaterialApp(
             debugShowCheckedModeBanner: false,
             home: CustomNavigation(),
-          );
-          },
         );
       },
     );

@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:muix_player/presentation/widgets/widgets.dart';
 import 'package:muix_player/services/services.dart';
 import 'package:muix_player/theme/app_muix_theme.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
-class Dashboard extends StatelessWidget {
-const Dashboard({ Key? key }) : super(key: key);
+class Dashboard extends StatefulWidget {
+  final TabController controller;
+const Dashboard({ Key? key, required this.controller }) : super(key: key);
 
+  @override
+  State<Dashboard> createState() => _DashboardState();
+}
+
+class _DashboardState extends State<Dashboard>  with TickerProviderStateMixin{
   @override
   Widget build(BuildContext context){
 
     final audioManager = getIt<AudioManager>();
-    
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -25,14 +29,14 @@ const Dashboard({ Key? key }) : super(key: key);
           carouselNewAlbums(audioManager),
 
           const SizedBox(height: 5,),
-          carouselPlaylist(audioManager),
+          carouselPlaylist(audioManager, widget.controller),
           SizedBox(height: 70.h,),
         ],
       ),
     );
   }
 
-  ValueListenableBuilder<List<PlaylistModel>> carouselPlaylist(AudioManager audioManager) {
+  ValueListenableBuilder<List<PlaylistModel>> carouselPlaylist(AudioManager audioManager, TabController tabController) {
     return ValueListenableBuilder<List<PlaylistModel>>(
       valueListenable: audioManager.playlistListNotifier,
       builder: (_, playlistSong, __) {
@@ -40,6 +44,7 @@ const Dashboard({ Key? key }) : super(key: key);
           labelL: Text('Playlist', textAlign: TextAlign.center, style: AppMuixTheme.textUrbanistMediumPrimary12),
           labelR: Text('View All', textAlign: TextAlign.center, style: AppMuixTheme.textUrbanistMediumPrimary12),
           enableIndicator: true,
+          indicatorOnTap: () => tabController.animateTo(5),
           borderRadiusGeometry: BorderRadius.circular(20),
           alignmentL: Alignment.centerLeft,
           alignmentR: Alignment.centerRight,

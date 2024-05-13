@@ -10,6 +10,7 @@ import 'package:on_audio_query/on_audio_query.dart';
 class CustomCarouselItem extends StatefulWidget {
 
   final bool enableIndicator;
+  final Function()? indicatorOnTap;
   final double angleL; 
   final double angleR;
   final Text labelL; 
@@ -26,7 +27,8 @@ class CustomCarouselItem extends StatefulWidget {
   
 const CustomCarouselItem(
   { Key? key, 
-  this.enableIndicator = false, 
+  this.enableIndicator = false,
+  this.indicatorOnTap,
   this.angleL = -1.57, 
   this.angleR = -1.57, 
   this.labelL = const Text('Text Label'), 
@@ -92,9 +94,7 @@ class _CustomCarouselItemState extends State<CustomCarouselItem> with AutomaticK
               child: CustomCarouselIndicator(
                 text: widget.labelR,
                 borderRadiusGeometry: widget.borderRadiusGeometryIndicatorR,
-                indicatorOnTap: () {
-                  
-                },
+                indicatorOnTap: widget.indicatorOnTap
               ),
             ),
           )
