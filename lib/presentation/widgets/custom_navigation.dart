@@ -13,6 +13,7 @@ import 'package:muix_player/presentation/screen/library/library.dart';
 import 'package:muix_player/presentation/screen/playing_now/playing_screen.dart';
 import 'package:muix_player/presentation/screen/search/search_screen.dart';
 import 'package:muix_player/presentation/widgets/background.dart';
+import 'package:muix_player/presentation/widgets/control_player/play_button.dart';
 import 'package:muix_player/presentation/widgets/list_item.dart';
 import 'package:muix_player/services/audio_manager.dart';
 import 'package:muix_player/services/service_locator.dart';
@@ -114,7 +115,8 @@ class CustomNavigationState extends ConsumerState<CustomNavigation> {
                             builder: (BuildContext context) => const PlayingScreen(),
                           ),
                         ),
-                        icon: IconButton(onPressed: audioManager.play, icon: Iconify(Ri.play_fill, color: ThemeData.estimateBrightnessForColor(ref.watch(colorStateProvider)) == Brightness.light ? AppMuixTheme.primary : Colors.white, size: 30,)),
+                        // IconButton(onPressed: audioManager.play, icon: Iconify(Ri.play_fill, color: ThemeData.estimateBrightnessForColor(ref.watch(colorStateProvider)) == Brightness.light ? AppMuixTheme.primary : Colors.white, size: 30,)),
+                        icon: const PlayButton(),
                         iconQueue: IconButton(
                           onPressed: () => setState(() {isClic = false;}), 
                           icon: Iconify(IconParkOutline.music_menu, color: ThemeData.estimateBrightnessForColor(ref.watch(colorStateProvider)) == Brightness.light ? AppMuixTheme.primary : Colors.white,)
