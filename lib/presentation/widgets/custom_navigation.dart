@@ -79,109 +79,113 @@ class CustomNavigationState extends ConsumerState<CustomNavigation> {
               const Library(),
             ][currentPageIndex],
           ),
-          Positioned(
-            bottom: 95,
-            child: Container(
-              height: 50.h,
-              width: MediaQuery.of(context).size.width,
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: isClic ? ValueListenableBuilder<MediaItem>(
-                valueListenable: audioManager.currentSongTitleNotifier,
-                builder: (_, currentSong,__) {
-                  return ValueListenableBuilder<Color>(
-                    valueListenable: dominateColor.color,
-                    builder: (_, color, __) {
-                      return ListItem(
-                        height: 50.h,
-                        title: Text(currentSong.title, maxLines: 1, style: ThemeData.estimateBrightnessForColor(ref.watch(colorStateProvider)) == Brightness.light ? AppMuixTheme.textTitleUrbanistRegular16 : AppMuixTheme.textTitleUrbanistRegular16White,),
-                        subtitle: Text(currentSong.artist ?? "", maxLines: 1, style: ThemeData.estimateBrightnessForColor(ref.watch(colorStateProvider)) == Brightness.light ? AppMuixTheme.textUrbanistBold16 : AppMuixTheme.textUrbanistBold16White,),
-                        artwork: currentSong.id.isEmpty ? 
-                        Image.asset(
-                          'assets/images/placeholder_song.png',
-                          height: 70.h,
-                        ) :
-                        QueryArtworkWidget(
-                          id: int.parse(currentSong.id),
-                          type: ArtworkType.AUDIO,
-                          artworkBorder: const BorderRadius.only(
-                            topLeft: Radius.circular(10),
-                            topRight: Radius.circular(0),
-                          ),
-                          artworkHeight: 70.h,
-                          keepOldArtwork: true,
-                        ),
-                        onTap: ( ) => Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (BuildContext context) => const PlayingScreen(),
-                          ),
-                        ),
-                        // IconButton(onPressed: audioManager.play, icon: Iconify(Ri.play_fill, color: ThemeData.estimateBrightnessForColor(ref.watch(colorStateProvider)) == Brightness.light ? AppMuixTheme.primary : Colors.white, size: 30,)),
-                        icon: const PlayButton(),
-                        iconQueue: IconButton(
-                          onPressed: () => setState(() {isClic = false;}), 
-                          icon: Iconify(IconParkOutline.music_menu, color: ThemeData.estimateBrightnessForColor(ref.watch(colorStateProvider)) == Brightness.light ? AppMuixTheme.primary : Colors.white,)
-                        ),
-                        enableIconQueue: true,
-                        
-                        borderRadius: BorderRadius.circular(10),
-                        
-                        imageBorderRadius: const BorderRadius.horizontal(
-                          left: Radius.circular(10), 
-                          right: Radius.zero
-                        ),
-                        gradient: LinearGradient(
-                          colors: [ref.watch(colorStateProvider).withOpacity(0.40), ref.watch(colorStateProvider)],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                      );
-                    }
-                  );
-                }
-              ): 
-              ValueListenableBuilder<List<MediaItem>>(
-                valueListenable: audioManager.playlistNotifier,
-                builder: (_, playlistSongs, __) {
-                  return CarouselSlider.builder(
-                    itemCount: 20, 
-                    options: CarouselOptions(
-                      viewportFraction: 0.15,
-                      initialPage: 1,
-                      onPageChanged: (index, reason) {
-                        actualPosition = index;
-                        setState(() {
-                          
-                        });
-                      },
-                    ),
-                    itemBuilder: (context, index, realIndex) {
-                      final songs = playlistSongs[index];
-                    
-                      return Row(
-                        children: [
-                          InkWell(
-                            onDoubleTap: () => setState(() {isClic = true;}),
-                            onTap: () async {
-                              dominateColor.color.value = await dominateColor.getDominantingColorImage(int.parse(songs.id), ArtworkType.AUDIO, 200);
-                              audioManager..skipToNextQueueItem(index)..play;
-                            },
-                            child: QueryArtworkWidget(
-                              id: int.parse(songs.id),
-                              type: ArtworkType.AUDIO,
-                              artworkBorder: BorderRadius.circular(5),
-                              keepOldArtwork: true,
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                }
-              ),
-            )
-          ),
+          customBoxActivity(context),
         ],
       ),
+    );
+  }
+
+  Positioned customBoxActivity(BuildContext context) {
+    return Positioned(
+      bottom: 95,
+      child: Container(
+        height: 50.h,
+        width: MediaQuery.of(context).size.width,
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: isClic ? ValueListenableBuilder<MediaItem>(
+          valueListenable: audioManager.currentSongTitleNotifier,
+          builder: (_, currentSong,__) {
+            return ValueListenableBuilder<Color>(
+              valueListenable: dominateColor.color,
+              builder: (_, color, __) {
+                return ListItem(
+                  height: 50.h,
+                  title: Text(currentSong.title, maxLines: 1, style: ThemeData.estimateBrightnessForColor(ref.watch(colorStateProvider)) == Brightness.light ? AppMuixTheme.textTitleUrbanistRegular16 : AppMuixTheme.textTitleUrbanistRegular16White,),
+                  subtitle: Text(currentSong.artist ?? "", maxLines: 1, style: ThemeData.estimateBrightnessForColor(ref.watch(colorStateProvider)) == Brightness.light ? AppMuixTheme.textUrbanistBold16 : AppMuixTheme.textUrbanistBold16White,),
+                  artwork: currentSong.id.isEmpty ? 
+                  Image.asset(
+                    'assets/images/placeholder_song.png',
+                    height: 70.h,
+                  ) :
+                  QueryArtworkWidget(
+                    id: int.parse(currentSong.id),
+                    type: ArtworkType.AUDIO,
+                    artworkBorder: const BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(0),
+                    ),
+                    artworkHeight: 70.h,
+                    keepOldArtwork: true,
+                  ),
+                  onTap: ( ) => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => const PlayingScreen(),
+                    ),
+                  ),
+                  // IconButton(onPressed: audioManager.play, icon: Iconify(Ri.play_fill, color: ThemeData.estimateBrightnessForColor(ref.watch(colorStateProvider)) == Brightness.light ? AppMuixTheme.primary : Colors.white, size: 30,)),
+                  icon: const PlayButton(customizableColor: true,),
+                  iconQueue: IconButton(
+                    onPressed: () => setState(() {isClic = false;}), 
+                    icon: Iconify(IconParkOutline.music_menu, color: ThemeData.estimateBrightnessForColor(ref.watch(colorStateProvider)) == Brightness.light ? AppMuixTheme.primary : Colors.white,)
+                  ),
+                  enableIconQueue: true,
+                  
+                  borderRadius: BorderRadius.circular(10),
+                  
+                  imageBorderRadius: const BorderRadius.horizontal(
+                    left: Radius.circular(10), 
+                    right: Radius.zero
+                  ),
+                  gradient: LinearGradient(
+                    colors: [ref.watch(colorStateProvider).withOpacity(0.40), ref.watch(colorStateProvider)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                );
+              }
+            );
+          }
+        ): 
+        ValueListenableBuilder<List<MediaItem>>(
+          valueListenable: audioManager.playlistNotifier,
+          builder: (_, playlistSongs, __) {
+            return CarouselSlider.builder(
+              itemCount: 20, 
+              options: CarouselOptions(
+                viewportFraction: 0.15,
+                initialPage: 1,
+                onPageChanged: (index, reason) {
+                  actualPosition = index;
+                  setState(() {
+                    
+                  });
+                },
+              ),
+              itemBuilder: (context, index, realIndex) {
+                final songs = playlistSongs[index];
+              
+                return Row(
+                  children: [
+                    InkWell(
+                      onDoubleTap: () => setState(() {isClic = true;}),
+                      onTap: () async {
+                        dominateColor.color.value = await dominateColor.getDominantingColorImage(int.parse(songs.id), ArtworkType.AUDIO, 200);
+                        audioManager..skipToNextQueueItem(index)..play;
+                      },
+                      child: QueryArtworkWidget(
+                        id: int.parse(songs.id),
+                        type: ArtworkType.AUDIO,
+                        artworkBorder: BorderRadius.circular(5),
+                        keepOldArtwork: true,
+                      ),
+                    ),
+                  ],
+                );
+              },
+            );
+          }
+        ),
+      )
     );
   }
 }

@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:muix_player/helper/icons.dart';
 import 'package:muix_player/notifiers/play_button_notifier.dart';
+import 'package:muix_player/presentation/providers/color_state.dart';
 import 'package:muix_player/services/services.dart';
 import 'package:muix_player/theme/app_muix_theme.dart';
 
-class PlayButton extends StatelessWidget {
+class PlayButton extends ConsumerWidget {
+
+  final bool customizableColor;
   const PlayButton({
     super.key,
+    this.customizableColor = false,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final audioManager = getIt<AudioManager>();
+    final color = customizableColor ? (ThemeData.estimateBrightnessForColor(ref.watch(colorStateProvider)) == Brightness.light ? AppMuixTheme.primary : Colors.white) : AppMuixTheme.primary;
     return ValueListenableBuilder<ButtonState>(
       valueListenable: audioManager.playButtonNotifier,
       builder: (_,value,__) {
@@ -24,9 +30,9 @@ class PlayButton extends StatelessWidget {
               child: const CircularProgressIndicator(),
             );
           case ButtonState.paused:
-            return IconButton(onPressed: audioManager.play, icon: Iconify(Ri.play_fill, color: AppMuixTheme.primary, size: 35,));
+            return IconButton(onPressed: audioManager.play, icon: Iconify(Ri.play_fill, color: color, size: 35,));
           case ButtonState.playing:
-            return IconButton(onPressed: audioManager.pause, icon: const Iconify(Ph.pause_fill, size: 35,));
+            return IconButton(onPressed: audioManager.pause, icon: Iconify(Ph.pause_fill, color: color, size: 35,));
         }
       }
     );

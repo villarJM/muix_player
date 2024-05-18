@@ -1,6 +1,4 @@
-import 'package:audio_service/audio_service.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/material.dart';import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:muix_player/presentation/providers/color_state.dart';
 import 'package:muix_player/presentation/providers/dominate_color.dart';
@@ -26,8 +24,8 @@ class _SongsState extends ConsumerState<Songs> with AutomaticKeepAliveClientMixi
     super.build(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: ValueListenableBuilder<List<MediaItem>>(
-        valueListenable: audioManager.playlistNotifier,
+      child: ValueListenableBuilder<List<SongModel>>(
+        valueListenable: audioManager.songListNotifier,
         builder: (context, playlistSongs,_) {
           return ListView.builder(
             primary: true,
@@ -36,30 +34,38 @@ class _SongsState extends ConsumerState<Songs> with AutomaticKeepAliveClientMixi
             addAutomaticKeepAlives: true,
             itemBuilder: (context, index) {
               final songs = playlistSongs[index];
-              return ListItem(
-                height: 45.h,
-                title: Text(songs.title, maxLines: 1, style: AppMuixTheme.textTitleUrbanistRegular16,),
-                subtitle: Text(songs.artist ?? "", maxLines: 1, style: AppMuixTheme.textUrbanistBold16,),
-                artwork: LoadArtwork(
-                  id: int.parse(songs.id), 
-                  artworkType: ArtworkType.AUDIO,
-                  height: 100.h,
-                  frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-                    if (wasSynchronouslyLoaded) return child;
-                    return AnimatedOpacity(
-                      opacity: frame == null ? 0 : 1,
-                      duration: const Duration(milliseconds: 500),
-                      curve: Curves.easeOut,
-                      child: child,
-                    );
-                  },
-                ),
-                onTap: () {
-                  ref.watch(colorStateProvider.notifier).getDominantingColorImage(int.parse(songs.id), ArtworkType.AUDIO, 200);
-                  audioManager..skipToNextQueueItem(index)..play();
-                },
-                icon: popupMenuButtonSongs(context, int.parse(songs.id)),
-                borderRadius: BorderRadius.circular(10.0),
+              return ValueListenableBuilder<bool>(
+                valueListenable: audioManager.isShuffleModeEnabledNotifier,
+                builder: (context, isEnabled, child) {
+                  return ListItem(
+                    height: 45.h,
+                    title: Text(songs.title, maxLines: 1, style: AppMuixTheme.textTitleUrbanistRegular16,),
+                    subtitle: Text(songs.artist ?? "", maxLines: 1, style: AppMuixTheme.textUrbanistBold16,),
+                    artwork: LoadArtwork(
+                      id: songs.id, 
+                      artworkType: ArtworkType.AUDIO,
+                      height: 100.h,
+                      frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                        if (wasSynchronouslyLoaded) return child;
+                        return AnimatedOpacity(
+                          opacity: frame == null ? 0 : 1,
+                          duration: const Duration(milliseconds: 500),
+                          curve: Curves.easeOut,
+                          child: child,
+                        );
+                      },
+                    ),
+                    onTap: () {
+                      ref.watch(colorStateProvider.notifier).getDominantingColorImage(songs.id, ArtworkType.AUDIO, 200);
+                      if (isEnabled) {
+                        audioManager.shuffle();
+                      }
+                      audioManager..skipToNextQueueItem(index)..play();
+                    },
+                    icon: popupMenuButtonSongs(context, songs.id),
+                    borderRadius: BorderRadius.circular(10.0),
+                  );
+                }
               );
               
             },
