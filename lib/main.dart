@@ -5,7 +5,7 @@ import 'package:muix_player/presentation/widgets/widgets.dart';
 import 'package:muix_player/services/services.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-void main() async {
+Future<void> main() async {
   
   // await PreferencesAppTheme.init();
   WidgetsFlutterBinding.ensureInitialized();
