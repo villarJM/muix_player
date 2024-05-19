@@ -17,17 +17,19 @@ const Songs({ Key? key }) : super(key: key);
 class _SongsState extends ConsumerState<Songs> with AutomaticKeepAliveClientMixin {
 
   final dominateColor = DominateColor();
+  ScrollController scrollController = ScrollController();
   
 
   @override
   Widget build(BuildContext context){
     super.build(context);
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.only(left: 10, right: 10, top: 15),
       child: ValueListenableBuilder<List<SongModel>>(
         valueListenable: audioManager.songListNotifier,
         builder: (context, playlistSongs,_) {
           return ListView.builder(
+            physics: const BouncingScrollPhysics(),
             primary: true,
             scrollDirection: Axis.vertical,
             itemCount: playlistSongs.length,

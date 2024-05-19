@@ -25,7 +25,7 @@ class ArtistState extends State<Artist> {
   @override
   Widget build(BuildContext context){
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.only(left: 10, right: 10, top: 15),
       child: ValueListenableBuilder<List<MediaItem>>(
         valueListenable: audioManager.playlistNotifier,
         builder: (_, songList, __) {

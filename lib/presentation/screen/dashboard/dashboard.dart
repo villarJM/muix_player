@@ -19,6 +19,7 @@ class _DashboardState extends State<Dashboard>  with TickerProviderStateMixin{
 
     final audioManager = getIt<AudioManager>();
     return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
       child: Column(
         children: [
 
@@ -30,7 +31,7 @@ class _DashboardState extends State<Dashboard>  with TickerProviderStateMixin{
 
           const SizedBox(height: 5,),
           carouselPlaylist(audioManager, widget.controller),
-          SizedBox(height: 70.h,),
+          SizedBox(height: 140.h,),
         ],
       ),
     );

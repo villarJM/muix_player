@@ -10,7 +10,6 @@ import 'package:muix_player/presentation/screen/genres/genres.dart';
 import 'package:muix_player/presentation/screen/playlist/playlist_screen.dart';
 import 'package:muix_player/theme/app_muix_theme.dart';
 import 'package:buttons_tabbar/buttons_tabbar.dart';
-import 'package:super_cupertino_navigation_bar/super_cupertino_navigation_bar.dart';
 
 const List<Tab> tabs = [
   Tab(text: "Home",),
@@ -32,7 +31,6 @@ const Library({ Key? key }) : super(key: key);
 class _LibraryState extends ConsumerState<Library> with AutomaticKeepAliveClientMixin, TickerProviderStateMixin{
 
   late TabController controller;
-  final scrollController = ScrollController();
 
   @override
   void initState() {
@@ -45,49 +43,42 @@ class _LibraryState extends ConsumerState<Library> with AutomaticKeepAliveClient
     super.build(context);
     return DefaultTabController(
       length: tabs.length,
-      child: SuperScaffold(
-        stretch: false,
-        appBar: SuperAppBar(
-          title: Text('Library', style: AppMuixTheme.textTitleUrbanistRegular36,),
-          largeTitle: SuperLargeTitle(
-            largeTitle: 'Library',
-            textStyle: AppMuixTheme.textTitleUrbanistRegular36,
-            actions: [
-              IconButton(onPressed: (){}, icon: const Iconify(MaterialSymbols.folder_outline)),
-              IconButton(onPressed: (){}, icon: const Iconify(Carbon.equalizer)),
-              Container(
-                height: 35.w,
-                width: 35.w,
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 228, 211, 182),
-                  border: Border.all(color: Colors.white),
-                  borderRadius: BorderRadius.circular(10)
-                ),
-                child: IconButton(onPressed: (){}, icon: const Iconify(Jam.menu))
-              ),
-            ]
-          ),
-          bottom: SuperAppBarBottom(
-            enabled: true,
-            child: ButtonsTabBar(
-              height: 35,
-              borderWidth: 1,
-              unselectedBorderColor: Colors.white,
-              borderColor: Colors.white,
-              backgroundColor: AppMuixTheme.primary,
-              unselectedBackgroundColor: AppMuixTheme.background,
-              contentPadding: EdgeInsets.symmetric(horizontal: 25.w,),
-              buttonMargin: EdgeInsets.symmetric(horizontal: 20.w,),
-              unselectedLabelStyle: const TextStyle(color: Colors.black),
-              labelStyle: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-              controller: controller,
-              tabs: tabs,
-            ),
-          ),
-          searchBar: SuperSearchBar(enabled: false),
+      child: Scaffold(
+        appBar: AppBar(
+          toolbarHeight: 100,
           backgroundColor: Colors.transparent,
+          title: Text('Library', style: AppMuixTheme.textTitleUrbanistRegular36,),
+          actions: [
+            IconButton(onPressed: (){}, icon: const Iconify(MaterialSymbols.folder_outline)),
+            IconButton(onPressed: (){}, icon: const Iconify(Carbon.equalizer)),
+            Container(
+              height: 35.w,
+              width: 35.w,
+              margin: const EdgeInsets.only(right: 10),
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 228, 211, 182),
+                border: Border.all(color: Colors.white),
+                borderRadius: BorderRadius.circular(10)
+              ),
+              child: IconButton(onPressed: (){}, icon: const Iconify(Jam.menu))
+            ),
+          ],
+          bottom: ButtonsTabBar(
+            height: 35,
+            borderWidth: 1,
+            unselectedBorderColor: Colors.white,
+            borderColor: Colors.white,
+            backgroundColor: AppMuixTheme.primary,
+            unselectedBackgroundColor: AppMuixTheme.background,
+            contentPadding: EdgeInsets.symmetric(horizontal: 25.w,),
+            buttonMargin: EdgeInsets.symmetric(horizontal: 20.w,),
+            unselectedLabelStyle: const TextStyle(color: Colors.black),
+            labelStyle: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            controller: controller,
+            tabs: tabs,
+          ),
         ),
-        scrollController: scrollController,
+        backgroundColor: Colors.transparent,
         body: TabBarView(
           controller: controller,
           children:  [

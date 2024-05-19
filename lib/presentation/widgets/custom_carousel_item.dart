@@ -113,7 +113,7 @@ class _CustomCarouselItemState extends State<CustomCarouselItem> with AutomaticK
           fit: StackFit.expand,
           children: [
             GlassContainer(
-              key: Key(e is int ? '$e' : '${(e as SongModel).id}'),
+              key: Key(e is int ? '$e' : e is SongModel ? '${(e).id}' : '${(e as PlaylistModel).id}'),
               height: 160.h,
               width: double.infinity,
               blur: 5,
@@ -131,7 +131,7 @@ class _CustomCarouselItemState extends State<CustomCarouselItem> with AutomaticK
               borderWidth: 1.2,
               borderRadius: BorderRadius.circular(20),
               child: LoadArtwork(
-                id: (e is int ? e : (e as SongModel).id), 
+                id: (e is int ? e : e is SongModel ? (e).id : (e as PlaylistModel).id), 
                 artworkType: ArtworkType.AUDIO,
                 size: 1800,
                 quality: FilterQuality.high,
@@ -141,7 +141,7 @@ class _CustomCarouselItemState extends State<CustomCarouselItem> with AutomaticK
               bottom: 10,
               child: SizedBox(
                 height: 20.h,
-                child: Text(e is int ? "" : (e as SongModel).title, style: AppMuixTheme.textUrbanistMedium12, overflow: TextOverflow.fade,)
+                child: Text(e is int ? "" : e is SongModel ? (e).title : (e as PlaylistModel).playlist, style: AppMuixTheme.textUrbanistMedium12, overflow: TextOverflow.fade,)
               )
             )
           ],

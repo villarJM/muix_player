@@ -119,6 +119,15 @@ class MyAudioHandler extends BaseAudioHandler {
     queue.add(newQueue);
   }
 
+  Future<void> playAlbum(String album) async {
+    final firstSongIndex = queue.value.indexWhere((song) => song.album == album);
+    debugPrint('debug: $firstSongIndex');
+    // if (firstSongIndex != -1) {
+    //   await _player.seek(Duration.zero, index: firstSongIndex);
+    //   await play();
+    // }
+  }
+
   @override
   Future<void> addQueueItem(MediaItem mediaItem) async {
     // manage Just Audio

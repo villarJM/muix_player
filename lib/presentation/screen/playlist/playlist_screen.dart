@@ -43,7 +43,7 @@ class PlaylistScreenState extends State<PlaylistScreen> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
       child: ValueListenableBuilder<List<PlaylistModel>>(
         valueListenable: audioManager.playlistListNotifier,
         builder: ( context, playlist, __) {

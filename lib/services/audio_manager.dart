@@ -48,16 +48,7 @@ class AudioManager {
   Future<void> _loadPlaylist() async {
     
     final playlist = await offlineSongLocal.getSongs();
-    final mediaItems = playlist.map((song) => MediaItem(
-      id: song.id.toString(),
-      album: song.album,
-      title: song.title,
-      artist: song.artist,
-      genre: song.genre,
-      extras: {
-        'url': song.data,
-      },
-    )).toList();
+    final mediaItems = transformToMediaItem(playlist);
     _audioHandler.addQueueItems(mediaItems);
     playlistNotifier.value = mediaItems;
     songListNotifier.value = playlist;
@@ -88,9 +79,10 @@ class AudioManager {
       playlistCustomNotifier.value = songList;
   }
 
-  // ignore: unused_element
   Future<void> loadSongsForAlbums(String album) async {
     songsAlbumListNotifier.value = await offlineSongLocal.getSongsForAlbums(album);
+    final mediaItems = transformToMediaItem(songsAlbumListNotifier.value);
+    _audioHandler.updateQueue(mediaItems);
   }
 
   Future<void> loadSongsForArtist(String artist) async {
@@ -101,6 +93,19 @@ class AudioManager {
     recentlyListNotifier.value = await offlineSongLocal.getRecentlyAddedSongsLocal();
   }
 
+  List<MediaItem> transformToMediaItem(List<SongModel> listSong) => listSong.map(
+    (song) => MediaItem(
+      id: song.id.toString(),
+      album: song.album,
+      title: song.title,
+      artist: song.artist,
+      genre: song.genre,
+      extras: {
+        'url': song.data,
+      },
+    )
+  ).toList();
+  
   void _listenToChangesInPlaylist() {
     _audioHandler.queue.listen((playlist) {
       if (playlist.isEmpty) {
