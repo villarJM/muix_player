@@ -12,7 +12,7 @@ const PlayerControl({ Key? key }) : super(key: key);
   @override
   Widget build(BuildContext context){
     return const Padding(
-      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

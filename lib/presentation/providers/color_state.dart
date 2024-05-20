@@ -16,8 +16,8 @@ class ColorState extends _$ColorState {
   @override
   Color build() => const Color(0xffe4d3b6);
   
-  void getDominantingColorImage(int id, ArtworkType artworkType, int size) async {
-    final uint8list = await offlineSongLocal.getArtwork(id, artworkType, size);
+  void getDominantingColorImage(int id, ArtworkType artworkType, int size, int? quality) async {
+    final uint8list = await offlineSongLocal.getArtwork(id, artworkType, size, quality);
       ui.decodeImageFromList(uint8list, (result) async { 
         final PaletteGenerator generator = await PaletteGenerator.fromImage(result);
           final colorImage = generator.dominantColor!.color;

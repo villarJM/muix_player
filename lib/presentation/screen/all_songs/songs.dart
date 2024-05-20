@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:muix_player/presentation/providers/color_state.dart';
 import 'package:muix_player/presentation/providers/dominate_color.dart';
@@ -28,49 +29,52 @@ class _SongsState extends ConsumerState<Songs> with AutomaticKeepAliveClientMixi
       child: ValueListenableBuilder<List<SongModel>>(
         valueListenable: audioManager.songListNotifier,
         builder: (context, playlistSongs,_) {
-          return ListView.builder(
-            physics: const BouncingScrollPhysics(),
-            primary: true,
-            scrollDirection: Axis.vertical,
-            itemCount: playlistSongs.length,
-            addAutomaticKeepAlives: true,
-            itemBuilder: (context, index) {
-              final songs = playlistSongs[index];
-              return ValueListenableBuilder<bool>(
-                valueListenable: audioManager.isShuffleModeEnabledNotifier,
-                builder: (context, isEnabled, child) {
-                  return ListItem(
-                    height: 45.h,
-                    title: Text(songs.title, maxLines: 1, style: AppMuixTheme.textTitleUrbanistRegular16,),
-                    subtitle: Text(songs.artist ?? "", maxLines: 1, style: AppMuixTheme.textUrbanistBold16,),
-                    artwork: LoadArtwork(
-                      id: songs.id, 
-                      artworkType: ArtworkType.AUDIO,
-                      height: 100.h,
-                      frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-                        if (wasSynchronouslyLoaded) return child;
-                        return AnimatedOpacity(
-                          opacity: frame == null ? 0 : 1,
-                          duration: const Duration(milliseconds: 500),
-                          curve: Curves.easeOut,
-                          child: child,
-                        );
+          return Scrollbar(
+            thickness: 20,
+            controller: scrollController,
+            thumbVisibility: true,
+            interactive: true,
+            child: ListView.builder(
+              itemExtent: 45.h,
+              semanticChildCount: playlistSongs.length,
+              physics: const BouncingScrollPhysics(),
+              scrollDirection: Axis.vertical,
+              itemCount: playlistSongs.length,
+              addAutomaticKeepAlives: true,
+              controller: scrollController,
+              itemBuilder: (context, index) {
+                final songs = playlistSongs[index];
+                return ValueListenableBuilder<bool>(
+                  valueListenable: audioManager.isShuffleModeEnabledNotifier,
+                  builder: (context, isEnabled, child) {
+                    return ListItem(
+                      key: Key(songs.id.toString()),
+                      height: 45.h,
+                      title: Text(songs.title, maxLines: 1, style: AppMuixTheme.textTitleUrbanistRegular16,),
+                      subtitle: Text(songs.artist ?? "", maxLines: 1, style: AppMuixTheme.textUrbanistBold16,),
+                      artwork: LoadArtwork(
+                        key: Key(songs.id.toString()),
+                        id: songs.id, 
+                        artworkType: ArtworkType.AUDIO,
+                        height: 100.h,
+                        quality: FilterQuality.high,
+                        size: 1600,
+                      ),
+                      onTap: () {
+                        ref.watch(colorStateProvider.notifier).getDominantingColorImage(songs.id, ArtworkType.AUDIO, 200, 50);
+                        if (isEnabled) {
+                          audioManager.shuffle();
+                        }
+                        audioManager..skipToNextQueueItem(index)..play();
                       },
-                    ),
-                    onTap: () {
-                      ref.watch(colorStateProvider.notifier).getDominantingColorImage(songs.id, ArtworkType.AUDIO, 200);
-                      if (isEnabled) {
-                        audioManager.shuffle();
-                      }
-                      audioManager..skipToNextQueueItem(index)..play();
-                    },
-                    icon: popupMenuButtonSongs(context, songs.id),
-                    borderRadius: BorderRadius.circular(10.0),
-                  );
-                }
-              );
-              
-            },
+                      icon: popupMenuButtonSongs(context, songs.id),
+                      borderRadius: BorderRadius.circular(10.0),
+                    );
+                  }
+                );
+                
+              },
+            ),
           );
         }
       ) 

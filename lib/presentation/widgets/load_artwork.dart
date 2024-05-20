@@ -31,7 +31,7 @@ class LoadArtwork extends StatelessWidget {
   Widget build(BuildContext context){
     final offlineSongLocal =  getIt<OfflineSongLocal>();
     return FutureBuilder(
-      future: offlineSongLocal.getArtwork(id, artworkType, size),  
+      future: offlineSongLocal.getArtwork(id, artworkType, size, 100),  
       builder: (context, imageUint8List) {
         if (imageUint8List.hasData && imageUint8List.data != null) {
           return SizedBox(
@@ -46,6 +46,7 @@ class LoadArtwork extends StatelessWidget {
                 height: height,
                 fit: BoxFit.cover,
                 gaplessPlayback: true,
+                filterQuality: quality,
                 frameBuilder: frameBuilder,
               ),
               // Image(

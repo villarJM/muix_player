@@ -1,6 +1,5 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:blur/blur.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -92,7 +91,7 @@ class CustomNavigationState extends ConsumerState<CustomNavigation> {
         height: 50.h,
         width: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: isClic ? ValueListenableBuilder<MediaItem>(
+        child: ValueListenableBuilder<MediaItem>(
           valueListenable: audioManager.currentSongTitleNotifier,
           builder: (_, currentSong,__) {
             return ValueListenableBuilder<Color>(
@@ -145,46 +144,7 @@ class CustomNavigationState extends ConsumerState<CustomNavigation> {
               }
             );
           }
-        ): 
-        ValueListenableBuilder<List<MediaItem>>(
-          valueListenable: audioManager.playlistNotifier,
-          builder: (_, playlistSongs, __) {
-            return CarouselSlider.builder(
-              itemCount: 20, 
-              options: CarouselOptions(
-                viewportFraction: 0.15,
-                initialPage: 1,
-                onPageChanged: (index, reason) {
-                  actualPosition = index;
-                  setState(() {
-                    
-                  });
-                },
-              ),
-              itemBuilder: (context, index, realIndex) {
-                final songs = playlistSongs[index];
-              
-                return Row(
-                  children: [
-                    InkWell(
-                      onDoubleTap: () => setState(() {isClic = true;}),
-                      onTap: () async {
-                        dominateColor.color.value = await dominateColor.getDominantingColorImage(int.parse(songs.id), ArtworkType.AUDIO, 200);
-                        audioManager..skipToNextQueueItem(index)..play;
-                      },
-                      child: QueryArtworkWidget(
-                        id: int.parse(songs.id),
-                        type: ArtworkType.AUDIO,
-                        artworkBorder: BorderRadius.circular(5),
-                        keepOldArtwork: true,
-                      ),
-                    ),
-                  ],
-                );
-              },
-            );
-          }
-        ),
+        )
       )
     );
   }
