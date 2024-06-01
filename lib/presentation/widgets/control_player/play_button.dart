@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:muix_player/helper/icons.dart';
 import 'package:muix_player/notifiers/play_button_notifier.dart';
-import 'package:muix_player/presentation/providers/color_state.dart';
+import 'package:muix_player/provider/color_adaptable.dart';
 import 'package:muix_player/services/services.dart';
 import 'package:muix_player/theme/app_muix_theme.dart';
+import 'package:provider/provider.dart';
 
-class PlayButton extends ConsumerWidget {
+class PlayButton extends StatelessWidget {
 
   final bool customizableColor;
   const PlayButton({
@@ -15,9 +15,10 @@ class PlayButton extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final audioManager = getIt<AudioManager>();
-    final color = customizableColor ? (ThemeData.estimateBrightnessForColor(ref.watch(colorStateProvider)) == Brightness.light ? AppMuixTheme.primary : Colors.white) : AppMuixTheme.primary;
+    final colorAdaptable = Provider.of<ColorAdaptable>(context);
+    final color = customizableColor ? (ThemeData.estimateBrightnessForColor(colorAdaptable.color) == Brightness.light ? AppMuixTheme.primary : Colors.white) : AppMuixTheme.primary;
     return ValueListenableBuilder<ButtonState>(
       valueListenable: audioManager.playButtonNotifier,
       builder: (_,value,__) {

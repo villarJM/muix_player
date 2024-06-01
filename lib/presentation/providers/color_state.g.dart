@@ -6,7 +6,7 @@ part of 'color_state.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$colorStateHash() => r'1cc96bd08bc00bd2337568cc7d6cb02f7507b926';
+String _$colorStateHash() => r'8003e8965af43b7853218ddaa89485db4b074760';
 
 /// See also [ColorState].
 @ProviderFor(ColorState)

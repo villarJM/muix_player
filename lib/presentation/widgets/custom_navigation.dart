@@ -1,11 +1,9 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:muix_player/config/menu/navegation_item.dart';
 import 'package:muix_player/helper/icons.dart';
-import 'package:muix_player/presentation/providers/color_state.dart';
 import 'package:muix_player/presentation/providers/dominate_color.dart';
 import 'package:muix_player/presentation/screen/home/home.dart';
 import 'package:muix_player/presentation/screen/library/library.dart';
@@ -14,19 +12,21 @@ import 'package:muix_player/presentation/screen/search/search_screen.dart';
 import 'package:muix_player/presentation/widgets/background.dart';
 import 'package:muix_player/presentation/widgets/control_player/play_button.dart';
 import 'package:muix_player/presentation/widgets/list_item.dart';
+import 'package:muix_player/provider/color_adaptable.dart';
 import 'package:muix_player/services/audio_manager.dart';
 import 'package:muix_player/services/service_locator.dart';
 import 'package:muix_player/theme/app_muix_theme.dart';
 import 'package:on_audio_query/on_audio_query.dart';
+import 'package:provider/provider.dart';
 
-class CustomNavigation extends ConsumerStatefulWidget {
+class CustomNavigation extends StatefulWidget {
   const CustomNavigation({ Key? key }) : super(key: key);
 
   @override
   CustomNavigationState createState() => CustomNavigationState();
 }
 
-class CustomNavigationState extends ConsumerState<CustomNavigation> {
+class CustomNavigationState extends State<CustomNavigation> {
 
   int currentPageIndex = 0;
   final audioManager = getIt<AudioManager>();
@@ -36,7 +36,7 @@ class CustomNavigationState extends ConsumerState<CustomNavigation> {
   int actualIndex = 0;
   @override
   Widget build(BuildContext context) {
-
+    final colorProvider = Provider.of<ColorAdaptable>(context);
     // Brightness brightness = ThemeData.estimateBrightnessForColor(ref.watch(colorStateProvider));
     return Scaffold(
       body: Stack(
@@ -78,13 +78,13 @@ class CustomNavigationState extends ConsumerState<CustomNavigation> {
               const Library(),
             ][currentPageIndex],
           ),
-          customBoxActivity(context),
+          customBoxActivity(context, colorProvider),
         ],
       ),
     );
   }
 
-  Positioned customBoxActivity(BuildContext context) {
+  Positioned customBoxActivity(BuildContext context, ColorAdaptable colorAdaptable) {
     return Positioned(
       bottom: 95,
       child: Container(
@@ -99,8 +99,9 @@ class CustomNavigationState extends ConsumerState<CustomNavigation> {
               builder: (_, color, __) {
                 return ListItem(
                   height: 50.h,
-                  title: Text(currentSong.title, maxLines: 1, style: ThemeData.estimateBrightnessForColor(ref.watch(colorStateProvider)) == Brightness.light ? AppMuixTheme.textTitleUrbanistRegular16 : AppMuixTheme.textTitleUrbanistRegular16White,),
-                  subtitle: Text(currentSong.artist ?? "", maxLines: 1, style: ThemeData.estimateBrightnessForColor(ref.watch(colorStateProvider)) == Brightness.light ? AppMuixTheme.textUrbanistBold16 : AppMuixTheme.textUrbanistBold16White,),
+                  title: Text(currentSong.title, maxLines: 1, 
+                  style: ThemeData.estimateBrightnessForColor(colorAdaptable.color) == Brightness.light ? AppMuixTheme.textTitleUrbanistRegular16 : AppMuixTheme.textTitleUrbanistRegular16White,),
+                  subtitle: Text(currentSong.artist ?? "", maxLines: 1, style: ThemeData.estimateBrightnessForColor(colorAdaptable.color) == Brightness.light ? AppMuixTheme.textUrbanistBold16 : AppMuixTheme.textUrbanistBold16White,),
                   artwork: currentSong.id.isEmpty ? 
                   Image.asset(
                     'assets/images/placeholder_song.png',
@@ -121,11 +122,12 @@ class CustomNavigationState extends ConsumerState<CustomNavigation> {
                       builder: (BuildContext context) => const PlayingScreen(),
                     ),
                   ),
-                  // IconButton(onPressed: audioManager.play, icon: Iconify(Ri.play_fill, color: ThemeData.estimateBrightnessForColor(ref.watch(colorStateProvider)) == Brightness.light ? AppMuixTheme.primary : Colors.white, size: 30,)),
                   icon: const PlayButton(customizableColor: true,),
                   iconQueue: IconButton(
                     onPressed: () => setState(() {isClic = false;}), 
-                    icon: Iconify(IconParkOutline.music_menu, color: ThemeData.estimateBrightnessForColor(ref.watch(colorStateProvider)) == Brightness.light ? AppMuixTheme.primary : Colors.white,)
+                    icon: Iconify(IconParkOutline.music_menu, 
+                    color: ThemeData.estimateBrightnessForColor(colorAdaptable.color) == Brightness.light ? AppMuixTheme.primary : Colors.white,
+                    )
                   ),
                   enableIconQueue: true,
                   
@@ -136,7 +138,7 @@ class CustomNavigationState extends ConsumerState<CustomNavigation> {
                     right: Radius.zero
                   ),
                   gradient: LinearGradient(
-                    colors: [ref.watch(colorStateProvider).withOpacity(0.40), ref.watch(colorStateProvider)],
+                    colors: [colorAdaptable.color.withOpacity(0.40), colorAdaptable.color],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),

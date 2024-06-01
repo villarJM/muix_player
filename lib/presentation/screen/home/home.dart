@@ -1,89 +1,100 @@
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:muix_player/helper/icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:muix_player/presentation/widgets/widgets.dart';
+import 'package:muix_player/theme/muix_app_theme.dart'; 
 import 'package:super_cupertino_navigation_bar/super_cupertino_navigation_bar.dart';
-import 'package:muix_player/theme/app_muix_theme.dart';
 
-class Home extends StatelessWidget {
+class Home extends ConsumerWidget {
 const Home({ Key? key }) : super(key: key);
 
   @override
-  Widget build(BuildContext context){
-    return SuperScaffold(
-      appBar: SuperAppBar(
-        title: Text('Home', style: AppMuixTheme.textTitleUrbanistRegular36,),
-        largeTitle: SuperLargeTitle(
-          largeTitle: 'Hello, Misael',
-          textStyle: AppMuixTheme.textTitleUrbanistRegular36,
-          actions: [
-            Container(
-              height: 35.w,
-              width: 35.w,
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 228, 211, 182),
-                border: Border.all(color: Colors.white),
-                borderRadius: BorderRadius.circular(10)
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Column(
+      children: [
+        SuperScaffold(
+          appBar: SuperAppBar(
+            title: Text('Home', style: MuixAppTheme.titlePrimaryRegular36,),
+            largeTitle: SuperLargeTitle(
+              largeTitle: 'Hello, Misael',
+              textStyle: MuixAppTheme.titlePrimaryRegular36,
+              actions: [
+                Switch(
+                  value: MuixAppTheme.isDarkMode, 
+                  onChanged: (value) {
+                    value ? MuixAppTheme().setDarkTheme() : MuixAppTheme().setLightTheme();
+                  },
+                ),
+                Container(
+                  height: 35.w,
+                  width: 35.w,
+                  decoration: BoxDecoration(
+                    color: MuixAppTheme.background,
+                    border: Border.all(color: Colors.white),
+                    borderRadius: BorderRadius.circular(10)
+                  ),
+                  child: IconButton(onPressed: (){}, icon: const Iconify(Jam.menu))
+                )
+              ]
+            ),
+            searchBar: SuperSearchBar(
+              enabled: false,
+            ),
+            backgroundColor: Colors.transparent,
+          ),
+          body: Scaffold(
+            backgroundColor: Colors.transparent,
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 20,),
+                    rowRecentActivity(
+                      'Name', 'Playlist', 
+                      20.0, 0.0, 0.0, 20.0,
+                      0.0, 20.0, 20.0, 0.0
+                    ),
+                    const SizedBox(height: 10,),
+                    rowRecentActivity(
+                      'Name', 'Playlist', 
+                      0.0, 20.0, 20.0, 0.0,
+                      20.0, 0.0, 0.0, 20.0,
+                    ),
+                    const SizedBox(height: 10,),
+                    rowRecentActivity(
+                      'Name', 'Playlist', 
+                      20.0, 0.0, 0.0, 20.0,
+                      0.0, 20.0, 20.0, 0.0
+                    ),
+                    const SizedBox(height: 10,),
+                    rowRecentActivity(
+                      'Name', 'Playlist', 
+                      0.0, 20.0, 20.0, 0.0,
+                      20.0, 0.0, 0.0, 20.0,
+                    ),
+                    const SizedBox(height: 30,),
+        
+                    carouselItem(
+                      Text(
+                      'Most Played', textAlign: TextAlign.center, 
+                      style: MuixAppTheme.textPrimaryMedium12,), 
+                      Text('View All', textAlign: TextAlign.center, style: MuixAppTheme.textPrimaryMedium12), 10),
+                    const SizedBox(height: 5,),
+                    carouselItem(Text('Playlist', textAlign: TextAlign.center, style: MuixAppTheme.textPrimaryMedium12), Text('View All', textAlign: TextAlign.center, style: MuixAppTheme.textPrimaryMedium12), 10),
+                    const SizedBox(height: 5,),
+                    carouselItem(Text('Artist', textAlign: TextAlign.center, style: MuixAppTheme.textPrimaryMedium12), Text('View All', textAlign: TextAlign.center, style: MuixAppTheme.textPrimaryMedium12), 100),
+                    SizedBox(height: 130.h,),
+                  ],
+                ),
               ),
-              child: IconButton(onPressed: (){}, icon: const Iconify(Jam.menu))
-            )
-          ]
-        ),
-        searchBar: SuperSearchBar(
-          enabled: false,
-        ),
-        backgroundColor: Colors.transparent,
-      ),
-      body: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Column(
-              children: [
-                const SizedBox(height: 20,),
-                rowRecentActivity(
-                  'Name', 'Playlist', 
-                  20.0, 0.0, 0.0, 20.0,
-                  0.0, 20.0, 20.0, 0.0
-                ),
-                const SizedBox(height: 10,),
-                rowRecentActivity(
-                  'Name', 'Playlist', 
-                  0.0, 20.0, 20.0, 0.0,
-                  20.0, 0.0, 0.0, 20.0,
-                ),
-                const SizedBox(height: 10,),
-                rowRecentActivity(
-                  'Name', 'Playlist', 
-                  20.0, 0.0, 0.0, 20.0,
-                  0.0, 20.0, 20.0, 0.0
-                ),
-                const SizedBox(height: 10,),
-                rowRecentActivity(
-                  'Name', 'Playlist', 
-                  0.0, 20.0, 20.0, 0.0,
-                  20.0, 0.0, 0.0, 20.0,
-                ),
-                const SizedBox(height: 30,),
-
-                carouselItem(
-                  Text(
-                  'Most Played', textAlign: TextAlign.center, 
-                  style: AppMuixTheme.textUrbanistMediumPrimary12,), 
-                  Text('View All', textAlign: TextAlign.center, style: AppMuixTheme.textUrbanistMediumPrimary12), 10),
-                const SizedBox(height: 5,),
-                carouselItem(Text('Playlist', textAlign: TextAlign.center, style: AppMuixTheme.textUrbanistMediumPrimary12), Text('View All', textAlign: TextAlign.center, style: AppMuixTheme.textUrbanistMediumPrimary12), 10),
-                const SizedBox(height: 5,),
-                carouselItem(Text('Artist', textAlign: TextAlign.center, style: AppMuixTheme.textUrbanistMediumPrimary12), Text('View All', textAlign: TextAlign.center, style: AppMuixTheme.textUrbanistMediumPrimary12), 100),
-                SizedBox(height: 130.h,),
-              ],
             ),
           ),
         ),
-      ),
+      ],
     );
   }
 
@@ -128,7 +139,7 @@ const Home({ Key? key }) : super(key: key);
                       bottom: 1,
                       child: SizedBox(
                         height: 20.h,
-                        child: Text('Better Off (Aone, pt. II)', style: AppMuixTheme.textUrbanistMedium12, textAlign: TextAlign.center, overflow: TextOverflow.fade,)
+                        child: Text('Better Off (Aone, pt. II)', style: MuixAppTheme.textPrimaryMedium12, textAlign: TextAlign.center, overflow: TextOverflow.fade,)
                       )
                     )
                   ],
@@ -161,7 +172,7 @@ const Home({ Key? key }) : super(key: key);
                       bottom: 1,
                       child: SizedBox(
                         height: 20.h,
-                        child: Text('Better Off (Aone, pt. II)', style: AppMuixTheme.textUrbanistMedium12, textAlign: TextAlign.center, overflow: TextOverflow.fade,)
+                        child: Text('Better Off (Aone, pt. II)', style: MuixAppTheme.textPrimaryMedium12, textAlign: TextAlign.center, overflow: TextOverflow.fade,)
                       )
                     )
                   ],
@@ -194,7 +205,7 @@ const Home({ Key? key }) : super(key: key);
                       bottom: 1,
                       child: SizedBox(
                         height: 20.h,
-                        child: Text('Better Off (Aone, pt. II)', style: AppMuixTheme.textUrbanistMedium12, textAlign: TextAlign.center, overflow: TextOverflow.fade,)
+                        child: Text('Better Off (Aone, pt. II)', style: MuixAppTheme.textPrimaryMedium12, textAlign: TextAlign.center, overflow: TextOverflow.fade,)
                       )
                     )
                   ],

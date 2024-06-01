@@ -8,19 +8,25 @@ const Background({ Key? key }) : super(key: key);
   Widget build(BuildContext context){
     return Stack(
       children: [
-        Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                AppMuixTheme.background,
-                AppMuixTheme.background,
-                AppMuixTheme.backgroundSecondary,
-              ],
-              begin: Alignment.bottomCenter,
-              end: Alignment.topCenter,
-            )
+        SizedBox.expand(
+          child: Image.asset(
+            'assets/images/light.jpg',
+            fit: BoxFit.cover,
           ),
         ),
+        // Container(
+        //   decoration: BoxDecoration(
+        //     gradient: LinearGradient(
+        //       colors: [
+        //         AppMuixTheme.background,
+        //         AppMuixTheme.background,
+        //         AppMuixTheme.backgroundSecondary,
+        //       ],
+        //       begin: Alignment.bottomCenter,
+        //       end: Alignment.topCenter,
+        //     )
+        //   ),
+        // ),
       ],
     );
   }

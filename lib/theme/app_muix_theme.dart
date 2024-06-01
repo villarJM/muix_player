@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:muix_player/shared_preferences/preferences_app_theme.dart';
 
-class AppMuixTheme extends ChangeNotifier{
+class AppMuixTheme extends ChangeNotifier {
 
   static bool _isDarkMode = false;
   bool isDarkMode;
