@@ -8,6 +8,7 @@ import 'package:muix_player/notifiers/progress_notifier.dart';
 import 'package:muix_player/presentation/widgets/widgets.dart';
 import 'package:muix_player/services/services.dart';
 import 'package:muix_player/theme/app_muix_theme.dart';
+import 'package:muix_player/theme/muix_app_theme.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:text_scroll/text_scroll.dart';
 
@@ -101,10 +102,15 @@ class PlayingScreenState extends State<PlayingScreen> {
                               TextScroll(
                                 value.title,
                                 velocity: const Velocity(pixelsPerSecond: Offset(80, 0)),
-                                style: AppMuixTheme.textUrbanistSemiBold32White,
+                                style: MuixAppTheme.textTertiarySemiBold20White,
                                 selectable: true,
                               ),
-                              Text(value.artist!, maxLines: 1,),
+                              TextScroll(
+                                value.artist!,
+                                velocity: const Velocity(pixelsPerSecond: Offset(80, 0)),
+                                style: MuixAppTheme.textTertiaryMedium18White,
+                                selectable: true,
+                              ),
                               
                             ],
                           ),

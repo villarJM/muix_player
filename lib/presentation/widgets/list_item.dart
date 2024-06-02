@@ -4,7 +4,7 @@ import 'package:glass_kit/glass_kit.dart';
   final double height;
   final Text title;
   final Text subtitle;
-  final Widget artwork;
+  final Widget? artwork;
   final Function()? onTap;
   final Widget icon;
   final Widget? iconQueue;
@@ -19,7 +19,7 @@ import 'package:glass_kit/glass_kit.dart';
   this.height = 45,
   required this.title, 
   required this.subtitle, 
-  required this.artwork,
+  this.artwork,
   this.onTap,
   required this.icon,
   this.iconQueue,

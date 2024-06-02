@@ -54,14 +54,15 @@ class _SongsState extends State<Songs> with AutomaticKeepAliveClientMixin {
                       height: 45.h,
                       title: Text(songs.title, maxLines: 1, style: AppMuixTheme.textTitleUrbanistRegular16,),
                       subtitle: Text(songs.artist ?? "", maxLines: 1, style: AppMuixTheme.textUrbanistBold16,),
-                      artwork: LoadArtwork(
-                        key: Key(songs.id.toString()),
-                        id: songs.id, 
-                        artworkType: ArtworkType.AUDIO,
-                        height: 100.h,
-                        quality: FilterQuality.high,
-                        size: 1600,
-                      ),
+                      artwork: null,
+                      // LoadArtwork(
+                      //   key: Key(songs.id.toString()),
+                      //   id: songs.id, 
+                      //   artworkType: ArtworkType.AUDIO,
+                      //   height: 100.h,
+                      //   quality: FilterQuality.high,
+                      //   size: 1600,
+                      // ),
                       onTap: () {
                         colorAdaptable.getDominantingColorImage(songs.id, ArtworkType.AUDIO, 200, 50);
                         if (isEnabled) {

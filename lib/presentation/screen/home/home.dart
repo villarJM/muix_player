@@ -2,6 +2,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:muix_player/helper/icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:muix_player/presentation/widgets/widgets.dart';
@@ -121,15 +122,15 @@ const Home({ Key? key }) : super(key: key);
                   alignment: Alignment.bottomCenter,
                   fit: StackFit.expand,
                   children: [
-                    Image.asset(
-                      'assets/images/placeholder_song.png',
+                    Image(
+                      image: Svg('assets/images/placeholder_song.png'),
                       fit: BoxFit.cover,
                       height: 40.h,
                       alignment: Alignment.bottomCenter
                     ),
                     ImageFilteredLinearGradientBlur(
-                      imageBlurred: Image.asset(
-                        'assets/images/placeholder_song.png',
+                      imageBlurred: Image(
+                        image: Svg('assets/images/placeholder_song.png'),
                         fit: BoxFit.cover,
                         height: 40.h,
                         alignment: Alignment.bottomCenter

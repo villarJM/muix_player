@@ -68,7 +68,7 @@ class CustomNavigationState extends State<CustomNavigation> {
                 destinations: navigationItem,
               ).frosted(
                 borderRadius: const BorderRadius.all(Radius.circular(40.0)),
-                frostColor: AppMuixTheme.background.withOpacity(0.05),
+                frostColor: const Color(0Xfffce4ac).withOpacity(0.05),
                 blur: 15,
               ),
             ),

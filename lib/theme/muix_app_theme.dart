@@ -138,6 +138,13 @@ class MuixAppTheme extends ChangeNotifier {
     fontWeight: FontWeight.w800
   );
 
+  static TextStyle get textTertiaryMedium18White => TextStyle(
+    fontFamily: 'Urbanist',
+    color: textTertiary,
+    fontSize: 18.sp,
+    fontWeight: FontWeight.w600
+  );
+
   // Text Color Primary Bold
   static TextStyle get textPrimaryBold16 => TextStyle(
     fontFamily: 'Urbanist',
