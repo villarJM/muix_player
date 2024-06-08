@@ -14,19 +14,6 @@ const Background({ Key? key }) : super(key: key);
             fit: BoxFit.cover,
           ),
         ),
-        // Container(
-        //   decoration: BoxDecoration(
-        //     gradient: LinearGradient(
-        //       colors: [
-        //         AppMuixTheme.background,
-        //         AppMuixTheme.background,
-        //         AppMuixTheme.backgroundSecondary,
-        //       ],
-        //       begin: Alignment.bottomCenter,
-        //       end: Alignment.topCenter,
-        //     )
-        //   ),
-        // ),
       ],
     );
   }

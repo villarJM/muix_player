@@ -37,13 +37,18 @@ class PlayingScreenState extends State<PlayingScreen> {
           body: Stack(
             alignment: Alignment.bottomCenter,
             children: [
-              LoadArtwork(
-                id: int.parse(value.id), 
-                artworkType: ArtworkType.AUDIO,
-                size: 1600,
-                quality: FilterQuality.high,
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
+              const Background(),
+              Positioned(
+                top: 90.h,
+                child: LoadArtwork(
+                  id: int.parse(value.id), 
+                  artworkType: ArtworkType.AUDIO,
+                  size: 1600,
+                  quality: FilterQuality.high,
+                  height: 360,
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  radius: 20,
+                ),
               ),
               Positioned(
                 top: 0,
@@ -73,7 +78,7 @@ class PlayingScreenState extends State<PlayingScreen> {
                 ),
               ),
               Positioned(
-                bottom: 100.h,
+                bottom: 70.h,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: GlassContainer(
@@ -81,7 +86,7 @@ class PlayingScreenState extends State<PlayingScreen> {
                     width: MediaQuery.of(context).size.width * 0.9,
                     blur: 15,
                     gradient: LinearGradient(
-                      colors: [Colors.black.withOpacity(0.40), Colors.black.withOpacity(0.10)],
+                      colors: [Colors.white.withOpacity(0.40), Colors.white.withOpacity(0.10)],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),

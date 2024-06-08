@@ -10,9 +10,7 @@ import 'package:provider/single_child_widget.dart';
 
 Future<void> main() async {
   
-  // await PreferencesAppTheme.init();
   WidgetsFlutterBinding.ensureInitialized();
-  // Verifica y solicita los permisos necesarios.
   await _checkAndRequestPermissions();
   await setupServiceLocator();
   runApp(const MyApp(),);

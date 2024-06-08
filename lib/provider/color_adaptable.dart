@@ -9,16 +9,17 @@ import 'dart:ui' as ui;
 class ColorAdaptable extends ChangeNotifier {
   
   final offlineSongLocal = getIt<OfflineSongLocal>();
-  Color _color = const Color(0xffe4d3b6);
+  Color _color = Colors.white;
 
   Color get color => _color;
 
-  void getDominantingColorImage(int id, ArtworkType artworkType, int size, int? quality) async {
+  Future<void> getDominantingColorImage(int id, ArtworkType artworkType, int size, int? quality) async {
     final uint8list = await offlineSongLocal.getArtwork(id, artworkType, size, quality);
     ui.decodeImageFromList(uint8list, (result) async { 
       final PaletteGenerator generator = await PaletteGenerator.fromImage(result);
-        final colorImage = generator.dominantColor!.color;
+        final colorImage = generator.dominantColor?.color ?? Colors.white;
         _color = colorImage;
+        notifyListeners();
     });
     notifyListeners();
   }
