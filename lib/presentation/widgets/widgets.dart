@@ -1,4 +1,6 @@
 export 'package:muix_player/presentation/widgets/background.dart';
+export 'package:muix_player/presentation/widgets/blur_container.dart';
+export 'package:muix_player/presentation/widgets/box_item_music.dart';
 export 'package:muix_player/presentation/widgets/cache_imagen_provider.dart';
 export 'package:muix_player/presentation/widgets/circle_painter.dart';
 export 'package:muix_player/presentation/widgets/custom_carousel_indicator.dart';

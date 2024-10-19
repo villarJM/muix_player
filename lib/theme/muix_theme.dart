@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class MuixTheme extends ChangeNotifier {
 
-  Color _colorWhite = Colors.white;
+  final Color _colorWhite = Colors.white;
 
   Color get colorWhite => _colorWhite;
 
@@ -12,6 +12,21 @@ class MuixTheme extends ChangeNotifier {
     fontSize: 36,
     color: _colorWhite,
     fontWeight: FontWeight.w500
+  );
+
+  TextStyle get styleUrbanist12WhiteW600 => TextStyle(
+    fontFamily: 'Urbanist',
+    fontSize: 12,
+    color: _colorWhite,
+    fontWeight: FontWeight.w600,
+    overflow: TextOverflow.ellipsis
+  );
+
+  TextStyle get styleUrbanist11WhiteW600 => TextStyle(
+    fontFamily: 'Urbanist',
+    fontSize: 11,
+    color: _colorWhite,
+    fontWeight: FontWeight.w600
   );
 
 }

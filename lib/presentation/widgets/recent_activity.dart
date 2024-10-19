@@ -1,9 +1,16 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:muix_player/presentation/widgets/blur_container.dart';
 
 class RecentActivity extends StatelessWidget {
-const RecentActivity({ Key? key }) : super(key: key);
+
+  final Widget title;
+
+  const RecentActivity({ 
+    Key? key, 
+    required this.title 
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context){
@@ -19,23 +26,20 @@ const RecentActivity({ Key? key }) : super(key: key);
             ),
           ),
           Expanded(
-            child: ClipRRect(
+            child: BlurContainer(
               borderRadius: const BorderRadiusDirectional.horizontal(end: Radius.circular(15)),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(
-                  sigmaX: 10, sigmaY: 10
-                ),
-                child: Container(
-                  height: 50,
-                  color: Colors.white.withOpacity(0.11),
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text("Title"),
-                    ],
-                  ),
-                ),
+              height: 50,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: title,
+                    )
+                  )
+                ],
               ),
             ),
           )
