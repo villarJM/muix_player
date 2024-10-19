@@ -68,7 +68,9 @@ class CustomNavigationState extends State<CustomNavigation> {
               const Library(),
             ][currentPageIndex],
           ),
-          const BoxPlaying(),
+          const BoxPlaying(
+            pBottom: 95,
+          ),
         ],
       ),
     );

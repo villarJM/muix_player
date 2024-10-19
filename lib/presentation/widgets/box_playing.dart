@@ -14,7 +14,10 @@ import 'package:on_audio_query/on_audio_query.dart';
 import 'package:provider/provider.dart';
 
 class BoxPlaying extends StatefulWidget {
-  const BoxPlaying({super.key});
+
+  final double pBottom;
+  
+  const BoxPlaying({super.key, required this.pBottom});
 
   @override
   State<BoxPlaying> createState() => _BoxPlayingState();
@@ -30,7 +33,7 @@ class _BoxPlayingState extends State<BoxPlaying> {
     final colorAdaptable = Provider.of<ColorAdaptable>(context);
 
     return Positioned(
-      bottom: 95,
+      bottom: widget.pBottom,
       child: Container(
         height: 50.h,
         width: MediaQuery.of(context).size.width,

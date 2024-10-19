@@ -63,7 +63,13 @@ class NextButton extends StatelessWidget {
           icon: Transform.rotate(
             angle: 3.15,
             child: Iconify(Uim.previous, color: AppMuixTheme.primary, size: 40,)),
-          onPressed: (isLast) ? null : audioManager.next,
+          onPressed: () {
+            if (!isLast) {
+              audioManager.next();
+              // audioManager.playNextAlbum();
+
+            }
+          }
         );
       },
     );

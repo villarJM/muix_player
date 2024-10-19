@@ -122,15 +122,15 @@ const Home({ Key? key }) : super(key: key);
                   alignment: Alignment.bottomCenter,
                   fit: StackFit.expand,
                   children: [
-                    Image(
-                      image: Svg('assets/images/placeholder_song.png'),
+                    Image.asset(
+                      'assets/images/placeholder_song.png',
                       fit: BoxFit.cover,
                       height: 40.h,
                       alignment: Alignment.bottomCenter
                     ),
                     ImageFilteredLinearGradientBlur(
-                      imageBlurred: Image(
-                        image: Svg('assets/images/placeholder_song.png'),
+                      imageBlurred: Image.asset(
+                        'assets/images/placeholder_song.png',
                         fit: BoxFit.cover,
                         height: 40.h,
                         alignment: Alignment.bottomCenter

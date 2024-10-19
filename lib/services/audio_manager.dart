@@ -69,6 +69,22 @@ class AudioManager {
     albumListNotifier.value = albumList;
   }
 
+  Future<void> loadAllAlbumList() async {
+    List<List<MediaItem>> allAlbumsList = [];
+    List<MediaItem> albumList = [];
+    // final songs = songList.where((item) => item.album == albumList[index].album).toList();
+    final songList = await offlineSongLocal.getSongs();
+    final mediaItemList = transformToMediaItem(songList);
+    final allAlbums = await offlineSongLocal.getAlbums();
+    allAlbums.map(
+      (e) {
+        albumList = mediaItemList.where((song) => song.album == e.album).toList();
+        allAlbumsList.add(albumList);
+      }
+    );
+    _audioHandler.customAction('addAlbums', {"allAlbums": allAlbumsList});
+  }
+
   Future<void> loadPlaylists() async {
       final playlist = await offlineSongLocal.getPlaylists();
       playlistListNotifier.value = playlist;
@@ -82,7 +98,7 @@ class AudioManager {
   Future<void> loadSongsForAlbums(String album) async {
     songsAlbumListNotifier.value = await offlineSongLocal.getSongsForAlbums(album);
     final mediaItems = transformToMediaItem(songsAlbumListNotifier.value);
-    _audioHandler.updateQueue(mediaItems);
+     await _audioHandler.updateQueue(mediaItems);
   }
 
   Future<void> loadSongsForArtist(String artist) async {
@@ -223,18 +239,6 @@ class AudioManager {
       _audioHandler.setShuffleMode(AudioServiceShuffleMode.none);
     }
   }
-
-  // Future<void> add() async {
-  //   final songRepository = getIt<OfflineSongLocal>();
-  //   final song = await songRepository.querySongs();
-  //   final mediaItem = MediaItem(
-  //     id: song.id.toString(),
-  //     album: song.album,
-  //     title: song.title,
-  //     extras: {'url': song.data},
-  //   );
-  //   _audioHandler.addQueueItem(mediaItem);
-  // }
 
   void remove() {
     final lastIndex = _audioHandler.queue.value.length - 1;

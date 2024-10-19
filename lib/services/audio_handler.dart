@@ -14,9 +14,11 @@ Future<AudioHandler> initAudioService() async {
   );
 }
 
-class MyAudioHandler extends BaseAudioHandler {
+class MyAudioHandler extends BaseAudioHandler with SeekHandler {
   final _player = AudioPlayer();
   final _playlist = ConcatenatingAudioSource(children: []);
+  final _albumList = <List<MediaItem>>[];
+  int _currentAlbumIndex = 0;
 
   MyAudioHandler() {
     _loadEmptyPlaylist();
@@ -70,6 +72,12 @@ class MyAudioHandler extends BaseAudioHandler {
         queueIndex: event.currentIndex,
       ));
     });
+
+    _player.playerStateStream.listen((PlayerState state) {
+      if (state.processingState == ProcessingState.completed) {
+        _handlePlaybackComplete();
+      }
+    });
   }
 
   void _listenForDurationChanges() {
@@ -108,6 +116,29 @@ class MyAudioHandler extends BaseAudioHandler {
     });
   }
 
+  Future<void> _handlePlaybackComplete() async {
+    if (_player.loopMode == LoopMode.one) {
+      _player.seek(Duration.zero);
+      play();
+    } else if (_player.hasNext) {
+      _player.seekToNext();
+    } else if (_player.loopMode == LoopMode.all) {
+      _player.seek(Duration.zero, index: 0);
+      play();
+    } else {
+      _playNextAlbum();
+    }
+  }
+
+  Future<void> _playNextAlbum() async {
+    _currentAlbumIndex = (_currentAlbumIndex + 1) % _albumList.length;
+    final newQueue = _albumList[_currentAlbumIndex];
+    queue.add(newQueue);
+    await updateQueue(newQueue);
+    await _player.seek(Duration.zero, index: 0);
+    play();
+  }
+
   @override
   Future<void> addQueueItems(List<MediaItem> mediaItems) async {
     // manage Just Audio
@@ -119,13 +150,19 @@ class MyAudioHandler extends BaseAudioHandler {
     queue.add(newQueue);
   }
 
+  Future<void> addAlbums(List<List<MediaItem>> albums) async {
+    _albumList.addAll(albums);
+    if (_albumList.isNotEmpty) {
+      await updateQueue(_albumList[0]);
+    }
+  }
+
   Future<void> playAlbum(String album) async {
     final firstSongIndex = queue.value.indexWhere((song) => song.album == album);
-    debugPrint('debug: $firstSongIndex');
-    // if (firstSongIndex != -1) {
-    //   await _player.seek(Duration.zero, index: firstSongIndex);
-    //   await play();
-    // }
+    if (firstSongIndex != -1) {
+      await _player.seek(Duration.zero, index: firstSongIndex);
+      await play();
+    }
   }
 
   @override
@@ -144,6 +181,16 @@ class MyAudioHandler extends BaseAudioHandler {
       Uri.parse(mediaItem.extras!['url'] as String),
       tag: mediaItem,
     );
+  }
+
+  @override
+  Future<void> updateQueue(List<MediaItem> mediaItems) async {
+    _playlist.clear();
+    // manage Just Audio
+    final audioSource = mediaItems.map(_createAudioSource);
+    _playlist.addAll(audioSource.toList());
+
+    queue.add(mediaItems);
   }
 
   @override
@@ -208,9 +255,26 @@ class MyAudioHandler extends BaseAudioHandler {
 
   @override
   Future<void> customAction(String name, [Map<String, dynamic>? extras]) async {
-    if (name == 'dispose') {
-      await _player.dispose();
-      super.stop();
+    switch (name) {
+      case 'addAlbums':
+        final addAlbum = extras?['allAlbums'] as List<List<MediaItem>>?;
+        if (addAlbum != null) {
+          await addAlbums(addAlbum);
+        }
+        break;
+      case 'playAlbum':
+        final album = extras?['album'] as String?;
+        if (album != null) {
+          await playAlbum(album);
+        }
+        break;
+      case 'dispose':
+        await _player.dispose();
+        super.stop();
+        break;
+      // Añade otros casos si es necesario
+      default:
+        break;
     }
   }
 
