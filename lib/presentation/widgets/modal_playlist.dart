@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glass_kit/glass_kit.dart';
 import 'package:muix_player/helper/offline_song_local.dart';
 import 'package:muix_player/services/audio_manager.dart';
-import 'package:muix_player/theme/app_muix_theme.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 Future modalPlaylist<T>({
@@ -30,8 +29,8 @@ Future modalPlaylist<T>({
             height: 360.h,
             width: double.infinity,
             blur: 10,
-            gradient: LinearGradient(
-              colors: [AppMuixTheme.background.withOpacity(0.40), AppMuixTheme.background.withOpacity(0.10)],
+            gradient: const LinearGradient(
+              colors: [],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
@@ -48,23 +47,23 @@ Future modalPlaylist<T>({
               margin: const EdgeInsets.all(20.0),
               child: Column(
                 children: [
-                  Text('Playlist', style: AppMuixTheme.textUrbanistSemiBoldPrimary20,),
+                  const Text('Playlist', ),
                   const Divider(color: Colors.white,),
                   Offstage(
                     offstage: isNew,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: TextField(
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                        decoration: const InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                           hintText: 'New Playlist',
-                          border: const OutlineInputBorder(
+                          border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(10.0)),
                             borderSide: BorderSide(
                               color: Colors.white
                             ),
                           ),
-                          fillColor: AppMuixTheme.backgroundSecondary,
+                          
                           filled: true,
                         ),
                         controller: controller,
@@ -107,7 +106,6 @@ Future modalPlaylist<T>({
                         child: ElevatedButton(
                           onPressed: () => setState(() => isNew = !isNew),
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: AppMuixTheme.primary,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0)
                             )
@@ -134,7 +132,6 @@ Future modalPlaylist<T>({
                             });
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: AppMuixTheme.primary,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0)
                             )

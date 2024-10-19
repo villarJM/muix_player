@@ -5,7 +5,6 @@ import 'package:glass_kit/glass_kit.dart';
 import 'package:muix_player/presentation/widgets/box_playing.dart';
 import 'package:muix_player/presentation/widgets/widgets.dart';
 import 'package:muix_player/provider/color_adaptable.dart';
-import 'package:muix_player/theme/app_muix_theme.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:anim_search_app_bar/anim_search_app_bar.dart';
 import 'package:provider/provider.dart';
@@ -63,8 +62,8 @@ class _AlbumsDetailScreenState extends State<AlbumsDetailScreen>{
                       hintText: 'Search',
                       cSearch: searchController,
                       backgroundColor: Colors.transparent,
-                      decoration: InputDecoration(
-                        enabledBorder: const OutlineInputBorder(
+                      decoration: const InputDecoration(
+                        enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10.0)),
                           borderSide: BorderSide(
                             color: Colors.white,
@@ -72,12 +71,11 @@ class _AlbumsDetailScreenState extends State<AlbumsDetailScreen>{
                           ),
                           
                         ),
-                        contentPadding: const EdgeInsets.all(10),
+                        contentPadding: EdgeInsets.all(10),
                         hintMaxLines: 1,
                         hintText: 'Search',
                         filled: true,
-                        fillColor: AppMuixTheme.background,
-                        focusedBorder: const OutlineInputBorder(
+                        focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10.0)),
                           borderSide: BorderSide(
                             color: Colors.white,

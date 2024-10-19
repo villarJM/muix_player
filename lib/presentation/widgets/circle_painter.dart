@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:muix_player/theme/app_muix_theme.dart';
 
 class CirclePainter extends CustomPainter {
   final double radius;
@@ -17,7 +16,7 @@ class CirclePainter extends CustomPainter {
 
     // Dibujar el disco interno
     double innerRadius = radius * 0.3; // Define el tamaño del disco interno
-    Paint innerPaint = Paint()..color = AppMuixTheme.background;
+    Paint innerPaint = Paint()..color = Colors.white;
 
     canvas.drawCircle(Offset(size.width / 2, size.height / 2), innerRadius, innerPaint);
   }

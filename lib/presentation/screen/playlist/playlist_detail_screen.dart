@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glass_kit/glass_kit.dart';
 import 'package:muix_player/presentation/widgets/widgets.dart';
-import 'package:muix_player/theme/app_muix_theme.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class PlaylistDetailScreen extends StatefulWidget {
@@ -57,8 +56,8 @@ class PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
                   hintText: 'Search',
                   cSearch: searchController,
                   backgroundColor: Colors.transparent,
-                  decoration: InputDecoration(
-                    enabledBorder: const OutlineInputBorder(
+                  decoration: const InputDecoration(
+                    enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10.0)),
                       borderSide: BorderSide(
                         color: Colors.white,
@@ -66,12 +65,11 @@ class PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
                       ),
                       
                     ),
-                    contentPadding: const EdgeInsets.all(10),
+                    contentPadding: EdgeInsets.all(10),
                     hintMaxLines: 1,
                     hintText: 'Search',
                     filled: true,
-                    fillColor: AppMuixTheme.background,
-                    focusedBorder: const OutlineInputBorder(
+                    focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10.0)),
                       borderSide: BorderSide(
                         color: Colors.white,
@@ -140,14 +138,14 @@ class PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         mainAxisAlignment: MainAxisAlignment.end,
                                         children: [
-                                          Text('${widget.songList[index].album}', maxLines: 1, overflow: TextOverflow.fade, style: AppMuixTheme.textUrbanistMediumPrimary12,),
+                                          Text('${widget.songList[index].album}', maxLines: 1, overflow: TextOverflow.fade, ),
                                           Row(
                                             children: [
-                                              Expanded(child: Text(widget.songList[index].artist ?? "", maxLines: 1, overflow: TextOverflow.clip, style: AppMuixTheme.textUrbanistMediumPrimary12,),),
-                                              Text(' | 2023', maxLines: 1, overflow: TextOverflow.fade, textAlign: TextAlign.end, style: AppMuixTheme.textUrbanistMediumPrimary12,),
+                                              Expanded(child: Text(widget.songList[index].artist ?? "", maxLines: 1, overflow: TextOverflow.clip, ),),
+                                              const Text(' | 2023', maxLines: 1, overflow: TextOverflow.fade, textAlign: TextAlign.end, ),
                                             ],
                                           ),
-                                          Text('Songs', style: AppMuixTheme.textUrbanistMediumPrimary12,)
+                                          const Text('Songs', )
                                         ],
                                       ),
                                     ),

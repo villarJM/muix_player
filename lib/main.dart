@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:muix_player/presentation/widgets/widgets.dart';
 import 'package:muix_player/provider/color_adaptable.dart';
 import 'package:muix_player/services/services.dart';
-import 'package:muix_player/theme/muix_app_theme.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
@@ -75,6 +74,5 @@ class _MyAppState extends State<MyApp> {
 }
 
 List<SingleChildWidget> providers = [
-  ChangeNotifierProvider(create: (context) => MuixAppTheme()),
   ChangeNotifierProvider(create: (context) => ColorAdaptable()),
 ];

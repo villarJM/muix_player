@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glass_kit/glass_kit.dart';
 import 'package:muix_player/presentation/widgets/custom_carousel_indicator.dart';
 import 'package:muix_player/presentation/widgets/load_artwork.dart';
-import 'package:muix_player/theme/app_muix_theme.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class CustomCarouselItem extends StatefulWidget {
@@ -141,7 +140,7 @@ class _CustomCarouselItemState extends State<CustomCarouselItem> with AutomaticK
               bottom: 10,
               child: SizedBox(
                 height: 20.h,
-                child: Text(e is int ? "" : e is SongModel ? (e).title : (e as PlaylistModel).playlist, style: AppMuixTheme.textUrbanistMedium12, overflow: TextOverflow.fade,)
+                child: Text(e is int ? "" : e is SongModel ? (e).title : (e as PlaylistModel).playlist, overflow: TextOverflow.fade,)
               )
             )
           ],

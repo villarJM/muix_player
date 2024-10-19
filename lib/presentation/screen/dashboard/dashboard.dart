@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:muix_player/presentation/widgets/widgets.dart';
 import 'package:muix_player/services/services.dart';
-import 'package:muix_player/theme/app_muix_theme.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class Dashboard extends StatefulWidget {
@@ -42,8 +41,8 @@ class _DashboardState extends State<Dashboard>  with TickerProviderStateMixin{
       valueListenable: audioManager.playlistListNotifier,
       builder: (_, playlistSong, __) {
         return CustomCarouselItem(
-          labelL: Text('Playlist', textAlign: TextAlign.center, style: AppMuixTheme.textUrbanistMediumPrimary12),
-          labelR: Text('View All', textAlign: TextAlign.center, style: AppMuixTheme.textUrbanistMediumPrimary12),
+          labelL: const Text('Playlist', textAlign: TextAlign.center),
+          labelR: const Text('View All', textAlign: TextAlign.center),
           enableIndicator: true,
           indicatorOnTap: () => tabController.animateTo(5),
           borderRadiusGeometry: BorderRadius.circular(20),
@@ -69,8 +68,8 @@ class _DashboardState extends State<Dashboard>  with TickerProviderStateMixin{
           valueListenable: audioManager.recentlyListNotifier,
           builder: (_, recentlySong, __) {
             return CustomCarouselItem(
-              labelL:  Text('New Albums', textAlign: TextAlign.center, style:AppMuixTheme.textUrbanistMediumPrimary12),
-              labelR: Text('View All', textAlign: TextAlign.center, style: AppMuixTheme.textUrbanistMediumPrimary12),
+              labelL:  const Text('New Albums', textAlign: TextAlign.center,),
+              labelR: const Text('View All', textAlign: TextAlign.center, ),
               enableIndicator: true,
               borderRadiusGeometry: BorderRadius.circular(20),
               alignmentL: Alignment.centerLeft,

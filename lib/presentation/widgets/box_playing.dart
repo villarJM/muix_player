@@ -5,12 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:muix_player/presentation/providers/dominate_color.dart';
 import 'package:muix_player/presentation/widgets/control_player/play_button.dart';
 import 'package:muix_player/presentation/widgets/widgets.dart';
-import 'package:muix_player/provider/color_adaptable.dart';
 import 'package:muix_player/services/audio_manager.dart';
 import 'package:muix_player/services/service_locator.dart';
-import 'package:muix_player/theme/app_muix_theme.dart';
 import 'package:on_audio_query/on_audio_query.dart';
-import 'package:provider/provider.dart';
 
 class BoxPlaying extends StatefulWidget {
 
@@ -29,13 +26,13 @@ class _BoxPlayingState extends State<BoxPlaying> {
   
   @override
   Widget build(BuildContext context){
-    final colorAdaptable = Provider.of<ColorAdaptable>(context);
-    final titleStyle = ThemeData.estimateBrightnessForColor(colorAdaptable.color) == Brightness.light 
-      ? AppMuixTheme.textTitleUrbanistRegular16 
-      : AppMuixTheme.textTitleUrbanistRegular16White;
-    final subtitleStyle = ThemeData.estimateBrightnessForColor(colorAdaptable.color) == Brightness.light 
-      ? AppMuixTheme.textUrbanistBold16 
-      : AppMuixTheme.textUrbanistBold16White;
+    // final colorAdaptable = Provider.of<ColorAdaptable>(context);
+    // final titleStyle = ThemeData.estimateBrightnessForColor(colorAdaptable.color) == Brightness.light 
+    //   ? AppMuixTheme.textTitleUrbanistRegular16 
+    //   : AppMuixTheme.textTitleUrbanistRegular16White;
+    // final subtitleStyle = ThemeData.estimateBrightnessForColor(colorAdaptable.color) == Brightness.light 
+    //   ? AppMuixTheme.textUrbanistBold16 
+    //   : AppMuixTheme.textUrbanistBold16White;
 
     return Positioned(
       bottom: widget.pBottom,
@@ -55,8 +52,8 @@ class _BoxPlayingState extends State<BoxPlaying> {
                       artworkType: ArtworkType.AUDIO,
                       height: 70,
                     ), 
-                  subtitle: Text("Subtitle", maxLines: 1, style: subtitleStyle,), 
-                  title: Text("Title", maxLines: 1, style: titleStyle,),
+                  subtitle: Text("Subtitle", maxLines: 1), 
+                  title: Text("Title", maxLines: 1),
                   icon: const PlayButton(customizableColor: true,)
                 );
               }

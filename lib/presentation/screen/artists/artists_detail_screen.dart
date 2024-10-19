@@ -8,7 +8,6 @@ import 'package:muix_player/presentation/widgets/background.dart';
 import 'package:muix_player/presentation/widgets/list_item.dart';
 import 'package:muix_player/presentation/widgets/load_artwork.dart';
 import 'package:muix_player/presentation/widgets/popup_menu_button_songs.dart';
-import 'package:muix_player/theme/app_muix_theme.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class ArtistsDetailScreen extends StatefulWidget {
@@ -63,8 +62,8 @@ class ArtistsDetailScreenState extends State<ArtistsDetailScreen> {
                   hintText: 'Search',
                   cSearch: searchController,
                   backgroundColor: Colors.transparent,
-                  decoration: InputDecoration(
-                    enabledBorder: const OutlineInputBorder(
+                  decoration: const InputDecoration(
+                    enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10.0)),
                       borderSide: BorderSide(
                         color: Colors.white,
@@ -72,12 +71,11 @@ class ArtistsDetailScreenState extends State<ArtistsDetailScreen> {
                       ),
                       
                     ),
-                    contentPadding: const EdgeInsets.all(10),
+                    contentPadding: EdgeInsets.all(10),
                     hintMaxLines: 1,
                     hintText: 'Search',
                     filled: true,
-                    fillColor: AppMuixTheme.background,
-                    focusedBorder: const OutlineInputBorder(
+                    focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10.0)),
                       borderSide: BorderSide(
                         color: Colors.white,
@@ -167,14 +165,14 @@ class ArtistsDetailScreenState extends State<ArtistsDetailScreen> {
                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                   mainAxisAlignment: MainAxisAlignment.end,
                                                   children: [
-                                                    Text(widget.albumList[index].album, maxLines: 1, overflow: TextOverflow.fade, style: AppMuixTheme.textUrbanistMediumPrimary12,),
+                                                    Text(widget.albumList[index].album, maxLines: 1, overflow: TextOverflow.fade, ),
                                                     Row(
                                                       children: [
-                                                        Expanded(child: Text(widget.albumList[index].artist ?? "", maxLines: 1, overflow: TextOverflow.clip, style: AppMuixTheme.textUrbanistMediumPrimary12,),),
-                                                        Text(' | 2023', maxLines: 1, overflow: TextOverflow.fade, textAlign: TextAlign.end, style: AppMuixTheme.textUrbanistMediumPrimary12,),
+                                                        Expanded(child: Text(widget.albumList[index].artist ?? "", maxLines: 1, overflow: TextOverflow.clip, ),),
+                                                        const Text(' | 2023', maxLines: 1, overflow: TextOverflow.fade, textAlign: TextAlign.end, ),
                                                       ],
                                                     ),
-                                                    Text('${widget.albumList[index].numOfSongs} Songs', style: AppMuixTheme.textUrbanistMediumPrimary12,)
+                                                    Text('${widget.albumList[index].numOfSongs} Songs', )
                                                   ],
                                                 ),
                                               ),

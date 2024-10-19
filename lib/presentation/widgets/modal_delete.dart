@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glass_kit/glass_kit.dart';
-import 'package:muix_player/theme/app_muix_theme.dart';
 
 Future modalDelete<T>({
   required BuildContext context,
@@ -15,10 +14,9 @@ Future modalDelete<T>({
         height: 100.h,
         width: double.infinity,
         blur: 10,
-        gradient: LinearGradient(
+        gradient: const LinearGradient(
           colors: [
-            AppMuixTheme.background.withOpacity(0.40),
-            AppMuixTheme.background.withOpacity(0.10)
+           
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -42,14 +40,13 @@ Future modalDelete<T>({
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
+              const Row(
                 children: [
                   Expanded(
                       child: Text(
                     'Do you want to delete this playlist?',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: AppMuixTheme.textUrbanistMedium15White,
                     textAlign: TextAlign.center,
                   )),
                 ],
@@ -60,7 +57,6 @@ Future modalDelete<T>({
                       child: ElevatedButton(
                     onPressed: () => Navigator.of(context).pop,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppMuixTheme.primary,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0)),
                       foregroundColor: Colors.white),

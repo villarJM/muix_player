@@ -3,7 +3,6 @@ import 'package:muix_player/helper/icons.dart';
 import 'package:muix_player/notifiers/play_button_notifier.dart';
 import 'package:muix_player/provider/color_adaptable.dart';
 import 'package:muix_player/services/services.dart';
-import 'package:muix_player/theme/app_muix_theme.dart';
 import 'package:provider/provider.dart';
 
 class PlayButton extends StatelessWidget {
@@ -18,7 +17,7 @@ class PlayButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final audioManager = getIt<AudioManager>();
     final colorAdaptable = Provider.of<ColorAdaptable>(context);
-    final color = customizableColor ? (ThemeData.estimateBrightnessForColor(colorAdaptable.color) == Brightness.light ? AppMuixTheme.primary : Colors.white) : AppMuixTheme.primary;
+    final color = customizableColor ? (ThemeData.estimateBrightnessForColor(colorAdaptable.color) == Brightness.light ? Colors.white : Colors.white) : Colors.black;
     return ValueListenableBuilder<ButtonState>(
       valueListenable: audioManager.playButtonNotifier,
       builder: (_,value,__) {

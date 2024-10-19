@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:muix_player/presentation/screen/search/sliver_search_app_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:muix_player/helper/icons.dart';
-import 'package:muix_player/theme/app_muix_theme.dart';
 
 class SearchScreen extends StatelessWidget {
 const SearchScreen({ Key? key }) : super(key: key);
@@ -18,10 +17,10 @@ const SearchScreen({ Key? key }) : super(key: key);
             SliverAppBar(
               pinned: true,
               expandedHeight: 80.h,
-              flexibleSpace: FlexibleSpaceBar(
-                title: Text('Search', style: AppMuixTheme.textTitleUrbanistRegular36,),
+              flexibleSpace: const FlexibleSpaceBar(
+                title: Text('Search',),
                 expandedTitleScale: 1,
-                titlePadding: const EdgeInsets.only(left: 15,),
+                titlePadding: EdgeInsets.only(left: 15,),
               ),
               actions: [
                 Container(

@@ -1,4 +1,3 @@
-import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,9 +9,7 @@ import 'package:muix_player/presentation/screen/artists/artists.dart';
 import 'package:muix_player/presentation/screen/dashboard/dashboard.dart';
 import 'package:muix_player/presentation/screen/genres/genres.dart';
 import 'package:muix_player/presentation/screen/playlist/playlist_screen.dart';
-import 'package:muix_player/theme/app_muix_theme.dart';
 import 'package:buttons_tabbar/buttons_tabbar.dart';
-import 'package:muix_player/theme/muix_app_theme.dart';
 
 const List<Tab> tabs = [
   Tab(text: "Home",),
@@ -50,7 +47,7 @@ class _LibraryState extends ConsumerState<Library> with AutomaticKeepAliveClient
         appBar: AppBar(
           toolbarHeight: 100,
           backgroundColor: Colors.transparent,
-          title: Text('Library', style: AppMuixTheme.textTitleUrbanistRegular36,),
+          title: const Text('Library',),
           actions: [
             
             GlassContainer(
@@ -119,8 +116,6 @@ class _LibraryState extends ConsumerState<Library> with AutomaticKeepAliveClient
             borderWidth: 1,
             unselectedBorderColor: Colors.white,
             borderColor: Colors.white,
-            backgroundColor: AppMuixTheme.primary,
-            unselectedBackgroundColor: MuixAppTheme.tertiary.withOpacity(0.3),
             contentPadding: EdgeInsets.symmetric(horizontal: 25.w,),
             buttonMargin: EdgeInsets.symmetric(horizontal: 20.w,),
             unselectedLabelStyle: const TextStyle(color: Colors.black),

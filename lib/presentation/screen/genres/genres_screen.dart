@@ -5,7 +5,6 @@ import 'package:muix_player/helper/offline_song_local.dart';
 import 'package:muix_player/presentation/screen/genres/genres.dart';
 import 'package:muix_player/presentation/widgets/widgets.dart';
 import 'package:muix_player/services/services.dart';
-import 'package:muix_player/theme/app_muix_theme.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class GenresScreen extends StatefulWidget {
@@ -115,10 +114,10 @@ class GenresScreenState extends State<GenresScreen> {
                             children: [
                               Row(
                                 children: [
-                                  Expanded(child: Text(e.genre, maxLines: 1, overflow: TextOverflow.fade, style: AppMuixTheme.textUrbanistMediumPrimary12, textAlign: TextAlign.start,)),
+                                  Expanded(child: Text(e.genre, maxLines: 1, overflow: TextOverflow.fade,  textAlign: TextAlign.start,)),
                                 ],
                               ),
-                              Text('Tracks: ${e.numOfSongs}', style: AppMuixTheme.textUrbanistMediumPrimary12, textAlign: TextAlign.start)
+                              Text('Tracks: ${e.numOfSongs}',  textAlign: TextAlign.start)
                             ],
                           ),
                         )

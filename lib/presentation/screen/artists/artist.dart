@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:muix_player/presentation/screen/artists/artists.dart';
 import 'package:muix_player/presentation/widgets/widgets.dart';
 import 'package:muix_player/services/services.dart';
-import 'package:muix_player/theme/app_muix_theme.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class Artist extends StatefulWidget {
@@ -67,7 +66,7 @@ class ArtistState extends State<Artist> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Expanded(child: Text(artistList[index].artist, maxLines: 1, overflow: TextOverflow.clip, style: AppMuixTheme.textUrbanistMediumPrimary12,)),
+                                    Expanded(child: Text(artistList[index].artist, maxLines: 1, overflow: TextOverflow.clip,)),
                                     Expanded(child: Text('Albums: ${artistList[index].numberOfAlbums}')),
                                     Text('Tracks: ${artistList[index].numberOfTracks}'),
                                   ],
@@ -95,7 +94,7 @@ class ArtistState extends State<Artist> {
       children: [
 
         CircleAvatar(
-          backgroundColor: AppMuixTheme.background,
+         
           radius: 65,
           child: CircleAvatar(
             radius: 60,
@@ -122,7 +121,6 @@ class ArtistState extends State<Artist> {
         Positioned(
           left: 65,
           child: CircleAvatar(
-            backgroundColor: AppMuixTheme.background,
             radius: 65,
             child: CircleAvatar(
               radius: 60,
@@ -150,7 +148,6 @@ class ArtistState extends State<Artist> {
       Positioned(
         left: 130,
         child: CircleAvatar(
-          backgroundColor: AppMuixTheme.background,
           radius: 65,
           child: CircleAvatar(
             radius: 60,
@@ -179,10 +176,9 @@ class ArtistState extends State<Artist> {
         right: 0,
         child: CircleAvatar(
           radius: 65,
-          backgroundColor: AppMuixTheme.background,
           child: CircleAvatar(
             radius: 60,
-            child: Text('+${artistList[index].numberOfTracks}', style: AppMuixTheme.textUrbanistSemiBoldPrimary20,),
+            child: Text('+${artistList[index].numberOfTracks}',),
           ),
         ),
       )

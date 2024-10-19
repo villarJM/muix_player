@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glass_kit/glass_kit.dart';
-import 'package:muix_player/theme/app_muix_theme.dart';
 
 Future modalInput<T>({
     required BuildContext context,
@@ -16,8 +15,8 @@ Future modalInput<T>({
         height: 50.h,
         width: double.infinity,
         blur: 10,
-        gradient: LinearGradient(
-          colors: [AppMuixTheme.background.withOpacity(0.40), AppMuixTheme.background.withOpacity(0.10)],
+        gradient: const LinearGradient(
+          colors: [],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -35,16 +34,15 @@ Future modalInput<T>({
             children: [
               Expanded(
                 child: TextField(
-                  decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  decoration: const InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                     hintText: 'New Playlist',
-                    border: const OutlineInputBorder(
+                    border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10.0)),
                       borderSide: BorderSide(
                         color: Colors.white
                       ),
                     ),
-                    fillColor: AppMuixTheme.backgroundSecondary,
                     filled: true,
                   ),
                   controller: controller,
@@ -54,7 +52,6 @@ Future modalInput<T>({
               ElevatedButton(
                 onPressed: onPressed,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppMuixTheme.primary,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0)
                   ),

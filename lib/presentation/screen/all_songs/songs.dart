@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:muix_player/presentation/providers/color_state.dart';
 import 'package:muix_player/presentation/providers/dominate_color.dart';
 import 'package:muix_player/presentation/widgets/widgets.dart';
 import 'package:muix_player/provider/color_adaptable.dart';
-import 'package:muix_player/theme/app_muix_theme.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:provider/provider.dart';
 
@@ -52,8 +50,8 @@ class _SongsState extends State<Songs> with AutomaticKeepAliveClientMixin {
                     return ListItem(
                       key: Key(songs.id.toString()),
                       height: 45.h,
-                      title: Text(songs.title, maxLines: 1, style: AppMuixTheme.textTitleUrbanistRegular16,),
-                      subtitle: Text(songs.artist ?? "", maxLines: 1, style: AppMuixTheme.textUrbanistBold16,),
+                      title: Text(songs.title, maxLines: 1,),
+                      subtitle: Text(songs.artist ?? "", maxLines: 1,),
                       artwork:
                       LoadArtwork(
                         key: Key(songs.id.toString()),

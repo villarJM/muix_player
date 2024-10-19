@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:muix_player/theme/app_muix_theme.dart';
 
 class SearchResult extends SearchDelegate<String> {
    final cities = [
@@ -18,12 +17,10 @@ class SearchResult extends SearchDelegate<String> {
   ThemeData appBarTheme(BuildContext context) {
   final ThemeData theme = Theme.of(context);
   return theme.copyWith(
-    scaffoldBackgroundColor: AppMuixTheme.backgroundSecondary,
-    appBarTheme: AppBarTheme(
-      backgroundColor: AppMuixTheme.background,
+    
+    appBarTheme: const AppBarTheme(
     ),
-    inputDecorationTheme: InputDecorationTheme(
-      hintStyle: AppMuixTheme.textUrbanistBold15
+    inputDecorationTheme: const InputDecorationTheme(
     )
   );
 }

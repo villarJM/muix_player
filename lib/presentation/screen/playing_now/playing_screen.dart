@@ -7,8 +7,6 @@ import 'package:muix_player/helper/icons.dart';
 import 'package:muix_player/notifiers/progress_notifier.dart';
 import 'package:muix_player/presentation/widgets/widgets.dart';
 import 'package:muix_player/services/services.dart';
-import 'package:muix_player/theme/app_muix_theme.dart';
-import 'package:muix_player/theme/muix_app_theme.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:text_scroll/text_scroll.dart';
 
@@ -60,16 +58,16 @@ class PlayingScreenState extends State<PlayingScreen> {
                     children: [
                       IconButton(
                         onPressed: () => Navigator.of(context).pop(), 
-                        icon: Iconify(Ic.round_chevron_left, 
-                          color: AppMuixTheme.background, 
+                        icon: const Iconify(Ic.round_chevron_left, 
+                           
                           size: 35,
                         )
                       ),
-                      Text('Playing Now', style: AppMuixTheme.textUrbanistSemiBold20White),
+                      const Text('Playing Now'),
                       IconButton(
                         onPressed: (){}, 
-                        icon: Iconify(Jam.menu, 
-                          color: AppMuixTheme.background, 
+                        icon: const Iconify(Jam.menu, 
+                           
                           size: 35,
                         )
                       ),
@@ -107,13 +105,13 @@ class PlayingScreenState extends State<PlayingScreen> {
                               TextScroll(
                                 value.title,
                                 velocity: const Velocity(pixelsPerSecond: Offset(80, 0)),
-                                style: MuixAppTheme.textTertiarySemiBold20White,
+                                
                                 selectable: true,
                               ),
                               TextScroll(
                                 value.artist!,
                                 velocity: const Velocity(pixelsPerSecond: Offset(80, 0)),
-                                style: MuixAppTheme.textTertiaryMedium18White,
+                               
                                 selectable: true,
                               ),
                               

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:muix_player/presentation/screen/search/search_result.dart';
-import 'package:muix_player/theme/app_muix_theme.dart';
 
 class SliverSearchAppBar extends SliverPersistentHeaderDelegate {
 
@@ -12,7 +11,7 @@ class SliverSearchAppBar extends SliverPersistentHeaderDelegate {
       child: Container(
         height: 60,
         decoration: BoxDecoration(
-          color: AppMuixTheme.background,
+          
           border: Border.all(
             color: Colors.white,
             width: 1,
@@ -31,7 +30,7 @@ class SliverSearchAppBar extends SliverPersistentHeaderDelegate {
                   Shadow(blurRadius: 5, color: Colors.black26)],
               ),
               SizedBox(width: 10.w,),
-              Text('Discover', style: AppMuixTheme.textUrbanistBold15,)
+              const Text('Discover')
             ],
           )
         ),

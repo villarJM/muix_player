@@ -7,7 +7,6 @@ import 'package:muix_player/helper/icons.dart';
 import 'package:muix_player/presentation/screen/playlist/playlists.dart';
 import 'package:muix_player/presentation/widgets/widgets.dart';
 import 'package:muix_player/services/services.dart';
-import 'package:muix_player/theme/app_muix_theme.dart';
 import 'package:muix_player/util/util.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
@@ -119,7 +118,7 @@ class PlaylistScreenState extends State<PlaylistScreen> {
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         mainAxisAlignment: MainAxisAlignment.end,
                                         children: [
-                                          Text('${playlist[index].playlist}: ${playlist[index].numOfSongs} Songs', style: AppMuixTheme.textUrbanistMediumPrimary12,)
+                                          Text('${playlist[index].playlist}: ${playlist[index].numOfSongs} Songs')
                                         ],
                                       ),
                                     ),

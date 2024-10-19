@@ -4,7 +4,6 @@ import 'package:muix_player/notifiers/repeat_button_notifier.dart';
 import 'package:muix_player/presentation/widgets/control_player/play_button.dart';
 import 'package:muix_player/services/audio_manager.dart';
 import 'package:muix_player/services/service_locator.dart';
-import 'package:muix_player/theme/app_muix_theme.dart';
 
 class PlayerControl extends StatelessWidget {
 const PlayerControl({ Key? key }) : super(key: key);
@@ -40,7 +39,7 @@ class PreviousButton extends StatelessWidget {
       valueListenable: audioManager.isFirstSongNotifier,
       builder: (_, isFirst, __) {
         return IconButton(
-          icon: Iconify(Uim.previous, color: AppMuixTheme.primary, size: 40,),
+          icon: const Iconify(Uim.previous, size: 40,),
             onPressed: (isFirst) ? null : audioManager.previous,
         );
       },
@@ -62,7 +61,7 @@ class NextButton extends StatelessWidget {
         return IconButton(
           icon: Transform.rotate(
             angle: 3.15,
-            child: Iconify(Uim.previous, color: AppMuixTheme.primary, size: 40,)),
+            child: const Iconify(Uim.previous, size: 40,)),
           onPressed: () {
             if (!isLast) {
               audioManager.next();
@@ -89,7 +88,7 @@ class ShuffleButton extends StatelessWidget {
       builder: (context, isEnabled, child) {
         return IconButton(
           icon: (isEnabled)
-              ? Iconify(Mi.shuffle, color: AppMuixTheme.primary, size: 24,)
+              ? const Iconify(Mi.shuffle, size: 24,)
               : const Iconify(Mi.shuffle, color: Colors.white, size: 24,),
           onPressed: audioManager.shuffle,
         );
@@ -115,7 +114,7 @@ class RepeatButton extends StatelessWidget {
             icon = const Iconify(Mi.repeat, size: 24, color: Colors.white,);
             break;
           case RepeatState.repeatSong:
-            icon = Iconify(Mi.repeatOnce, color: AppMuixTheme.primary, size: 24,);
+            icon = const Iconify(Mi.repeatOnce, size: 24,);
             break;
           case RepeatState.repeatPlaylist:
             icon = const Iconify(Mi.repeat, size: 24);
