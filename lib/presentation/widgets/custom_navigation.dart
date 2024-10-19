@@ -1,6 +1,4 @@
 import 'dart:io';
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:muix_player/config/menu/navegation_item.dart';
 import 'package:muix_player/presentation/providers/dominate_color.dart';
@@ -8,6 +6,7 @@ import 'package:muix_player/presentation/screen/home/home.dart';
 import 'package:muix_player/presentation/screen/library/library.dart';
 import 'package:muix_player/presentation/screen/search/search_screen.dart';
 import 'package:muix_player/presentation/widgets/background.dart';
+import 'package:muix_player/presentation/widgets/blur_container.dart';
 import 'package:muix_player/presentation/widgets/box_playing.dart';
 import 'package:muix_player/services/audio_manager.dart';
 import 'package:muix_player/services/service_locator.dart';
@@ -43,21 +42,23 @@ class CustomNavigationState extends State<CustomNavigation> {
               elevation: 0,
               height: 100,
               color: Colors.transparent,
-              child: ClipRRect(
+              child: BlurContainer(
                 borderRadius: BorderRadius.circular(30),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(
-                    sigmaX: 10, sigmaY: 10
-                  ),
-                  child: Container(
-                    height: 70,
-                    color: Colors.white.withOpacity(0.15),
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: navigationItem.map((item) => item.icon).toList()
-                    ),
-                  ),
+                height: 70,
+                color: Colors.white.withOpacity(0.15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: navigationItem.map((item) 
+                    => IconButton(
+                      onPressed: () {
+                        currentPageIndex = item.pageIndex;
+                        setState(() {});
+                      },
+                      icon: currentPageIndex == item.pageIndex 
+                        ? item.selectedIcon
+                        : item.icon,
+                    )
+                  ).toList()
                 ),
               ),
             ),
