@@ -21,7 +21,9 @@ Future<void> _checkAndRequestPermissions() async {
     Permission.storage,
     Permission.phone,
     Permission.audio,
-    Permission.manageExternalStorage // Cambia a otros permisos según tus necesidades.
+    Permission.manageExternalStorage,
+    Permission.mediaLibrary,
+    Permission.accessNotificationPolicy
   ].request();
 
   statuses.forEach((permission, status) {
