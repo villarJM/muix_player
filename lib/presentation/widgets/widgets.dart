@@ -16,6 +16,7 @@ export 'package:muix_player/presentation/widgets/load_artwork.dart';
 export 'package:muix_player/presentation/widgets/modal_delete.dart';
 export 'package:muix_player/presentation/widgets/modal_input.dart';
 export 'package:muix_player/presentation/widgets/modal_playlist.dart';
+export 'package:muix_player/presentation/widgets/now_playing_bar.dart';
 export 'package:muix_player/presentation/widgets/player_control.dart';
 export 'package:muix_player/presentation/widgets/popup_menu_button_songs.dart';
 export 'package:muix_player/presentation/widgets/song_position.dart';

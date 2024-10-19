@@ -8,7 +8,7 @@ const Background({ Key? key }) : super(key: key);
   @override
   Widget build(BuildContext context){
     return Scaffold(
-      backgroundColor: const Color(0XFFFFBFB6),
+      backgroundColor: const Color.fromARGB(255, 0, 0, 0),
       body: Stack(
         children: [
           Positioned(
@@ -19,7 +19,7 @@ const Background({ Key? key }) : super(key: key);
                 height: 437.h,
                 width: 309.w,
                 decoration: const BoxDecoration(
-                  color: Color(0XFFFFE2AE),
+                  color: Color.fromARGB(255, 0, 0, 0),
                 ),
               ),
             ),
@@ -32,7 +32,7 @@ const Background({ Key? key }) : super(key: key);
                 height: 450.h,
                 width: 254.w,
                 decoration: const BoxDecoration(
-                  color: Color(0XFFEAC1FD),
+                  color: Color.fromARGB(255, 58, 38, 2),
                 ),
               ),
             ),

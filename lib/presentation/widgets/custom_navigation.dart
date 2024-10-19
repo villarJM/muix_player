@@ -1,4 +1,6 @@
-import 'package:blur/blur.dart';
+import 'dart:io';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:muix_player/config/menu/navegation_item.dart';
 import 'package:muix_player/presentation/providers/dominate_color.dart';
@@ -37,29 +39,26 @@ class CustomNavigationState extends State<CustomNavigation> {
           Scaffold(
             extendBody: true,
             backgroundColor: Colors.transparent,
-            bottomNavigationBar: Container(
-              margin: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(40.0)),
-                border: Border.all(
-                  color: Colors.white
-                )
-              ),
-              child: NavigationBar(
-                
-                backgroundColor: Colors.transparent,
-                onDestinationSelected: (int index) {
-                  setState(() {
-                    currentPageIndex = index;
-                  });
-                },
-                indicatorColor: Colors.transparent,
-                selectedIndex: currentPageIndex,
-                destinations: navigationItem,
-              ).frosted(
-                borderRadius: const BorderRadius.all(Radius.circular(40.0)),
-                frostColor: const Color(0Xfffce4ac).withOpacity(0.05),
-                blur: 15,
+            bottomNavigationBar: BottomAppBar(
+              elevation: 0,
+              height: 100,
+              color: Colors.transparent,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(30),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(
+                    sigmaX: 10, sigmaY: 10
+                  ),
+                  child: Container(
+                    height: 70,
+                    color: Colors.white.withOpacity(0.15),
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: navigationItem.map((item) => item.icon).toList()
+                    ),
+                  ),
+                ),
               ),
             ),
             body: [
@@ -68,8 +67,8 @@ class CustomNavigationState extends State<CustomNavigation> {
               const Library(),
             ][currentPageIndex],
           ),
-          const BoxPlaying(
-            pBottom: 95,
+          BoxPlaying(
+            pBottom: Platform.isAndroid ? 95 : 130,
           ),
         ],
       ),

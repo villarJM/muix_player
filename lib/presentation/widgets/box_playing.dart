@@ -1,9 +1,8 @@
+import 'dart:ui';
+
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:muix_player/helper/icons.dart';
 import 'package:muix_player/presentation/providers/dominate_color.dart';
-import 'package:muix_player/presentation/screen/playing_now/playing_screen.dart';
 import 'package:muix_player/presentation/widgets/control_player/play_button.dart';
 import 'package:muix_player/presentation/widgets/widgets.dart';
 import 'package:muix_player/provider/color_adaptable.dart';
@@ -31,11 +30,17 @@ class _BoxPlayingState extends State<BoxPlaying> {
   @override
   Widget build(BuildContext context){
     final colorAdaptable = Provider.of<ColorAdaptable>(context);
+    final titleStyle = ThemeData.estimateBrightnessForColor(colorAdaptable.color) == Brightness.light 
+      ? AppMuixTheme.textTitleUrbanistRegular16 
+      : AppMuixTheme.textTitleUrbanistRegular16White;
+    final subtitleStyle = ThemeData.estimateBrightnessForColor(colorAdaptable.color) == Brightness.light 
+      ? AppMuixTheme.textUrbanistBold16 
+      : AppMuixTheme.textUrbanistBold16White;
 
     return Positioned(
       bottom: widget.pBottom,
       child: Container(
-        height: 50.h,
+        height: 55,
         width: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: ValueListenableBuilder<MediaItem>(
@@ -44,41 +49,15 @@ class _BoxPlayingState extends State<BoxPlaying> {
             return ValueListenableBuilder<Color>(
               valueListenable: dominateColor.color,
               builder: (_, color, __) {
-                return ListItem(
-                  height: 50.h,
-                  title: Text(currentSong.title, maxLines: 1, 
-                  style: ThemeData.estimateBrightnessForColor(colorAdaptable.color) == Brightness.light ? AppMuixTheme.textTitleUrbanistRegular16 : AppMuixTheme.textTitleUrbanistRegular16White,),
-                  subtitle: Text(currentSong.artist ?? "", maxLines: 1, style: ThemeData.estimateBrightnessForColor(colorAdaptable.color) == Brightness.light ? AppMuixTheme.textUrbanistBold16 : AppMuixTheme.textUrbanistBold16White,),
+                return NowPlayingBar(
                   artwork: LoadArtwork(
-                    id: int.parse(currentSong.id.isEmpty ? '0' : currentSong.id), 
-                    artworkType: ArtworkType.AUDIO,
-                    height: 70.h,
-                  ),
-                  onTap: ( ) => Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => const PlayingScreen(),
-                    ),
-                  ),
-                  icon: const PlayButton(customizableColor: true,),
-                  iconQueue: IconButton(
-                    onPressed: (){}, 
-                    icon: Iconify(IconParkOutline.music_menu, 
-                      color: ThemeData.estimateBrightnessForColor(colorAdaptable.color) == Brightness.light ? AppMuixTheme.primary : Colors.white,
-                    )
-                  ),
-                  enableIconQueue: true,
-                  
-                  borderRadius: BorderRadius.circular(10),
-                  
-                  imageBorderRadius: const BorderRadius.horizontal(
-                    left: Radius.circular(10), 
-                    right: Radius.zero
-                  ),
-                  gradient: LinearGradient(
-                    colors: [colorAdaptable.color.withOpacity(0.40), colorAdaptable.color],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
+                      id: int.parse(currentSong.id.isEmpty ? '0' : currentSong.id), 
+                      artworkType: ArtworkType.AUDIO,
+                      height: 70,
+                    ), 
+                  subtitle: Text("Subtitle", maxLines: 1, style: subtitleStyle,), 
+                  title: Text("Title", maxLines: 1, style: titleStyle,),
+                  icon: const PlayButton(customizableColor: true,)
                 );
               }
             );
