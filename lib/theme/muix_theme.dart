@@ -21,6 +21,14 @@ class MuixTheme extends ChangeNotifier {
     fontWeight: FontWeight.w500
   );
 
+  TextStyle get styleUrbanist20WhiteW700 => TextStyle(
+    fontFamily: 'Urbanist',
+    fontSize: 20,
+    color: _colorWhite,
+    fontWeight: FontWeight.bold,
+    overflow: TextOverflow.ellipsis,
+  );
+
   TextStyle get styleUrbanist16WhiteW700 => TextStyle(
     fontFamily: 'Urbanist',
     fontSize: 16,

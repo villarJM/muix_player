@@ -14,12 +14,12 @@ import 'package:muix_player/theme/muix_theme.dart';
 import 'package:provider/provider.dart';
 
 const List<Tab> tabs = [
-  Tab(text: "Home",),
-  Tab(text: "Songs",),
-  Tab(text: "Albums",),
-  Tab(text: "Artist",),
-  Tab(text: "Genres",),
-  Tab(text: "Playlist"),
+  Tab(text: "HOME", ),
+  Tab(text: "SONGS",),
+  Tab(text: "ALBUMS",),
+  Tab(text: "ARTIST",),
+  Tab(text: "GENRES",),
+  Tab(text: "PLAYLIST"),
 ];
 
 
@@ -100,8 +100,8 @@ class _LibraryState extends ConsumerState<Library> with AutomaticKeepAliveClient
             backgroundColor: Colors.white.withOpacity(0.11),
             contentPadding: EdgeInsets.symmetric(horizontal: 25.w,),
             buttonMargin: EdgeInsets.symmetric(horizontal: 20.w,),
-            unselectedLabelStyle: const TextStyle(color: Colors.black),
-            labelStyle: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            unselectedLabelStyle: muixTheme.styleUrbanist16WhiteW700.copyWith(color: Colors.black),
+            labelStyle: muixTheme.styleUrbanist16WhiteW700,
             controller: controller,
             tabs: tabs,
           ),
