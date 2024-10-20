@@ -23,6 +23,7 @@ Future<void> _checkAndRequestPermissions() async {
     Permission.audio,
     Permission.manageExternalStorage,
     Permission.mediaLibrary,
+    Permission.photos,
     Permission.accessNotificationPolicy
   ].request();
 

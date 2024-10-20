@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:muix_player/presentation/providers/dominate_color.dart';
 import 'package:muix_player/presentation/widgets/widgets.dart';
 import 'package:muix_player/provider/color_adaptable.dart';
+import 'package:muix_player/theme/muix_theme.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:provider/provider.dart';
 
@@ -23,6 +24,7 @@ class _SongsState extends State<Songs> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context){
     final colorAdaptable = Provider.of<ColorAdaptable>(context);
+    final muixTheme = context.read<MuixTheme>();
     super.build(context);
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 10, top: 15),
@@ -47,29 +49,31 @@ class _SongsState extends State<Songs> with AutomaticKeepAliveClientMixin {
                 return ValueListenableBuilder<bool>(
                   valueListenable: audioManager.isShuffleModeEnabledNotifier,
                   builder: (context, isEnabled, child) {
-                    return ListItem(
-                      key: Key(songs.id.toString()),
-                      height: 45.h,
-                      title: Text(songs.title, maxLines: 1,),
-                      subtitle: Text(songs.artist ?? "", maxLines: 1,),
-                      artwork:
-                      LoadArtwork(
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      child: ListItem(
                         key: Key(songs.id.toString()),
-                        id: songs.id, 
-                        artworkType: ArtworkType.AUDIO,
-                        height: 100.h,
-                        quality: FilterQuality.high,
-                        size: 1600,
+                        title: Text(songs.title, maxLines: 1, style: muixTheme.styleUrbanist16WhiteW500,),
+                        subtitle: Text(songs.artist ?? "", maxLines: 1, style: muixTheme.styleUrbanist16WhiteW700,),
+                        artwork:LoadArtwork(
+                          key: Key(songs.id.toString()),
+                          id: songs.id, 
+                          artworkType: ArtworkType.AUDIO,
+                          height: 55,
+                          quality: FilterQuality.high,
+                          size: 1600,
+                        ),
+                        borderRadiusArtwork: const BorderRadiusDirectional.horizontal(start: Radius.circular(10)),
+                        onTap: () async {
+                           await colorAdaptable.getDominantingColorImage(songs.id, ArtworkType.AUDIO, 200, 50);
+                          if (isEnabled) {
+                            audioManager.shuffle();
+                          }
+                          audioManager..skipToNextQueueItem(index)..play();
+                        },
+                        icon: popupMenuButtonSongs(context, songs.id),
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      onTap: () async {
-                         await colorAdaptable.getDominantingColorImage(songs.id, ArtworkType.AUDIO, 200, 50);
-                        if (isEnabled) {
-                          audioManager.shuffle();
-                        }
-                        audioManager..skipToNextQueueItem(index)..play();
-                      },
-                      icon: popupMenuButtonSongs(context, songs.id),
-                      borderRadius: BorderRadius.circular(10.0),
                     );
                   }
                 );

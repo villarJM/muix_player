@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:muix_player/presentation/widgets/blur_container.dart';
 
 class NowPlayingBar extends StatelessWidget {
 
@@ -29,38 +30,31 @@ class NowPlayingBar extends StatelessWidget {
   Widget build(BuildContext context){
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 5),
-      child: ClipRRect(
+      child: BlurContainer(
         borderRadius: BorderRadius.circular(15),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(
-            sigmaX: 10, sigmaY: 10,
-          ),
-          child: Container(
-            height: height,
-            color: backgroundColor.withOpacity(opacity),
-            child: Row(
-              children: [
-                ClipRRect(
-                  borderRadius: borderRadiusArtwork,
-                  child: artwork,
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 15),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        title,
-                        subtitle
-                      ],
-                    ),
-                  ),
-                ),
-                icon
-              ],
+        height: height,
+        color: backgroundColor.withOpacity(opacity),
+        child: Row(
+          children: [
+            ClipRRect(
+              borderRadius: borderRadiusArtwork,
+              child: artwork,
             ),
-          ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    title,
+                    subtitle
+                  ],
+                ),
+              ),
+            ),
+            icon
+          ],
         ),
       ),
     );
