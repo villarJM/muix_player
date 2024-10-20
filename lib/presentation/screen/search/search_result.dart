@@ -17,7 +17,7 @@ class SearchResult extends SearchDelegate<String> {
   ThemeData appBarTheme(BuildContext context) {
   final ThemeData theme = Theme.of(context);
   return theme.copyWith(
-    
+    scaffoldBackgroundColor: Colors.transparent,
     appBarTheme: const AppBarTheme(
     ),
     inputDecorationTheme: const InputDecorationTheme(

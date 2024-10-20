@@ -27,7 +27,7 @@ class BlurContainer extends StatelessWidget {
       borderRadius: borderRadius,
       child: BackdropFilter(
         filter: ImageFilter.blur(
-          sigmaX: 10, sigmaY: 10
+          sigmaX: 20, sigmaY: 20,
         ),
         child: Container(
           height: height,
