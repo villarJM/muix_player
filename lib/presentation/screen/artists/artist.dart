@@ -4,7 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:muix_player/presentation/screen/artists/artists.dart';
 import 'package:muix_player/presentation/widgets/widgets.dart';
 import 'package:muix_player/services/services.dart';
+import 'package:muix_player/theme/muix_theme.dart';
 import 'package:on_audio_query/on_audio_query.dart';
+import 'package:provider/provider.dart';
 
 class Artist extends StatefulWidget {
   const Artist({ Key? key }) : super(key: key);
@@ -23,6 +25,7 @@ class ArtistState extends State<Artist> {
 
   @override
   Widget build(BuildContext context){
+    final muixTheme = context.read<MuixTheme>();
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 10, top: 15),
       child: ValueListenableBuilder<List<MediaItem>>(
@@ -39,6 +42,7 @@ class ArtistState extends State<Artist> {
                     itemBuilder: (context, index) {
                       final songListArtist = songList.where((item) => item.artist == artistList[index].artist).toList();
                       return InkWell(
+                        borderRadius: BorderRadius.circular(30),
                         onTap: () {
                           final songListAlbum = albumList.where((item) => item.artist == artistList[index].artist).toList();
                           Navigator.push(context, MaterialPageRoute(
@@ -66,9 +70,9 @@ class ArtistState extends State<Artist> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Expanded(child: Text(artistList[index].artist, maxLines: 1, overflow: TextOverflow.clip,)),
-                                    Expanded(child: Text('Albums: ${artistList[index].numberOfAlbums}')),
-                                    Text('Tracks: ${artistList[index].numberOfTracks}'),
+                                    Expanded(child: Text(artistList[index].artist, maxLines: 1, style: muixTheme.styleUrbanist12WhiteW600, overflow: TextOverflow.ellipsis,)),
+                                    Expanded(child: Text('Albums: ${artistList[index].numberOfAlbums}', style: muixTheme.styleUrbanist12WhiteW600)),
+                                    Text('Tracks: ${artistList[index].numberOfTracks}', style: muixTheme.styleUrbanist12WhiteW600),
                                   ],
                                 ),
                               ),
@@ -93,11 +97,12 @@ class ArtistState extends State<Artist> {
       clipBehavior: Clip.none,
       children: [
 
-        CircleAvatar(
-         
-          radius: 65,
-          child: CircleAvatar(
-            radius: 60,
+        BlurContainer(
+          borderRadius: BorderRadius.circular(100),
+          height: 130,
+          width: 130,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
             child: ClipOval(
               child: LoadArtwork(
                 id: int.parse(songListArtist[0].id), 
@@ -120,10 +125,12 @@ class ArtistState extends State<Artist> {
 
         Positioned(
           left: 65,
-          child: CircleAvatar(
-            radius: 65,
-            child: CircleAvatar(
-              radius: 60,
+          child: BlurContainer(
+            borderRadius: BorderRadius.circular(100),
+            height: 130,
+            width: 130,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
               child: ClipOval(
                 child: LoadArtwork(
                  id: int.parse(songListArtist.length == 1 ? songListArtist[0].id : songListArtist[1].id),  
@@ -147,10 +154,12 @@ class ArtistState extends State<Artist> {
 
       Positioned(
         left: 130,
-        child: CircleAvatar(
-          radius: 65,
-          child: CircleAvatar(
-            radius: 60,
+        child: BlurContainer(
+          borderRadius: BorderRadius.circular(100),
+          height: 130,
+          width: 130,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
             child: ClipOval(
               child: LoadArtwork(
                 id: int.parse((songListArtist.length == 1 || songListArtist.length == 2) ? songListArtist[0].id : songListArtist[2].id),  
@@ -174,13 +183,11 @@ class ArtistState extends State<Artist> {
 
       Positioned(
         right: 0,
-        child: CircleAvatar(
-          radius: 65,
-          child: CircleAvatar(
-            radius: 60,
-            child: Text('+${artistList[index].numberOfTracks}',),
-          ),
-        ),
+        child: BlurContainer(
+          borderRadius: BorderRadius.circular(100),
+          height: 130,
+          width: 130,
+          child: Center(child: Text('+${artistList[index].numberOfTracks}',))),
       )
         
       ],
