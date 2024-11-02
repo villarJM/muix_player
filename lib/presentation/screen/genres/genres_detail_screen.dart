@@ -2,12 +2,14 @@ import 'package:anim_search_app_bar/anim_search_app_bar.dart';
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:glass_kit/glass_kit.dart';
 import 'package:muix_player/presentation/widgets/background.dart';
+import 'package:muix_player/presentation/widgets/blur_container.dart';
 import 'package:muix_player/presentation/widgets/list_item.dart';
 import 'package:muix_player/presentation/widgets/load_artwork.dart';
 import 'package:muix_player/presentation/widgets/popup_menu_button_songs.dart';
+import 'package:muix_player/theme/muix_theme.dart';
 import 'package:on_audio_query/on_audio_query.dart';
+import 'package:provider/provider.dart';
 
 class GenresDetailScreen extends StatefulWidget {
   final List<SongModel> songList;
@@ -47,6 +49,7 @@ class GenresDetailScreenState extends State<GenresDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final muixTheme = context.read<MuixTheme>();
     return Stack(
       children: [
         const Background(),
@@ -111,6 +114,7 @@ class GenresDetailScreenState extends State<GenresDetailScreen> {
                                     valueListenable: audioManager.genreListNotifier,
                                     builder: (context, genreList,_) {
                                       return InkWell(
+                                        borderRadius: BorderRadius.circular(25),
                                         onTap: () {
                                           // Map<dynamic, dynamic> album = {
                                           //   'id': widget.albumList[index].id,
@@ -125,23 +129,9 @@ class GenresDetailScreenState extends State<GenresDetailScreen> {
                                           //   )
                                           // );
                                         },
-                                        child: GlassContainer(
-                                            height: 200.h,
-                                            width: 172.w,
-                                            blur: 5,
-                                            gradient: LinearGradient(
-                                              colors: [Colors.white.withOpacity(0.40), Colors.white.withOpacity(0.10)],
-                                              begin: Alignment.topLeft,
-                                              end: Alignment.bottomRight,
-                                            ),
-                                            borderGradient: LinearGradient(
-                                              colors: [Colors.white.withOpacity(0.60), Colors.white.withOpacity(0.10), Colors.white.withOpacity(0.05), Colors.white.withOpacity(0.6)],
-                                              begin: Alignment.topLeft,
-                                              end: Alignment.bottomRight,
-                                              stops: const [0.0, 0.39, 0.40, 1.0],
-                                            ),
-                                            borderWidth: 1.2,
-                                            borderRadius: BorderRadius.circular(10),
+                                        child: BlurContainer(
+                                            width: 170,
+                                            borderRadius: BorderRadius.circular(25),
                                             child: Column(
                                               children: [
                                                 LoadArtwork(
@@ -168,14 +158,14 @@ class GenresDetailScreenState extends State<GenresDetailScreen> {
                                                       crossAxisAlignment: CrossAxisAlignment.start,
                                                       mainAxisAlignment: MainAxisAlignment.end,
                                                       children: [
-                                                        Text('${widget.songList[index].album}', maxLines: 1, overflow: TextOverflow.fade,),
+                                                        Text('${widget.songList[index].album}', maxLines: 1, overflow: TextOverflow.fade, style: muixTheme.styleUrbanist12WhiteW600),
                                                         Row(
                                                           children: [
-                                                            Expanded(child: Text(widget.songList[index].artist ?? "", maxLines: 1, overflow: TextOverflow.clip,),),
-                                                            const Text(' | 2023', maxLines: 1, overflow: TextOverflow.fade, textAlign: TextAlign.end,),
+                                                            Expanded(child: Text(widget.songList[index].artist ?? "", maxLines: 1, overflow: TextOverflow.clip, style: muixTheme.styleUrbanist12WhiteW600,),),
+                                                            Text(' | 2023', maxLines: 1, overflow: TextOverflow.fade, textAlign: TextAlign.end, style: muixTheme.styleUrbanist12WhiteW600),
                                                           ],
                                                         ),
-                                                        const Text('Songs',)
+                                                        Text('Songs', style: muixTheme.styleUrbanist12WhiteW600)
                                                       ],
                                                     ),
                                                   ),

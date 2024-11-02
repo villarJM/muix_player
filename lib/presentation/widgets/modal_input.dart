@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:glass_kit/glass_kit.dart';
+import 'package:muix_player/presentation/widgets/blur_container.dart';
 
 Future modalInput<T>({
     required BuildContext context,
@@ -11,23 +10,11 @@ Future modalInput<T>({
     context: context,
     builder: (context) => Dialog(
       backgroundColor: Colors.transparent,
-      child: GlassContainer(
-        height: 50.h,
+      child: BlurContainer(
+        height: 70,
         width: double.infinity,
-        blur: 10,
-        gradient: const LinearGradient(
-          colors: [],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderGradient: LinearGradient(
-          colors: [Colors.white.withOpacity(0.60), Colors.white.withOpacity(0.10), Colors.white.withOpacity(0.05), Colors.white.withOpacity(0.6)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          stops: const [0.0, 0.39, 0.40, 1.0],
-        ),
-        borderWidth: 1.2,
-        borderRadius: BorderRadius.circular(20),
+        
+        borderRadius: BorderRadius.circular(25),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
           child: Row(
@@ -37,14 +24,23 @@ Future modalInput<T>({
                   decoration: const InputDecoration(
                     contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                     hintText: 'New Playlist',
+                    
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
                       borderSide: BorderSide(
                         color: Colors.white
                       ),
                     ),
-                    filled: true,
+                    filled: false,
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                      borderSide: BorderSide(
+                        color: Colors.white
+                      ),
+                    ),
                   ),
+                  style: const TextStyle(color: Colors.white),
+                  cursorColor: Colors.white,
                   controller: controller,
                 ),
               ),
@@ -57,7 +53,7 @@ Future modalInput<T>({
                   ),
                   foregroundColor: Colors.white
                 ), 
-                child: const Text('Save'),
+                child: const Text('Save', style: TextStyle(color: Colors.black),),
               )
             ],
           ),

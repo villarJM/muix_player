@@ -15,8 +15,6 @@ class CustomCarouselItem extends StatefulWidget {
   final Text labelLeft; 
   final Text labelRight;
   final double viewportFraction;
-  final AlignmentGeometry alignmentL; 
-  final AlignmentGeometry alignmentR;
   final BorderRadius borderRadiusGeometry;
   final BorderRadius borderRadiusIndicatorL;
   final BorderRadius borderRadiusIndicatorR;
@@ -29,8 +27,6 @@ const CustomCarouselItem(
   this.labelLeft = const Text('Text Label'), 
   this.labelRight = const Text('View All'), 
   required this.viewportFraction, 
-  required this.alignmentL, 
-  required this.alignmentR, 
   this.borderRadiusGeometry = BorderRadius.zero, 
   this.borderRadiusIndicatorL = BorderRadius.zero, 
   this.borderRadiusIndicatorR = BorderRadius.zero,
@@ -121,9 +117,13 @@ class _CustomCarouselItemState extends State<CustomCarouselItem> with AutomaticK
             ),
             Positioned(
               bottom: 10,
-              child: SizedBox(
-                height: 20.h,
-                child: Text(e is int ? "Music" : e is SongModel ? (e).title : (e as PlaylistModel).playlist, overflow: TextOverflow.fade, style: muixTheme.styleUrbanist12WhiteW600,)
+              child: BlurContainer(
+                borderRadius: BorderRadius.circular(8),
+                height: 25,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 7.0, vertical: 4.0),
+                  child: Text(e is int ? "Music" : e is SongModel ? (e).title : (e as PlaylistModel).playlist, overflow: TextOverflow.ellipsis, style: muixTheme.styleUrbanist12WhiteW600,),
+                )
               )
             )
           ],

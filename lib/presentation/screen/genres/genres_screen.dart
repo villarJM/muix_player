@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:glass_kit/glass_kit.dart';
 import 'package:muix_player/helper/offline_song_local.dart';
 import 'package:muix_player/presentation/screen/genres/genres.dart';
 import 'package:muix_player/presentation/widgets/widgets.dart';
 import 'package:muix_player/services/services.dart';
+import 'package:muix_player/theme/muix_theme.dart';
 import 'package:on_audio_query/on_audio_query.dart';
+import 'package:provider/provider.dart';
 
 class GenresScreen extends StatefulWidget {
   const GenresScreen({ Key? key }) : super(key: key);
@@ -35,6 +35,7 @@ class GenresScreenState extends State<GenresScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final muixTheme = context.read<MuixTheme>();
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 10, top: 15),
       child: ValueListenableBuilder<List<SongModel>>(
@@ -54,6 +55,7 @@ class GenresScreenState extends State<GenresScreen> {
                     childAspectRatio: 0.8,
                     controller: scrollController,
                     children: genreList.map((e) => InkWell(
+                      borderRadius: BorderRadius.circular(25),
                       onTap: () {
                         final songListGenre = songList.where((item) => item.genre == e.genre).toList();
 
@@ -72,30 +74,16 @@ class GenresScreenState extends State<GenresScreen> {
                           )
                         );
                       },
-                      child: GlassContainer(
-                        height: 260.h,
-                        width: double.infinity,
-                        blur: 5,
-                        gradient: LinearGradient(
-                          colors: [Colors.white.withOpacity(0.40), Colors.white.withOpacity(0.10)],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                        borderGradient: LinearGradient(
-                          colors: [Colors.white.withOpacity(0.60), Colors.white.withOpacity(0.10), Colors.white.withOpacity(0.05), Colors.white.withOpacity(0.6)],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          stops: const [0.0, 0.39, 0.40, 1.0],
-                        ),
-                        borderWidth: 1.2,
-                        borderRadius: BorderRadius.circular(10),
-                        child: Column(
+                      child: BlurContainer(
+                        borderRadius: BorderRadius.circular(25),
+                        child: Stack(
+                          fit: StackFit.expand,
                           children: [
                             LoadArtwork(
                               id: e.id, 
                               artworkType: ArtworkType.AUDIO,
-                              height: 135.h,
-                              width: 150.h,
+                              height: 135,
+                              width: 150,
                               frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
                                 if (wasSynchronouslyLoaded) return child;
                                 return AnimatedOpacity(
@@ -106,24 +94,26 @@ class GenresScreenState extends State<GenresScreen> {
                                 );
                               },
                             ),
-                            Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Row(
-                                children: [
-                                  Expanded(child: Text(e.genre, maxLines: 1, overflow: TextOverflow.fade,  textAlign: TextAlign.start,)),
-                                ],
+                            Positioned(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Expanded(child: Text(e.genre, maxLines: 1, overflow: TextOverflow.fade,  textAlign: TextAlign.start, style: muixTheme.styleUrbanist12WhiteW600,)),
+                                      ],
+                                    ),
+                                    Text('Tracks: ${e.numOfSongs}',  textAlign: TextAlign.start, style: muixTheme.styleUrbanist12WhiteW600,)
+                                  ],
+                                ),
                               ),
-                              Text('Tracks: ${e.numOfSongs}',  textAlign: TextAlign.start)
-                            ],
-                          ),
+                            ),
+                          ]
                         )
-                          ],
-                        ),
-                      ),
+                      )
                     ),       
                     ).toList(),
                   );

@@ -8,12 +8,13 @@ final navigationItem = <NavegationItem>[
       label: 'Home',
       icon: Iconify(
         Bi.grid_fill,
-        color: Colors.white,
+        color: Colors.white24,
         size: 40,
       ),
       selectedIcon: Iconify(
         Bi.grid_fill,
         size: 40,
+        color: Colors.white,
       ),
     ),
     const NavegationItem(
@@ -21,12 +22,13 @@ final navigationItem = <NavegationItem>[
       label: 'Search',
       icon: Iconify(
         Ri.search_2_fill,
-        color: Colors.white,
+        color: Colors.white24,
         size: 40,
       ),
       selectedIcon: Iconify(
         Ri.search_2_fill,
         size: 40,
+        color: Colors.white,
       ),
     ),
     const NavegationItem(
@@ -34,13 +36,13 @@ final navigationItem = <NavegationItem>[
       label: 'Library',
       icon: Icon(
         FluentIcons.library_20_filled,
-        color: Colors.white,
+        color: Colors.white24,
         size: 40,
       ),
       selectedIcon: Icon(
         FluentIcons.library_20_filled,
         size: 40,
-        color: Colors.black,
+        color: Colors.white,
       ),
     ),
   ];
