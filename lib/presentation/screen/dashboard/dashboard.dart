@@ -41,21 +41,15 @@ class _DashboardState extends State<Dashboard>  with TickerProviderStateMixin{
       valueListenable: audioManager.playlistListNotifier,
       builder: (_, playlistSong, __) {
         return CustomCarouselItem(
-          labelL: const Text('Playlist', textAlign: TextAlign.center),
-          labelR: const Text('View All', textAlign: TextAlign.center),
+          labelLeft: const Text('Playlist', textAlign: TextAlign.center),
+          labelRight: const Text('View All', textAlign: TextAlign.center),
           enableIndicator: true,
           indicatorOnTap: () => tabController.animateTo(5),
-          borderRadiusGeometry: BorderRadius.circular(20),
+          borderRadiusGeometry: BorderRadius.circular(25),
           alignmentL: Alignment.centerLeft,
           alignmentR: Alignment.centerRight,
-          borderRadiusGeometryIndicatorL: const BorderRadius.only(
-            topRight: Radius.circular(10.0),
-            bottomLeft: Radius.circular(10.0) 
-          ),
-          borderRadiusGeometryIndicatorR: const BorderRadius.only(
-            topLeft: Radius.circular(10.0),
-            bottomRight: Radius.circular(10.0) 
-          ),
+          borderRadiusIndicatorL: BorderRadius.circular(8),
+          borderRadiusIndicatorR: BorderRadius.circular(8),
           viewportFraction: 0.5,
           listItem: playlistSong,
         );
@@ -68,20 +62,14 @@ class _DashboardState extends State<Dashboard>  with TickerProviderStateMixin{
           valueListenable: audioManager.recentlyListNotifier,
           builder: (_, recentlySong, __) {
             return CustomCarouselItem(
-              labelL:  const Text('New Albums', textAlign: TextAlign.center,),
-              labelR: const Text('View All', textAlign: TextAlign.center, ),
+              labelLeft:  const Text('New Albums', textAlign: TextAlign.center,),
+              labelRight: const Text('View All', textAlign: TextAlign.center, ),
               enableIndicator: true,
-              borderRadiusGeometry: BorderRadius.circular(20),
+              borderRadiusGeometry: BorderRadius.circular(25),
               alignmentL: Alignment.centerLeft,
               alignmentR: Alignment.centerRight,
-              borderRadiusGeometryIndicatorL: const BorderRadius.only(
-                topRight: Radius.circular(10.0),
-                bottomLeft: Radius.circular(10.0) 
-              ),
-              borderRadiusGeometryIndicatorR: const BorderRadius.only(
-                topLeft: Radius.circular(10.0),
-                bottomRight: Radius.circular(10.0) 
-              ),
+              borderRadiusIndicatorL: BorderRadius.circular(8),
+              borderRadiusIndicatorR: BorderRadius.circular(8),
               viewportFraction: 0.5,
               listItem: recentlySong,
             );
@@ -94,7 +82,7 @@ class _DashboardState extends State<Dashboard>  with TickerProviderStateMixin{
           valueListenable: audioManager.recentlyListNotifier,
           builder: (_, recentlySong, __) {
             return CustomCarouselItem(
-              borderRadiusGeometry: BorderRadius.circular(20),
+              borderRadiusGeometry: BorderRadius.circular(40),
               alignmentL: Alignment.topLeft,
               alignmentR: Alignment.topRight,
               viewportFraction: 1.0,

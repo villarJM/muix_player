@@ -74,6 +74,7 @@ class LoadArtwork extends StatelessWidget {
           'assets/images/placeholder_song.png',
           height: height,
           width: width,
+          color: Colors.white24,
           fit: BoxFit.cover,
         );
       },

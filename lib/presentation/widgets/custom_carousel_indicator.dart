@@ -1,48 +1,38 @@
-import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:muix_player/presentation/widgets/blur_container.dart';
 
 class CustomCarouselIndicator extends StatelessWidget {
 
   final double height;
   final double width;
   final double paddingAll;
-  final Color colorBorder;
   final Widget? text;
-  final Function()? indicatorOnTap;
-  final double blur;
-  final BorderRadius borderRadiusGeometry;
+  final Function()? onTap;
+  final BorderRadius borderRadius;
 
 const CustomCarouselIndicator({ 
   Key? key, 
-  this.height = 20, 
-  this.width = 80, 
-  this.paddingAll = 4, 
-  this.colorBorder = Colors.white, 
+  this.height = 25, 
+  this.width = 100, 
+  this.paddingAll = 4,
   required this.text,
-  this.indicatorOnTap,
-  this.blur = 5,
-  this.borderRadiusGeometry = BorderRadius.zero,
+  this.onTap,
+  this.borderRadius = BorderRadius.zero,
 }) : super(key: key);
 
   @override
   Widget build(BuildContext context){
-    return Container(
-      height: height.h,
-      width: width.w,
-      padding: EdgeInsets.all(paddingAll),
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: colorBorder
+    return BlurContainer(
+      borderRadius: borderRadius,
+      height: height,
+      width: width,
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(
+          padding: EdgeInsets.all(paddingAll),
+          child: text,
         )
       ),
-      child: InkWell(
-        onTap: indicatorOnTap,
-        child: text
-      ),
-    ).frosted(
-      blur: blur,
-      borderRadius: borderRadiusGeometry,
     );
   }
 }

@@ -1,45 +1,39 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:glass_kit/glass_kit.dart';
+import 'package:muix_player/presentation/widgets/blur_container.dart';
 import 'package:muix_player/presentation/widgets/custom_carousel_indicator.dart';
 import 'package:muix_player/presentation/widgets/load_artwork.dart';
+import 'package:muix_player/theme/muix_theme.dart';
 import 'package:on_audio_query/on_audio_query.dart';
+import 'package:provider/provider.dart';
 
 class CustomCarouselItem extends StatefulWidget {
 
   final bool enableIndicator;
   final Function()? indicatorOnTap;
-  final double angleL; 
-  final double angleR;
-  final Text labelL; 
-  final Text labelR;
-  final double left;
-  final double right;
+  final Text labelLeft; 
+  final Text labelRight;
   final double viewportFraction;
   final AlignmentGeometry alignmentL; 
   final AlignmentGeometry alignmentR;
   final BorderRadius borderRadiusGeometry;
-  final BorderRadius borderRadiusGeometryIndicatorL;
-  final BorderRadius borderRadiusGeometryIndicatorR;
+  final BorderRadius borderRadiusIndicatorL;
+  final BorderRadius borderRadiusIndicatorR;
   final List<dynamic> listItem;
   
 const CustomCarouselItem(
   { Key? key, 
   this.enableIndicator = false,
-  this.indicatorOnTap,
-  this.angleL = -1.57, 
-  this.angleR = -1.57, 
-  this.labelL = const Text('Text Label'), 
-  this.labelR = const Text('View All'), 
-  this.left = -20, 
-  this.right = -20, 
+  this.indicatorOnTap, 
+  this.labelLeft = const Text('Text Label'), 
+  this.labelRight = const Text('View All'), 
   required this.viewportFraction, 
   required this.alignmentL, 
   required this.alignmentR, 
   this.borderRadiusGeometry = BorderRadius.zero, 
-  this.borderRadiusGeometryIndicatorL = BorderRadius.zero, 
-  this.borderRadiusGeometryIndicatorR = BorderRadius.zero,
+  this.borderRadiusIndicatorL = BorderRadius.zero, 
+  this.borderRadiusIndicatorR = BorderRadius.zero,
   required this.listItem,
 }) : super(key: key);
 
@@ -69,40 +63,45 @@ class _CustomCarouselItemState extends State<CustomCarouselItem> with AutomaticK
           ),
         ),
 
-        widget.enableIndicator == true ?
-        Positioned.fill(
-          left: widget.left,
-          child: Align(
-            alignment: widget.alignmentL,
-            child: Transform.rotate(
-              angle: widget.angleL,
-              child: CustomCarouselIndicator(
-                text: widget.labelL,
-                borderRadiusGeometry: widget.borderRadiusGeometryIndicatorL,
+        Visibility(
+          visible: widget.enableIndicator,
+          child: Positioned.fill(
+            left: - 10,
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Transform.rotate(
+                angle: 270 * (3.1416 / 180),
+                child: CustomCarouselIndicator(
+                  text: widget.labelLeft,
+                  borderRadius: widget.borderRadiusIndicatorL,
+                )
               ),
             ),
-          )
-        ) : Container(),
-        widget.enableIndicator == true ?
-        Positioned.fill(
-          right: widget.right,
-          child: Align(
-            alignment: widget.alignmentR,
-            child: Transform.rotate(
-              angle: widget.angleR,
-              child: CustomCarouselIndicator(
-                text: widget.labelR,
-                borderRadiusGeometry: widget.borderRadiusGeometryIndicatorR,
-                indicatorOnTap: widget.indicatorOnTap
+          ),
+        ),
+
+        Visibility(
+          visible: widget.enableIndicator,
+          child: Positioned.fill(
+            right: - 10,
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: Transform.rotate(
+                angle: 270 * (3.1416 / 180),
+                child: CustomCarouselIndicator(
+                  text: widget.labelRight,
+                  borderRadius: widget.borderRadiusIndicatorR,
+                )
               ),
             ),
-          )
-        ) : Container(),
+          ),
+        ),
       ],
     );
   }
 
   Padding viewContainer(e) {
+    final muixTheme = context.read<MuixTheme>();
     return Padding(
       padding: const EdgeInsets.only(right: 5),
       child: ClipRRect(
@@ -111,24 +110,8 @@ class _CustomCarouselItemState extends State<CustomCarouselItem> with AutomaticK
           alignment: Alignment.bottomCenter,
           fit: StackFit.expand,
           children: [
-            GlassContainer(
+            BlurContainer(
               key: Key(e is int ? '$e' : e is SongModel ? '${(e).id}' : '${(e as PlaylistModel).id}'),
-              height: 160.h,
-              width: double.infinity,
-              blur: 5,
-              gradient: LinearGradient(
-                colors: [Colors.white.withOpacity(0.40), Colors.white.withOpacity(0.10)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              borderGradient: LinearGradient(
-                colors: [Colors.white.withOpacity(0.60), Colors.white.withOpacity(0.10), Colors.white.withOpacity(0.05), Colors.white.withOpacity(0.6)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                stops: const [0.0, 0.39, 0.40, 1.0],
-              ),
-              borderWidth: 1.2,
-              borderRadius: BorderRadius.circular(20),
               child: LoadArtwork(
                 id: (e is int ? e : e is SongModel ? (e).id : (e as PlaylistModel).id), 
                 artworkType: ArtworkType.AUDIO,
@@ -140,7 +123,7 @@ class _CustomCarouselItemState extends State<CustomCarouselItem> with AutomaticK
               bottom: 10,
               child: SizedBox(
                 height: 20.h,
-                child: Text(e is int ? "" : e is SongModel ? (e).title : (e as PlaylistModel).playlist, overflow: TextOverflow.fade,)
+                child: Text(e is int ? "Music" : e is SongModel ? (e).title : (e as PlaylistModel).playlist, overflow: TextOverflow.fade, style: muixTheme.styleUrbanist12WhiteW600,)
               )
             )
           ],

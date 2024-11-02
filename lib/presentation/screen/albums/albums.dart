@@ -182,7 +182,7 @@ class _AlbumsState extends ConsumerState<Albums> {
                                 ClipRRect(
                                   borderRadius: const BorderRadiusDirectional.vertical(top: Radius.circular(30 )),
                                   child: LoadArtwork(
-                                    id: albumList[index].id,
+                                    id: albumList.isNotEmpty ? albumList[index].id : 0,
                                     artworkType: ArtworkType.ALBUM,
                                     radius: 0,
                                     quality: FilterQuality.high,
@@ -229,7 +229,7 @@ class _AlbumsState extends ConsumerState<Albums> {
                                 padding: const EdgeInsets.symmetric(horizontal: 10),
                                 child: Row(
                                   children: [
-                                    Expanded(child: Text(albumList[index].album, maxLines: 1, style: muixTheme.styleUrbanist12WhiteW600,)),
+                                    Expanded(child: Text(albumList.isNotEmpty ? albumList[index].album : "", maxLines: 1, style: muixTheme.styleUrbanist12WhiteW600,)),
                                     IconButton(
                                       style: const ButtonStyle(
                                         padding: WidgetStatePropertyAll(EdgeInsets.zero)
