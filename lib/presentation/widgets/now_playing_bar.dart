@@ -31,6 +31,7 @@ class NowPlayingBar extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 5),
       child: BlurContainer(
+        opacity: opacity,
         borderRadius: BorderRadius.circular(15),
         height: height,
         color: backgroundColor.withOpacity(opacity),
