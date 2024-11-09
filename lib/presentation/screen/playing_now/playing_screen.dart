@@ -6,8 +6,10 @@ import 'package:muix_player/helper/icons.dart';
 import 'package:muix_player/notifiers/progress_notifier.dart';
 import 'package:muix_player/presentation/widgets/widgets.dart';
 import 'package:muix_player/services/services.dart';
+import 'package:muix_player/theme/muix_theme.dart';
 import 'package:muix_player/util/util.dart';
 import 'package:on_audio_query/on_audio_query.dart';
+import 'package:provider/provider.dart';
 
 class PlayingScreen extends StatefulWidget {
 
@@ -28,7 +30,7 @@ class PlayingScreenState extends State<PlayingScreen> {
   double getNormalizedValue(Duration duration, Duration maxDuration) {
     // Asegúrate de que maxDuration no sea cero para evitar una división por cero
     if (maxDuration.inMilliseconds <= 0) {
-      throw ArgumentError("maxDuration debe ser mayor que cero.");
+      return 0.0;
     }
 
     // Normaliza la duración para que esté entre 0.0 y 1.0
@@ -40,11 +42,12 @@ class PlayingScreenState extends State<PlayingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final muixTheme = context.read<MuixTheme>();
+    final size = MediaQuery.of(context).size;
     return ValueListenableBuilder<MediaItem>(
       valueListenable: audioManager.currentSongTitleNotifier,
       builder: (_,value, __) {
         return Scaffold(
-          backgroundColor: Colors.transparent,
           body: Stack(
             fit: StackFit.expand,
             alignment: Alignment.center,
@@ -58,6 +61,25 @@ class PlayingScreenState extends State<PlayingScreen> {
                   height: 360,
                   width: MediaQuery.of(context).size.width * 0.9,
                   radius: 20,
+                ),
+              ),
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Container(
+                  height: size.height,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.transparent,
+                        Colors.black.withOpacity(0.9),
+                      ],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter
+                    )
+                  ),
+                  
                 ),
               ),
               Positioned(
@@ -75,7 +97,7 @@ class PlayingScreenState extends State<PlayingScreen> {
                           size: 35,
                         )
                       ),
-                      const Text('Playing Now'),
+                      Text('Playing Now', style: muixTheme.styleUrbanist36WhiteW500,),
                       IconButton(
                         onPressed: (){}, 
                         icon: const Iconify(Jam.menu, 
@@ -87,68 +109,6 @@ class PlayingScreenState extends State<PlayingScreen> {
                   ),
                 ),
               ),
-              // Positioned(
-              //   bottom: 70.h,
-              //   child: Padding(
-              //     padding: const EdgeInsets.symmetric(horizontal: 10),
-              //     child: GlassContainer(
-              //       height: 130,
-              //       width: MediaQuery.of(context).size.width * 0.9,
-              //       blur: 15,
-              //       gradient: LinearGradient(
-              //         colors: [Colors.white.withOpacity(0.40), Colors.white.withOpacity(0.10)],
-              //         begin: Alignment.topLeft,
-              //         end: Alignment.bottomRight,
-              //       ),
-              //       borderGradient: LinearGradient(
-              //         colors: [Colors.white.withOpacity(0.60), Colors.white.withOpacity(0.10), Colors.white.withOpacity(0.05), Colors.white.withOpacity(0.6)],
-              //         begin: Alignment.topLeft,
-              //         end: Alignment.bottomRight,
-              //         stops: const [0.0, 0.39, 0.40, 1.0],
-              //       ),
-              //       borderWidth: 1.2,
-              //       borderRadius: BorderRadius.circular(10),
-              //       child: Column(
-              //         children: [
-              //           Padding(
-              //             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-              //             child: Column(
-              //               children: [
-              //                 TextScroll(
-              //                   value.title,
-              //                   velocity: const Velocity(pixelsPerSecond: Offset(80, 0)),
-                                
-              //                   selectable: true,
-              //                 ),
-              //                 TextScroll(
-              //                   value.artist!,
-              //                   velocity: const Velocity(pixelsPerSecond: Offset(80, 0)),
-                               
-              //                   selectable: true,
-              //                 ),
-                              
-              //               ],
-              //             ),
-              //           ),
-              //           Padding(
-              //             padding: const EdgeInsets.symmetric(horizontal: 25),
-              //             child: ValueListenableBuilder<ProgressBarState>(
-              //               valueListenable: audioManager.progressNotifier,
-              //               builder: (_, value,__) {
-              //                 return ProgressBar(
-              //                   progress: value.current,
-              //                   buffered: value.buffered,
-              //                   total: value.total,
-              //                   onSeek: audioManager.seek,
-              //                 );
-              //               }
-              //             ),
-              //           ),
-              //         ],
-              //       ),
-              //     ),
-              //   ),
-              // ),
               
               Positioned(
                 bottom: 190,
@@ -166,14 +126,32 @@ class PlayingScreenState extends State<PlayingScreen> {
                         color: Colors.white.withOpacity(0.6),
                         child: BlendMask(
                           blendMode: BlendMode.dstATop,
-                          child: Text(
-                            value.title,
-                            style: const TextStyle(
-                              color: Colors.white, 
-                              fontSize: 48, fontWeight: FontWeight.w900, 
-                              fontFamily: 'Poppins'
-                            ), 
-                            textAlign: TextAlign.center,
+                          child: Column(
+                            children: [
+                              Text(
+                                value.title,
+                                maxLines: 2,
+                                style: const TextStyle(
+                                  color: Colors.white, 
+                                  fontSize: 48, fontWeight: FontWeight.w900, 
+                                  fontFamily: 'Poppins',
+                                  height: 1.3,
+                                  overflow: TextOverflow.ellipsis 
+                                ), 
+                                textAlign: TextAlign.center,
+                              ),
+                              const SizedBox(height: 20,),
+                              Text(
+                                value.artist ?? "Desconocido",
+                                maxLines: 2,
+                                style: const TextStyle(
+                                  color: Colors.white, 
+                                  fontSize: 20, fontWeight: FontWeight.w900, 
+                                  fontFamily: 'Poppins',
+                                ), 
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -181,7 +159,7 @@ class PlayingScreenState extends State<PlayingScreen> {
                   )
                 ),
               ),
-
+          
               Positioned(
                 bottom: 30,
                 child: BlurContainer(
@@ -224,7 +202,10 @@ class ProgressBorder extends StatelessWidget {
     return CustomPaint(
       size: const Size(200, 100), // Tamaño del rectángulo
       painter: BorderProgressPainter(progress: progress, borderRadius: borderRadius, color: color),
-      child: const PlayerControl( ),
+      child: const BlendMask(
+        blendMode: BlendMode.dstOut,
+        child: PlayerControl( )
+      ),
     );
   }
 }
@@ -256,7 +237,7 @@ class BorderProgressPainter extends CustomPainter {
 
     // Dibuja el borde de progreso con esquinas redondeadas
     final progressPaint = Paint()
-      ..color = Colors.blue
+      ..color = color
       ..style = PaintingStyle.stroke
       ..strokeWidth = 4
       ..strokeCap = StrokeCap.round;

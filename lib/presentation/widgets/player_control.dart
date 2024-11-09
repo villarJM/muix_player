@@ -11,7 +11,7 @@ const PlayerControl({ Key? key }) : super(key: key);
   @override
   Widget build(BuildContext context){
     return const Padding(
-      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -39,8 +39,12 @@ class PreviousButton extends StatelessWidget {
       valueListenable: audioManager.isFirstSongNotifier,
       builder: (_, isFirst, __) {
         return IconButton(
-          icon: const Iconify(Uim.previous, size: 40,),
-            onPressed: (isFirst) ? null : audioManager.previous,
+          icon: const Iconify(Uim.previous, size: 50,),
+          highlightColor: Colors.white,
+          onPressed: (isFirst) ? null : audioManager.previous,
+          style: IconButton.styleFrom(
+            visualDensity: VisualDensity.compact
+          ),
         );
       },
     );
@@ -61,14 +65,17 @@ class NextButton extends StatelessWidget {
         return IconButton(
           icon: Transform.rotate(
             angle: 3.15,
-            child: const Iconify(Uim.previous, size: 40,)),
+            child: const Iconify(Uim.previous, size: 50,)),
           onPressed: () {
             if (!isLast) {
               audioManager.next();
               // audioManager.playNextAlbum();
 
             }
-          }
+          },
+          style: IconButton.styleFrom(
+            visualDensity: VisualDensity.compact
+          ),
         );
       },
     );
@@ -91,6 +98,9 @@ class ShuffleButton extends StatelessWidget {
               ? const Iconify(Mi.shuffle, size: 24,)
               : const Iconify(Mi.shuffle, color: Colors.white, size: 24,),
           onPressed: audioManager.shuffle,
+          style: IconButton.styleFrom(
+            visualDensity: VisualDensity.compact
+          ),
         );
       },
     );
@@ -123,6 +133,9 @@ class RepeatButton extends StatelessWidget {
         return IconButton(
           icon: icon,
           onPressed: audioManager.repeat,
+          style: IconButton.styleFrom(
+            visualDensity: VisualDensity.compact
+          ),
         );
       }
     );
