@@ -48,137 +48,161 @@ class PlayingScreenState extends State<PlayingScreen> {
       valueListenable: audioManager.currentSongTitleNotifier,
       builder: (_,value, __) {
         return Scaffold(
-          body: Stack(
-            fit: StackFit.expand,
-            alignment: Alignment.center,
-            children: [
-              Positioned.fill(
-                child: LoadArtwork(
-                  id: int.parse(value.id), 
-                  artworkType: ArtworkType.AUDIO,
-                  size: 1600,
-                  quality: FilterQuality.high,
-                  height: 360,
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  radius: 20,
+          backgroundColor: Colors.transparent ,
+          body: SizedBox(
+            height: size.height,
+            width: size.width,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                Positioned(
+                  top: 0,
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: LoadArtwork(
+                    id: int.parse(value.id), 
+                    artworkType: ArtworkType.AUDIO,
+                    size: 1600,
+                    quality: FilterQuality.high,
+                    height: 360,
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    radius: 20,
+                  )
                 ),
-              ),
-              Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: Container(
-                  height: size.height,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Colors.transparent,
-                        Colors.black.withOpacity(0.9),
+                const Positioned.fill(
+                  child: BlurContainer()
+                ),
+                Positioned(
+                  top: 150,
+                  child: LoadArtwork(
+                    id: int.parse(value.id), 
+                    artworkType: ArtworkType.AUDIO,
+                    size: 1600,
+                    quality: FilterQuality.high,
+                    height: 360,
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    radius: 20,
+                  ),
+                ),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    height: size.height,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Colors.transparent,
+                          Colors.black.withOpacity(0.9),
+                        ],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter
+                      )
+                    ),
+                    
+                  ),
+                ),
+                Positioned(
+                  top: 0,
+                  child: Container(
+                    padding: const EdgeInsets.only(top: 30),
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                          onPressed: () => Navigator.of(context).pop(), 
+                          icon: const Iconify(Ic.round_chevron_left, 
+                             
+                            size: 35,
+                          )
+                        ),
+                        Text('Playing Now', style: muixTheme.styleUrbanist36WhiteW500,),
+                        IconButton(
+                          onPressed: (){}, 
+                          icon: const Iconify(Jam.menu, 
+                             
+                            size: 35,
+                          )
+                        ),
                       ],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter
-                    )
-                  ),
-                  
-                ),
-              ),
-              Positioned(
-                top: 0,
-                child: Container(
-                  padding: const EdgeInsets.only(top: 30),
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconButton(
-                        onPressed: () => Navigator.of(context).pop(), 
-                        icon: const Iconify(Ic.round_chevron_left, 
-                           
-                          size: 35,
-                        )
-                      ),
-                      Text('Playing Now', style: muixTheme.styleUrbanist36WhiteW500,),
-                      IconButton(
-                        onPressed: (){}, 
-                        icon: const Iconify(Jam.menu, 
-                           
-                          size: 35,
-                        )
-                      ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
-              
-              Positioned(
-                bottom: 190,
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10.0),
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(
-                        sigmaX: 5.0, sigmaY: 5.0
-                      ),
-                      child: Container(
-                        alignment: Alignment.center,
-                        color: Colors.white.withOpacity(0.6),
-                        child: BlendMask(
-                          blendMode: BlendMode.dstATop,
-                          child: Column(
-                            children: [
-                              Text(
-                                value.title,
-                                maxLines: 2,
-                                style: const TextStyle(
-                                  color: Colors.white, 
-                                  fontSize: 48, fontWeight: FontWeight.w900, 
-                                  fontFamily: 'Poppins',
-                                  height: 1.3,
-                                  overflow: TextOverflow.ellipsis 
-                                ), 
-                                textAlign: TextAlign.center,
-                              ),
-                              const SizedBox(height: 20,),
-                              Text(
-                                value.artist ?? "Desconocido",
-                                maxLines: 2,
-                                style: const TextStyle(
-                                  color: Colors.white, 
-                                  fontSize: 20, fontWeight: FontWeight.w900, 
-                                  fontFamily: 'Poppins',
-                                ), 
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
+                
+                Positioned(
+                  bottom: 190,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10.0),
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(
+                          sigmaX: 5.0, sigmaY: 5.0
+                        ),
+                        child: Container(
+                          alignment: Alignment.center,
+                          color: Colors.white.withOpacity(0.6),
+                          child: BlendMask(
+                            blendMode: BlendMode.dstATop,
+                            child: Column(
+                              children: [
+                                Text(
+                                  value.title,
+                                  maxLines: 2,
+                                  style: const TextStyle(
+                                    color: Colors.white, 
+                                    fontSize: 48, fontWeight: FontWeight.w900, 
+                                    fontFamily: 'Poppins',
+                                    height: 1.3,
+                                    overflow: TextOverflow.ellipsis 
+                                  ), 
+                                  textAlign: TextAlign.center,
+                                ),
+                                const SizedBox(height: 20,),
+                                Text(
+                                  value.artist ?? "Desconocido",
+                                  maxLines: 2,
+                                  style: const TextStyle(
+                                    color: Colors.white, 
+                                    fontSize: 20, fontWeight: FontWeight.w900, 
+                                    fontFamily: 'Poppins',
+                                  ), 
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  )
-                ),
-              ),
-          
-              Positioned(
-                bottom: 30,
-                child: BlurContainer(
-                  borderRadius: BorderRadius.circular(25),
-                  height: 70,
-                  width: 300,
-                  child: ValueListenableBuilder<ProgressBarState>(
-                    valueListenable: audioManager.progressNotifier,
-                    builder: (_, value, __) {
-                      return ProgressBorder(
-                        progress: getNormalizedValue(value.current, value.total), 
-                        borderRadius: 25,
-                        color: Colors.white,
-                      );
-                    }
+                    )
                   ),
                 ),
-              )
-            ],
+            
+                Positioned(
+                  bottom: 30,
+                  child: BlurContainer(
+                    borderRadius: BorderRadius.circular(25),
+                    opacity: 0.2,
+                    height: 70,
+                    width: 300,
+                    child: ValueListenableBuilder<ProgressBarState>(
+                      valueListenable: audioManager.progressNotifier,
+                      builder: (_, value, __) {
+                        return ProgressBorder(
+                          progress: getNormalizedValue(value.current, value.total), 
+                          borderRadius: 25,
+                          color: Colors.white,
+                        );
+                      }
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
         );
       }
@@ -202,10 +226,7 @@ class ProgressBorder extends StatelessWidget {
     return CustomPaint(
       size: const Size(200, 100), // Tamaño del rectángulo
       painter: BorderProgressPainter(progress: progress, borderRadius: borderRadius, color: color),
-      child: const BlendMask(
-        blendMode: BlendMode.dstOut,
-        child: PlayerControl( )
-      ),
+      child: PlayerControl( ),
     );
   }
 }
