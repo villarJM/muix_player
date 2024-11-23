@@ -119,7 +119,7 @@ class PlayingScreenState extends State<PlayingScreen> {
                             size: 35,
                           )
                         ),
-                        Text('Playing Now', style: muixTheme.styleUrbanist36WhiteW500,),
+                        Text('Playing Now', style: muixTheme.stPop35WhtW900),
                         IconButton(
                           onPressed: (){}, 
                           icon: const Iconify(Jam.menu, 
@@ -153,24 +153,14 @@ class PlayingScreenState extends State<PlayingScreen> {
                                 Text(
                                   value.title,
                                   maxLines: 2,
-                                  style: const TextStyle(
-                                    color: Colors.white, 
-                                    fontSize: 48, fontWeight: FontWeight.w900, 
-                                    fontFamily: 'Poppins',
-                                    height: 1.3,
-                                    overflow: TextOverflow.ellipsis 
-                                  ), 
+                                  style: muixTheme.stPop48WhtW900,
                                   textAlign: TextAlign.center,
                                 ),
                                 const SizedBox(height: 20,),
                                 Text(
                                   value.artist ?? "Desconocido",
                                   maxLines: 2,
-                                  style: const TextStyle(
-                                    color: Colors.white, 
-                                    fontSize: 20, fontWeight: FontWeight.w900, 
-                                    fontFamily: 'Poppins',
-                                  ), 
+                                  style: muixTheme.stPop20WhtW700,
                                   textAlign: TextAlign.center,
                                 ),
                               ],
@@ -186,7 +176,7 @@ class PlayingScreenState extends State<PlayingScreen> {
                   bottom: 30,
                   child: BlurContainer(
                     borderRadius: BorderRadius.circular(25),
-                    opacity: 0.2,
+                    opacity: 0.6,
                     height: 70,
                     width: 300,
                     child: ValueListenableBuilder<ProgressBarState>(
@@ -226,7 +216,7 @@ class ProgressBorder extends StatelessWidget {
     return CustomPaint(
       size: const Size(200, 100), // Tamaño del rectángulo
       painter: BorderProgressPainter(progress: progress, borderRadius: borderRadius, color: color),
-      child: PlayerControl( ),
+      child: const PlayerControl( ),
     );
   }
 }

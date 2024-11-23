@@ -7,11 +7,27 @@ class MuixTheme extends ChangeNotifier {
 
   Color get colorWhite => _colorWhite;
 
+  TextStyle get stPop48WhtW900 => TextStyle(
+    color: _colorWhite, 
+    fontSize: 48, fontWeight: FontWeight.w900, 
+    fontFamily: 'Poppins',
+    height: 1.1,
+    overflow: TextOverflow.ellipsis 
+  );
+
   TextStyle get styleUrbanist36WhiteW500 => TextStyle(
     fontFamily: 'Urbanist',
     fontSize: 36,
     color: _colorWhite,
     fontWeight: FontWeight.w500
+  );
+
+  TextStyle get stPop35WhtW900 => TextStyle(
+    color: _colorWhite, 
+    fontSize: 35, fontWeight: FontWeight.w900, 
+    fontFamily: 'Poppins',
+    height: 1.1,
+    overflow: TextOverflow.ellipsis 
   );
 
   TextStyle get styleUrbanist24WhiteW500 => TextStyle(
@@ -27,6 +43,13 @@ class MuixTheme extends ChangeNotifier {
     color: _colorWhite,
     fontWeight: FontWeight.bold,
     overflow: TextOverflow.ellipsis,
+  );
+
+  TextStyle get stPop20WhtW700 => TextStyle(
+    color: _colorWhite, 
+    fontSize: 20, 
+    fontWeight: FontWeight.bold, 
+    fontFamily: 'Poppins',
   );
 
   TextStyle get styleUrbanist16WhiteW700 => TextStyle(
