@@ -32,7 +32,7 @@ class PlayButton extends StatelessWidget {
           case ButtonState.paused:
             return IconButton(onPressed: audioManager.play, icon: Iconify(Ri.play_fill, color: color, size: 35,));
           case ButtonState.playing:
-            return IconButton(onPressed: audioManager.pause, icon: Iconify(Ph.pause_fill, color: color, size: 35,));
+            return IconButton(onPressed: audioManager.pause, icon: const Iconify(Ph.pause_fill, color: Color(0xff9ca6ad), size: 35,));
         }
       }
     );

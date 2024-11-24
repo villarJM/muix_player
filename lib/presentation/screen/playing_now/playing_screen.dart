@@ -73,6 +73,27 @@ class PlayingScreenState extends State<PlayingScreen> {
                 const Positioned.fill(
                   child: BlurContainer()
                 ),
+                
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    height: size.height,
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Colors.transparent,
+                          Colors.black87,
+                          Colors.black,
+                        ],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter
+                      )
+                    ),
+                    
+                  ),
+                ),
                 Positioned(
                   top: 150,
                   child: LoadArtwork(
@@ -83,25 +104,6 @@ class PlayingScreenState extends State<PlayingScreen> {
                     height: 360,
                     width: MediaQuery.of(context).size.width * 0.9,
                     radius: 20,
-                  ),
-                ),
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: Container(
-                    height: size.height,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          Colors.transparent,
-                          Colors.black.withOpacity(0.9),
-                        ],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter
-                      )
-                    ),
-                    
                   ),
                 ),
                 Positioned(
@@ -119,7 +121,7 @@ class PlayingScreenState extends State<PlayingScreen> {
                             size: 35,
                           )
                         ),
-                        Text('Playing Now', style: muixTheme.stPop35WhtW900),
+                        Text('Playing Now', style: muixTheme.stPop30WhtW900),
                         IconButton(
                           onPressed: (){}, 
                           icon: const Iconify(Jam.menu, 
@@ -176,16 +178,22 @@ class PlayingScreenState extends State<PlayingScreen> {
                   bottom: 30,
                   child: BlurContainer(
                     borderRadius: BorderRadius.circular(25),
-                    opacity: 0.6,
+                    opacity: 1,
                     height: 70,
                     width: 300,
+                    color: const Color(0xff171a1e),
                     child: ValueListenableBuilder<ProgressBarState>(
                       valueListenable: audioManager.progressNotifier,
                       builder: (_, value, __) {
                         return ProgressBorder(
-                          progress: getNormalizedValue(value.current, value.total), 
+                          progress: value.current,
+                          duration: value.total,
+                          buffered: value.buffered,
+                          progressColor: Colors.white, 
                           borderRadius: 25,
-                          color: Colors.white,
+                          onSeek: (value) {
+                            audioManager.seek(value);
+                          },
                         );
                       }
                     ),
@@ -198,70 +206,4 @@ class PlayingScreenState extends State<PlayingScreen> {
       }
     );
   }
-}
-
-class ProgressBorder extends StatelessWidget {
-  final double progress;
-  final double borderRadius;
-  final Color color;
-
-  const ProgressBorder({super.key, 
-    required this.progress,
-    required this.borderRadius,
-    this.color = Colors.blue
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomPaint(
-      size: const Size(200, 100), // Tamaño del rectángulo
-      painter: BorderProgressPainter(progress: progress, borderRadius: borderRadius, color: color),
-      child: const PlayerControl( ),
-    );
-  }
-}
-
-class BorderProgressPainter extends CustomPainter {
-  final double progress;
-  final double borderRadius;
-  final Color color;
-
-  const BorderProgressPainter({
-    this.progress = 0.5, 
-    this.borderRadius = 10.0, 
-    this.color = Colors.blue,
-  });
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.transparent
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 4;
-
-    // Dibuja el borde gris del rectángulo con esquinas redondeadas
-    final rrect = RRect.fromRectAndRadius(
-      Rect.fromLTWH(0, 0, size.width, size.height),
-      Radius.circular(borderRadius),
-    );
-    canvas.drawRRect(rrect, paint);
-
-    // Dibuja el borde de progreso con esquinas redondeadas
-    final progressPaint = Paint()
-      ..color = color
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 4
-      ..strokeCap = StrokeCap.round;
-
-    final path = Path()..addRRect(rrect);
-    final totalLength = path.computeMetrics().first.length;
-    final progressLength = totalLength * progress;
-
-    final progressMetric = path.computeMetrics().first;
-    final extractPath = progressMetric.extractPath(0, progressLength);
-    canvas.drawPath(extractPath, progressPaint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }

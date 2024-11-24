@@ -22,12 +22,13 @@ class MuixTheme extends ChangeNotifier {
     fontWeight: FontWeight.w500
   );
 
-  TextStyle get stPop35WhtW900 => TextStyle(
+  TextStyle get stPop30WhtW900 => TextStyle(
     color: _colorWhite, 
-    fontSize: 35, fontWeight: FontWeight.w900, 
+    fontSize: 30, fontWeight: FontWeight.w900, 
     fontFamily: 'Poppins',
     height: 1.1,
-    overflow: TextOverflow.ellipsis 
+    overflow: TextOverflow.ellipsis,
+    letterSpacing: 2
   );
 
   TextStyle get styleUrbanist24WhiteW500 => TextStyle(

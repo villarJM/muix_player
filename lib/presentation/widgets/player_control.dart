@@ -39,7 +39,7 @@ class PreviousButton extends StatelessWidget {
       valueListenable: audioManager.isFirstSongNotifier,
       builder: (_, isFirst, __) {
         return IconButton(
-          icon: const Iconify(Uim.previous, size: 50,),
+          icon: const Iconify(Uim.previous, size: 50, color: Color(0xff9ca6ad),),
           highlightColor: Colors.white,
           onPressed: (isFirst) ? null : audioManager.previous,
           style: IconButton.styleFrom(
@@ -65,7 +65,7 @@ class NextButton extends StatelessWidget {
         return IconButton(
           icon: Transform.rotate(
             angle: 3.15,
-            child: const Iconify(Uim.previous, size: 50,)),
+            child: const Iconify(Uim.previous, size: 50, color: Color(0xff9ca6ad))),
           onPressed: () {
             if (!isLast) {
               audioManager.next();
@@ -93,8 +93,8 @@ class ShuffleButton extends StatelessWidget {
       builder: (context, isEnabled, child) {
         return IconButton(
           icon: (isEnabled)
-              ? const Iconify(Mi.shuffle, size: 24,)
-              : const Iconify(Mi.shuffle, color: Colors.white, size: 24,),
+              ? const Iconify(Mi.shuffle, size: 24, color: Colors.white,)
+              : const Iconify(Mi.shuffle, color:  Color(0xff9ca6ad), size: 24,),
           onPressed: audioManager.shuffle,
           style: IconButton.styleFrom(
             visualDensity: VisualDensity.compact
@@ -119,13 +119,13 @@ class RepeatButton extends StatelessWidget {
         Widget icon;
         switch (value) {
           case RepeatState.off:
-            icon = const Iconify(Mi.repeat, size: 24, color: Colors.white,);
+            icon = const Iconify(Mi.repeat, size: 24, color:  Color(0xff9ca6ad),);
             break;
           case RepeatState.repeatSong:
-            icon = const Iconify(Mi.repeatOnce, size: 24,);
+            icon = const Iconify(Mi.repeatOnce, size: 24, color:  Colors.white,);
             break;
           case RepeatState.repeatPlaylist:
-            icon = const Iconify(Mi.repeat, size: 24);
+            icon = const Iconify(Mi.repeat, size: 24, color:  Colors.white,);
             break;
         }
         return IconButton(
