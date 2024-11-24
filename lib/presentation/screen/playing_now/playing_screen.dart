@@ -24,24 +24,9 @@ class PlayingScreen extends StatefulWidget {
 
 class PlayingScreenState extends State<PlayingScreen> {
 
-  final audioManager = getIt<AudioManager>();
-  int age = 0;
-
-  double getNormalizedValue(Duration duration, Duration maxDuration) {
-    // Asegúrate de que maxDuration no sea cero para evitar una división por cero
-    if (maxDuration.inMilliseconds <= 0) {
-      return 0.0;
-    }
-
-    // Normaliza la duración para que esté entre 0.0 y 1.0
-    double normalizedValue = duration.inMilliseconds / maxDuration.inMilliseconds;
-
-    // Asegúrate de que el valor esté limitado entre 0.0 y 1.0
-    return normalizedValue.clamp(0.0, 1.0);
-  }
-
   @override
   Widget build(BuildContext context) {
+    final audioManager = getIt<AudioManager>();
     final muixTheme = context.read<MuixTheme>();
     final size = MediaQuery.of(context).size;
     return ValueListenableBuilder<MediaItem>(
@@ -55,155 +40,183 @@ class PlayingScreenState extends State<PlayingScreen> {
             child: Stack(
               alignment: Alignment.center,
               children: [
-                Positioned(
-                  top: 0,
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: LoadArtwork(
-                    id: int.parse(value.id), 
-                    artworkType: ArtworkType.AUDIO,
-                    size: 1600,
-                    quality: FilterQuality.high,
-                    height: 360,
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    radius: 20,
-                  )
-                ),
+                positionedFullImage(value, context),
                 const Positioned.fill(
                   child: BlurContainer()
                 ),
-                
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: Container(
-                    height: size.height,
-                    decoration: const BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          Colors.transparent,
-                          Colors.black87,
-                          Colors.black,
-                        ],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter
-                      )
-                    ),
-                    
-                  ),
-                ),
-                Positioned(
-                  top: 150,
-                  child: LoadArtwork(
-                    id: int.parse(value.id), 
-                    artworkType: ArtworkType.AUDIO,
-                    size: 1600,
-                    quality: FilterQuality.high,
-                    height: 360,
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    radius: 20,
-                  ),
-                ),
-                Positioned(
-                  top: 0,
-                  child: Container(
-                    padding: const EdgeInsets.only(top: 30),
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        IconButton(
-                          onPressed: () => Navigator.of(context).pop(), 
-                          icon: const Iconify(Ic.round_chevron_left, 
-                             
-                            size: 35,
-                          )
-                        ),
-                        Text('Playing Now', style: muixTheme.stPop30WhtW900),
-                        IconButton(
-                          onPressed: (){}, 
-                          icon: const Iconify(Jam.menu, 
-                             
-                            size: 35,
-                          )
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                
-                Positioned(
-                  bottom: 190,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10.0),
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(
-                          sigmaX: 5.0, sigmaY: 5.0
-                        ),
-                        child: Container(
-                          alignment: Alignment.center,
-                          color: Colors.white.withOpacity(0.6),
-                          child: BlendMask(
-                            blendMode: BlendMode.dstATop,
-                            child: Column(
-                              children: [
-                                Text(
-                                  value.title,
-                                  maxLines: 2,
-                                  style: muixTheme.stPop48WhtW900,
-                                  textAlign: TextAlign.center,
-                                ),
-                                const SizedBox(height: 20,),
-                                Text(
-                                  value.artist ?? "Desconocido",
-                                  maxLines: 2,
-                                  style: muixTheme.stPop20WhtW700,
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                  ),
-                ),
-            
-                Positioned(
-                  bottom: 30,
-                  child: BlurContainer(
-                    borderRadius: BorderRadius.circular(25),
-                    opacity: 1,
-                    height: 70,
-                    width: 300,
-                    color: const Color(0xff171a1e),
-                    child: ValueListenableBuilder<ProgressBarState>(
-                      valueListenable: audioManager.progressNotifier,
-                      builder: (_, value, __) {
-                        return ProgressBorder(
-                          progress: value.current,
-                          duration: value.total,
-                          buffered: value.buffered,
-                          progressColor: Colors.white, 
-                          borderRadius: 25,
-                          onSeek: (value) {
-                            audioManager.seek(value);
-                          },
-                        );
-                      }
-                    ),
-                  ),
-                )
+                positionedLinearGradient(size),
+                positionedImage(value, context),
+                positionedAppBar(context, muixTheme),
+                positionedSongTitles(context, value, muixTheme),
+                positionedProgressBorder()
               ],
             ),
           ),
         );
       }
+    );
+  }
+
+  Positioned positionedSongTitles(BuildContext context, MediaItem value, MuixTheme muixTheme) {
+    return Positioned(
+      bottom: 190,
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10.0),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(
+              sigmaX: 5.0, sigmaY: 5.0
+            ),
+            child: Container(
+              alignment: Alignment.center,
+              color: Colors.white.withOpacity(0.6),
+              child: BlendMask(
+                blendMode: BlendMode.dstATop,
+                child: Column(
+                  children: [
+                    Text(
+                      value.title,
+                      maxLines: 2,
+                      style: muixTheme.stPop48WhtW900,
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 20,),
+                    Text(
+                      value.artist ?? "Desconocido",
+                      maxLines: 2,
+                      style: muixTheme.stPop20WhtW700,
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        )
+      ),
+    );
+  }
+
+  Positioned positionedAppBar(BuildContext context, MuixTheme muixTheme) {
+    return Positioned(
+      top: 10,
+      child: Container(
+        padding: const EdgeInsets.only(top: 30),
+        width: MediaQuery.of(context).size.width * 0.9,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            BlurContainer(
+              borderRadius: BorderRadius.circular(15),
+              height: 40,
+              width: 40,
+              child: IconButton(
+                onPressed: () => Navigator.pop(context), 
+                icon: const Iconify(
+                  Ic.round_chevron_left,
+                  size: 60,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            Text('Playing Now', style: muixTheme.stPop30WhtW900),
+            BlurContainer(
+              borderRadius: BorderRadius.circular(15),
+              height: 40,
+              width: 40,
+              child: IconButton(
+                onPressed: (){}, 
+                icon: const Iconify(
+                  Jam.menu,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Positioned positionedImage(MediaItem value, BuildContext context) {
+    return Positioned(
+      top: 150,
+      child: image(value, context)
+    );
+  }
+
+  Positioned positionedLinearGradient(Size size) {
+    return Positioned(
+      bottom: 0,
+      left: 0,
+      right: 0,
+      child: Container(
+        height: size.height,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Colors.transparent,
+              Colors.black87,
+              Colors.black,
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter
+          )
+        ),
+        
+      ),
+    );
+  }
+
+  Positioned positionedFullImage(MediaItem value, BuildContext context) {
+    return Positioned(
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
+      child: image(value, context)
+    );
+  }
+
+  LoadArtwork image(MediaItem value, BuildContext context) {
+    return LoadArtwork(
+      id: int.parse(value.id), 
+      artworkType: ArtworkType.AUDIO,
+      size: 1600,
+      quality: FilterQuality.high,
+      height: 360,
+      width: MediaQuery.of(context).size.width * 0.9,
+      radius: 20,
+    );
+  }
+
+  Positioned positionedProgressBorder() {
+    return Positioned(
+      bottom: 30,
+      child: BlurContainer(
+        borderRadius: BorderRadius.circular(25),
+        opacity: 1,
+        height: 70,
+        width: 300,
+        color: const Color(0xff171a1e),
+        child: ValueListenableBuilder<ProgressBarState>(
+          valueListenable: audioManager.progressNotifier,
+          builder: (_, value, __) {
+            return ProgressBorder(
+              progress: value.current,
+              duration: value.total,
+              buffered: value.buffered,
+              progressColor: Colors.white, 
+              borderRadius: 25,
+              onSeek: (value) {
+                audioManager.seek(value);
+              },
+            );
+          }
+        ),
+      ),
     );
   }
 }
