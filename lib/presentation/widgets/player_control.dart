@@ -69,8 +69,6 @@ class NextButton extends StatelessWidget {
           onPressed: () {
             if (!isLast) {
               audioManager.next();
-              // audioManager.playNextAlbum();
-
             }
           },
           style: IconButton.styleFrom(

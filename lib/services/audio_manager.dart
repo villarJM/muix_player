@@ -13,6 +13,7 @@ class AudioManager {
   final playlistNotifier = ValueNotifier<List<MediaItem>>([]);
   final songListNotifier = ValueNotifier<List<SongModel>>([]);
   final albumListNotifier = ValueNotifier<List<AlbumModel>>([]);
+  final notifierAnAlbumList = ValueNotifier<List<AlbumModel>>([]);
   final songsAlbumListNotifier = ValueNotifier<List<SongModel>>([]);
   final artistListNotifier = ValueNotifier<List<ArtistModel>>([]);
   final songsArtistListNotifier = ValueNotifier<List<SongModel>>([]);
@@ -26,6 +27,8 @@ class AudioManager {
   final playButtonNotifier = PlayButtonNotifier();
   final isLastSongNotifier = ValueNotifier<bool>(true);
   final isShuffleModeEnabledNotifier = ValueNotifier<bool>(false);
+  final isAlbumPlay = ValueNotifier<bool>(false);
+
   final _audioHandler = getIt<AudioHandler>();
   final offlineSongLocal = getIt<OfflineSongLocal>();
 
@@ -67,6 +70,26 @@ class AudioManager {
   Future<void> _loadAlbumList() async {
     final albumList = await offlineSongLocal.getAlbums();
     albumListNotifier.value = albumList;
+  }
+
+  Future<void> playAlbum(String albumName) async {
+    await _audioHandler.customAction('playAlbum', {"album": albumName});
+  }
+
+  Future<void> playSongAlbum(String albumName, String songName) async {
+    await _audioHandler.customAction('playSongAlbum', {"album": albumName, "title": songName});
+  }
+
+  Future<void> playNextInAlbum() async {
+    await _audioHandler.customAction('playNextInAlbum');
+  }
+
+  Future<void> playPreviuosInAlbum() async {
+    await _audioHandler.customAction('playPreviuosInAlbum');
+  }
+
+  void setAlbumPlay(bool enable) {
+    isAlbumPlay.value = enable;
   }
 
   Future<void> loadAllAlbumList() async {
@@ -211,8 +234,20 @@ class AudioManager {
   void seek(Duration position) => _audioHandler.seek(position);
 
   void skipToNextQueueItem(int index) => _audioHandler.skipToQueueItem(index);
-  void previous() => _audioHandler.skipToPrevious();
-  void next() => _audioHandler.skipToNext();
+  void previous() {
+    if (isAlbumPlay.value) {
+      playPreviuosInAlbum();
+    } else {
+      _audioHandler.skipToPrevious();
+    }
+  }
+  void next() {
+    if (isAlbumPlay.value) {
+      playNextInAlbum();
+    } else {
+      _audioHandler.skipToNext();
+    }
+  }
 
   void repeat() {
     repeatButtonNotifier.nextState();

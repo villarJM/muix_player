@@ -35,7 +35,7 @@ class _AlbumsState extends ConsumerState<Albums> {
 
   @override
   Widget build(BuildContext context){
-    // audioManager.loadAllAlbumList();
+    audioManager.setAlbumPlay(true);
     final muixTheme = context.read<MuixTheme>();
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 10, top: 15),
@@ -85,7 +85,7 @@ class _AlbumsState extends ConsumerState<Albums> {
                             'numOfSong': albumList[index].numOfSongs
                           };
                           final songs = songList.where((item) => item.album == albumList[index].album).toList();
-                          // audioManager.loadSongsForAlbums(albumList[index].album);
+                          
                           Navigator.push(context, MaterialPageRoute(
                               builder: (context) => AlbumsDetailScreen(album, songs),
                             )

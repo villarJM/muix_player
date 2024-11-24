@@ -169,7 +169,7 @@ class _AlbumsDetailScreenState extends State<AlbumsDetailScreen>{
                             ), 
                             onTap: () async {
                               await colorAdaptable.getDominantingColorImage(int.parse(songItems[index].id), ArtworkType.AUDIO, 200, 50);
-                              audioManager..skipToNextQueueItem(index)..play();
+                              audioManager.playSongAlbum(songItems[index].album!, songItems[index].title);
                             },
                             icon: popupMenuButtonSongs(context, int.parse(songItems[index].id)),
                             

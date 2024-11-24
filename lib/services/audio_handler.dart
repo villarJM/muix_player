@@ -17,8 +17,8 @@ Future<AudioHandler> initAudioService() async {
 class MyAudioHandler extends BaseAudioHandler with SeekHandler {
   final _player = AudioPlayer();
   final _playlist = ConcatenatingAudioSource(children: []);
-  final _albumList = <List<MediaItem>>[];
-  int _currentAlbumIndex = 0;
+  List<MediaItem> _currentAlbumSongs = [];
+  //int _currentAlbumIndex = 0;
 
   MyAudioHandler() {
     _loadEmptyPlaylist();
@@ -126,18 +126,18 @@ class MyAudioHandler extends BaseAudioHandler with SeekHandler {
       _player.seek(Duration.zero, index: 0);
       play();
     } else {
-      _playNextAlbum();
+      //_playNextAlbum();
     }
   }
 
-  Future<void> _playNextAlbum() async {
-    _currentAlbumIndex = (_currentAlbumIndex + 1) % _albumList.length;
-    final newQueue = _albumList[_currentAlbumIndex];
-    queue.add(newQueue);
-    await updateQueue(newQueue);
-    await _player.seek(Duration.zero, index: 0);
-    play();
-  }
+  // Future<void> _playNextAlbum() async {
+  //   _currentAlbumIndex = (_currentAlbumIndex + 1) % _albumList.length;
+  //   final newQueue = _albumList[_currentAlbumIndex];
+  //   queue.add(newQueue);
+  //   await updateQueue(newQueue);
+  //   await _player.seek(Duration.zero, index: 0);
+  //   play();
+  // }
 
   @override
   Future<void> addQueueItems(List<MediaItem> mediaItems) async {
@@ -150,20 +150,76 @@ class MyAudioHandler extends BaseAudioHandler with SeekHandler {
     queue.add(newQueue);
   }
 
-  Future<void> addAlbums(List<List<MediaItem>> albums) async {
-    _albumList.addAll(albums);
-    if (_albumList.isNotEmpty) {
-      await updateQueue(_albumList[0]);
+  // Future<void> addAlbums(List<List<MediaItem>> albums) async {
+  //   _albumList.addAll(albums);
+  //   if (_albumList.isNotEmpty) {
+  //     await updateQueue(_albumList[0]);
+  //   }
+  // }
+
+  Future<void> playAlbum(String albumName) async {
+    // Filtrar las canciones del álbum
+    _currentAlbumSongs = queue.value.where((song) => song.album == albumName).toList();
+    if (_currentAlbumSongs.isNotEmpty) {
+      final firstSong = _currentAlbumSongs.first;
+      final index = queue.value.indexOf(firstSong); // Índice global de la primera canción del álbum
+
+      await _player.seek(Duration.zero, index: index); // Salta a la primera canción del álbum
+      await _player.play();
     }
   }
 
-  Future<void> playAlbum(String album) async {
-    final firstSongIndex = queue.value.indexWhere((song) => song.album == album);
-    if (firstSongIndex != -1) {
-      await _player.seek(Duration.zero, index: firstSongIndex);
-      await play();
+  Future<void> playSongAlbum(String albumName, String songName) async {
+    // Filtrar las canciones del álbum
+    _currentAlbumSongs = queue.value.where((song) => song.album == albumName).toList();
+    if (_currentAlbumSongs.isNotEmpty) {
+      final selectedSongAlbum = _currentAlbumSongs.where((song) => song.title == songName).single;
+      final index = queue.value.indexOf(selectedSongAlbum); // Índice global de la canción del álbum
+
+      await _player.seek(Duration.zero, index: index); // Salta a la canción del álbum selecionado
+      await _player.play();
     }
   }
+
+  Future<void> playNextInAlbum() async {
+  if (_currentAlbumSongs.isNotEmpty) {
+    final currentIndex = _player.currentIndex;
+
+    if (currentIndex != null) {
+      final currentSong = queue.value[currentIndex];
+
+      // Verificar si hay una siguiente canción en el álbum actual
+      final currentAlbumIndex = _currentAlbumSongs.indexOf(currentSong);
+      if (currentAlbumIndex + 1 < _currentAlbumSongs.length) {
+        final nextSong = _currentAlbumSongs[currentAlbumIndex + 1];
+        final nextGlobalIndex = queue.value.indexOf(nextSong);
+
+        await _player.seek(Duration.zero, index: nextGlobalIndex);
+        await _player.play();
+      }
+    }
+  }
+}
+
+Future<void> playPreviousInAlbum() async {
+  if (_currentAlbumSongs.isNotEmpty) {
+    final currentIndex = _player.currentIndex;
+
+    if (currentIndex != null) {
+      final currentSong = queue.value[currentIndex];
+
+      // Verificar si hay una canción anterior en el álbum actual
+      final currentAlbumIndex = _currentAlbumSongs.indexOf(currentSong);
+      if (currentAlbumIndex - 1 >= 0) {
+        final previousSong = _currentAlbumSongs[currentAlbumIndex - 1];
+        final previousGlobalIndex = queue.value.indexOf(previousSong);
+
+        await _player.seek(Duration.zero, index: previousGlobalIndex);
+        await _player.play();
+      }
+    }
+  }
+}
 
   @override
   Future<void> addQueueItem(MediaItem mediaItem) async {
@@ -259,14 +315,27 @@ class MyAudioHandler extends BaseAudioHandler with SeekHandler {
       case 'addAlbums':
         final addAlbum = extras?['allAlbums'] as List<List<MediaItem>>?;
         if (addAlbum != null) {
-          await addAlbums(addAlbum);
+          // await addAlbums(addAlbum);
         }
         break;
       case 'playAlbum':
-        final album = extras?['album'] as String?;
-        if (album != null) {
-          await playAlbum(album);
+        final albumName = extras?['album'] as String?;
+        if (albumName != null) {
+          await playAlbum(albumName);
         }
+        break;
+      case 'playSongAlbum':
+        final albumName = extras?['album'] as String?;
+        final songName = extras?['title'] as String?;
+        if (albumName != null && songName != null) {
+          await playSongAlbum(albumName, songName);
+        }
+        break;
+      case 'playNextInAlbum':
+        await playNextInAlbum();
+        break;
+      case 'playPreviuosInAlbum':
+        await playPreviousInAlbum();
         break;
       case 'dispose':
         await _player.dispose();
