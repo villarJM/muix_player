@@ -1,10 +1,10 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:glass_kit/glass_kit.dart';
 import 'package:muix_player/presentation/widgets/box_playing.dart';
 import 'package:muix_player/presentation/widgets/widgets.dart';
 import 'package:muix_player/provider/color_adaptable.dart';
+import 'package:muix_player/theme/muix_theme.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:anim_search_app_bar/anim_search_app_bar.dart';
 import 'package:provider/provider.dart';
@@ -46,6 +46,7 @@ class _AlbumsDetailScreenState extends State<AlbumsDetailScreen>{
   @override
   Widget build(BuildContext context){
     final colorAdaptable = Provider.of<ColorAdaptable>(context);
+    final muixTheme = context.read<MuixTheme>();
     return Stack(
       children: [
         const Background(),
@@ -57,58 +58,17 @@ class _AlbumsDetailScreenState extends State<AlbumsDetailScreen>{
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Column(
                   children: [
-                    AnimSearchAppBar(
-                      cancelButtonText: "Cancel",
-                      hintText: 'Search',
-                      cSearch: searchController,
-                      backgroundColor: Colors.transparent,
-                      decoration: const InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide: BorderSide(
-                            color: Colors.white,
-                            width: 2.0
-                          ),
-                          
-                        ),
-                        contentPadding: EdgeInsets.all(10),
-                        hintMaxLines: 1,
-                        hintText: 'Search',
-                        filled: true,
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide: BorderSide(
-                            color: Colors.white,
-                            width: 2.0
-                          ),
-                        ),
-                        
-                      ),
-                      onChanged: (value) {
-                        filterSearchResult(value);
-                      },
+                    SearchAnimated(
                       appBar: AppBar(
-                        title: Text(widget.albumModel['album']),
+                        title: Text(widget.albumModel['album'], maxLines: 1, overflow: TextOverflow.clip, style: muixTheme.stPop30WhtW900),
                         backgroundColor: Colors.transparent,
-                      )
+                      ),
                     ),
-                    GlassContainer(
-                      height: 100.h,
+                    const SizedBox(height: 20,),
+                    BlurContainer(
+                      height: 110,
                       width: double.infinity,
-                      blur: 5,
-                      gradient: LinearGradient(
-                        colors: [Colors.white.withOpacity(0.40), Colors.white.withOpacity(0.10)],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      borderGradient: LinearGradient(
-                        colors: [Colors.white.withOpacity(0.60), Colors.white.withOpacity(0.10), Colors.white.withOpacity(0.05), Colors.white.withOpacity(0.6)],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        stops: const [0.0, 0.39, 0.40, 1.0],
-                      ),
                       borderRadius: BorderRadius.circular(10),
-                      margin: const EdgeInsets.only(top: 10.0),
                       child: Row(
                         children: [
                           LoadArtwork(
@@ -133,8 +93,8 @@ class _AlbumsDetailScreenState extends State<AlbumsDetailScreen>{
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Text(widget.albumModel['album'], maxLines: 1, overflow: TextOverflow.clip,),
-                                  Text(widget.albumModel['artist'] ?? '', maxLines: 1, overflow: TextOverflow.clip,),
+                                  Text(widget.albumModel['album'], maxLines: 1, overflow: TextOverflow.clip, style: muixTheme.styleUrbanist16WhiteW500,),
+                                  Text(widget.albumModel['artist'] ?? '', maxLines: 1, overflow: TextOverflow.clip, style: muixTheme.styleUrbanist16WhiteW500,),
                                   Text('Track: ${widget.albumModel['numOfSong']}'),
                                   const Text('Duration: 4 minutos'),
                                 ],
@@ -149,31 +109,34 @@ class _AlbumsDetailScreenState extends State<AlbumsDetailScreen>{
                       child: ListView.builder(
                         itemCount: songItems.length,
                         itemBuilder: (context, index) {
-                          return ListItem(
-                            height: 45.h,
-                            title: Text(songItems[index].title, maxLines: 1,),
-                            subtitle: Text(songItems[index].artist ?? "", maxLines: 1,),
-                            artwork: LoadArtwork(
-                              id: int.parse(songItems[index].id), 
-                              artworkType: ArtworkType.AUDIO,
-                              height: 100.h,
-                              frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-                                if (wasSynchronouslyLoaded) return child;
-                                return AnimatedOpacity(
-                                  opacity: frame == null ? 0 : 1,
-                                  duration: const Duration(milliseconds: 500),
-                                  curve: Curves.easeOut,
-                                  child: child,
-                                );
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5),
+                            child: ListItem(
+                              height: 50,
+                              title: Text(songItems[index].title, maxLines: 1, style: muixTheme.styleUrbanist16WhiteW500,),
+                              subtitle: Text(songItems[index].artist ?? "", maxLines: 1, style: muixTheme.styleUrbanist16WhiteW700,),
+                              artwork: LoadArtwork(
+                                id: int.parse(songItems[index].id), 
+                                artworkType: ArtworkType.AUDIO,
+                                height: 100.h,
+                                frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                                  if (wasSynchronouslyLoaded) return child;
+                                  return AnimatedOpacity(
+                                    opacity: frame == null ? 0 : 1,
+                                    duration: const Duration(milliseconds: 500),
+                                    curve: Curves.easeOut,
+                                    child: child,
+                                  );
+                                },
+                              ), 
+                              onTap: () async {
+                                await colorAdaptable.getDominantingColorImage(int.parse(songItems[index].id), ArtworkType.AUDIO, 200, 50);
+                                audioManager.playSongAlbum(songItems[index].album!, songItems[index].title);
                               },
-                            ), 
-                            onTap: () async {
-                              await colorAdaptable.getDominantingColorImage(int.parse(songItems[index].id), ArtworkType.AUDIO, 200, 50);
-                              audioManager.playSongAlbum(songItems[index].album!, songItems[index].title);
-                            },
-                            icon: popupMenuButtonSongs(context, int.parse(songItems[index].id)),
-                            
-                            borderRadius: BorderRadius.circular(10.0),
+                              icon: popupMenuButtonSongs(context, int.parse(songItems[index].id)),
+                              
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
                           );
                           
                             
@@ -192,4 +155,163 @@ class _AlbumsDetailScreenState extends State<AlbumsDetailScreen>{
       ],
     );
   }
+
+  AnimSearchAppBar search() {
+    return AnimSearchAppBar(
+      cancelButtonText: "Cancel",
+      hintText: 'Search',
+      cSearch: searchController,
+      backgroundColor: Colors.transparent,
+      decoration: const InputDecoration(
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          borderSide: BorderSide(
+            color: Colors.white,
+            width: 2.0
+          ),
+          
+        ),
+        contentPadding: EdgeInsets.all(10),
+        hintMaxLines: 1,
+        hintText: 'Search',
+        filled: true,
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          borderSide: BorderSide(
+            color: Colors.white,
+            width: 2.0
+          ),
+        ),
+        
+      ),
+      onChanged: (value) {
+        filterSearchResult(value);
+      },
+      appBar: AppBar(
+        title: Text(widget.albumModel['album']),
+        backgroundColor: Colors.transparent,
+      )
+    );
+  }
+}
+
+class SearchAnimated extends StatefulWidget {
+
+  final Widget? appBar;
+
+const SearchAnimated({ Key? key, this.appBar }) : super(key: key);
+
+  @override
+  State<SearchAnimated> createState() => _SearchAnimatedState();
+}
+
+class _SearchAnimatedState extends State<SearchAnimated> {
+
+  final FocusNode _focusNode = FocusNode();
+  bool isShowAppBar = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode.addListener(() {
+      if (_focusNode.hasFocus) {
+        isShowAppBar = false;
+      }
+      setState(() {});
+    },);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _focusNode.dispose();
+  }
+  @override
+  Widget build(BuildContext context){
+
+    final Widget _appBar = widget.appBar ?? AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        title: Text(
+          'Search',
+          style: Theme.of(context).inputDecorationTheme.labelStyle,
+        ),
+      );
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        AnimatedSize(
+          key: const ValueKey('animatedSizeSearchAppBar11'),
+          duration: const Duration(milliseconds: 200),
+          child: _appBar,
+        )._isVisible(isShowAppBar),
+        AnimatedSize(
+          key: const ValueKey('animatedSizeSearchAppBar22'),
+          duration: const Duration(milliseconds: 200),
+          child: SizedBox(
+            height: MediaQuery.of(context).padding.top + 10,
+          ),
+        )._isVisible(!isShowAppBar),
+        Row(
+          children: [
+            Flexible(
+              child: BlurContainer(
+                height: 60,
+                borderRadius: BorderRadius.circular(15),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Center(
+                    child: TextFormField(
+                      focusNode: _focusNode,
+                      cursorColor: Colors.white,
+                      decoration: InputDecoration(
+                        prefixIcon: isShowAppBar ? const AnimatedSize(
+                          key: ValueKey('animatedSizeIconPrefix'),
+                          duration: Duration(milliseconds: 200),
+                          child: Icon(Icons.search, color: Colors.white, size: 35,)
+                        ) : null,
+                        focusedBorder: InputBorder.none,
+                        border: InputBorder.none,
+                        disabledBorder: InputBorder.none,
+                        errorBorder: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 20,)._isVisible(!isShowAppBar),
+            AnimatedSize(
+              key: const ValueKey('animatedSizeSearchAppBar33'),
+              duration: const Duration(milliseconds: 200),
+              child: BlurContainer(
+                height: 60,
+                width: 60,
+                borderRadius: BorderRadius.circular(15),
+                child: IconButton.filled(
+                  style: const ButtonStyle(
+                    backgroundColor: WidgetStatePropertyAll(Colors.transparent),
+                  ),
+                  onPressed: () {
+                    isShowAppBar = true;
+                    _focusNode.unfocus();
+                    setState(() {});
+                  }, 
+                  icon: const Icon(Icons.close, size: 35,)
+                ),
+              )
+            )._isVisible(!isShowAppBar),
+          ],
+        )
+      ],
+    );
+  }
+}
+
+extension WidgetExtension on Widget {
+  Widget _isVisible(bool value, {double? height, double? width}) =>
+      value ? this : SizedBox(height: height, width: width);
 }

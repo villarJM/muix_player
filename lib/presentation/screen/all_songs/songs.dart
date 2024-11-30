@@ -23,6 +23,7 @@ class _SongsState extends State<Songs> with AutomaticKeepAliveClientMixin {
 
   @override
   Widget build(BuildContext context){
+    audioManager.setAlbumPlay(false);
     final colorAdaptable = Provider.of<ColorAdaptable>(context);
     final muixTheme = context.read<MuixTheme>();
     super.build(context);
