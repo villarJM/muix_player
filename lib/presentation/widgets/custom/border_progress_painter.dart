@@ -18,7 +18,7 @@ class BorderProgressPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paintBackground = Paint()
-      //..color = Colors.grey[300]!
+      ..color = Colors.grey.withOpacity(0.1)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 4;
 

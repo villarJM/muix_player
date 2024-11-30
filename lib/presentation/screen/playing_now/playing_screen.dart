@@ -40,7 +40,7 @@ class PlayingScreenState extends State<PlayingScreen> {
             child: Stack(
               alignment: Alignment.center,
               children: [
-                positionedFullImage(value, context),
+                const Background(),
                 const Positioned.fill(
                   child: BlurContainer()
                 ),
@@ -159,10 +159,9 @@ class PlayingScreenState extends State<PlayingScreen> {
             colors: [
               Colors.transparent,
               Colors.black87,
-              Colors.black,
             ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter
           )
         ),
         
@@ -197,10 +196,9 @@ class PlayingScreenState extends State<PlayingScreen> {
       bottom: 30,
       child: BlurContainer(
         borderRadius: BorderRadius.circular(25),
-        opacity: 1,
+        opacity: 0.11,
         height: 70,
         width: 300,
-        color: const Color(0xff171a1e),
         child: ValueListenableBuilder<ProgressBarState>(
           valueListenable: audioManager.progressNotifier,
           builder: (_, value, __) {

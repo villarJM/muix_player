@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:muix_player/helper/offline_song_local.dart';
-import 'package:cached_memory_image/cached_memory_image.dart';
 import 'package:muix_player/services/service_locator.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
@@ -31,7 +30,7 @@ class LoadArtwork extends StatelessWidget {
   Widget build(BuildContext context){
     final offlineSongLocal =  getIt<OfflineSongLocal>();
     return FutureBuilder(
-      future: offlineSongLocal.getArtwork(id, artworkType, size, 100),  
+      future: offlineSongLocal.getArtwork(id, artworkType, size, 1000),  
       builder: (context, imageUint8List) {
         if (imageUint8List.hasData && imageUint8List.data != null) {
           return SizedBox(
@@ -39,16 +38,17 @@ class LoadArtwork extends StatelessWidget {
             width: width,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(radius),
-              child: CachedMemoryImage(
-                uniqueKey: 'app://image/$id',
-                bytes: imageUint8List.data,
-                width: width,
-                height: height,
-                fit: BoxFit.cover,
-                gaplessPlayback: true,
-                filterQuality: quality,
-                frameBuilder: frameBuilder,
-              ),
+              child: 
+              // CachedMemoryImage(
+              //   uniqueKey: 'app://image/$id',
+              //   bytes: imageUint8List.data,
+              //   width: width,
+              //   height: height,
+              //   fit: BoxFit.cover,
+              //   gaplessPlayback: true,
+              //   filterQuality: quality,
+              //   frameBuilder: frameBuilder,
+              // ),
               // Image(
               //   image: CacheImageProvider('app://image/$id',imageUint8List.data!),
               //   gaplessPlayback: true,
@@ -57,16 +57,16 @@ class LoadArtwork extends StatelessWidget {
               //   height: height,
               //   filterQuality: quality,
               // ),
-              // Image.memory(
-              //   imageUint8List.data!,
-              //   gaplessPlayback: true,
-              //   scale: 1.0,
-              //   fit: BoxFit.cover,
-              //   width: width,
-              //   height: height,
-              //   filterQuality: quality,
-            
-              // ),
+              Image.memory(
+                imageUint8List.data!,
+                gaplessPlayback: true,
+                scale: 1.0,
+                fit: BoxFit.cover,
+                width: width,
+                height: height,
+                filterQuality: quality,
+                frameBuilder: frameBuilder,
+              ),
             ),
           );
         }
